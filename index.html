@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Justine Jude D. Almaden | Portfolio</title>
+    <meta name="description"
+        content="Portfolio of Justine Jude D. Almaden, a Web Developer and IT Student specializing in PHP, Laravel, and modern web technologies.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom Config for Tailwind -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#3b82f6', // blue-500
+                        secondary: '#8b5cf6', // violet-500
+                        dark: '#0f172a', // slate-900
+                        darker: '#020617', // slate-950
+                        surface: '#1e293b', // slate-800
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="bg-darker text-slate-300 font-sans selection:bg-primary selection:text-white overflow-x-hidden">
+
+    <!-- Gradient Background Orbs -->
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+        <div
+            class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] mix-blend-screen animate-pulse-slow">
+        </div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-secondary/20 rounded-full blur-[120px] mix-blend-screen animate-pulse-slow"
+            style="animation-delay: 2s;"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 border-b border-transparent">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="#"
+                class="font-heading font-bold text-2xl text-white tracking-tight hover:text-primary transition-colors">
+                Jude<span class="text-primary">Almaden</span>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#about" class="nav-link text-sm font-medium hover:text-primary transition-colors">About</a>
+                <a href="#experience"
+                    class="nav-link text-sm font-medium hover:text-primary transition-colors">Experience</a>
+                <a href="#projects"
+                    class="nav-link text-sm font-medium hover:text-primary transition-colors">Projects</a>
+                <a href="#skills" class="nav-link text-sm font-medium hover:text-primary transition-colors">Skills</a>
+                <a href="#contact"
+                    class="px-5 py-2.5 rounded-full bg-white/5 border border-white/10 hover:bg-primary hover:border-primary text-white text-sm font-medium transition-all duration-300 backdrop-blur-sm">Let's
+                    Talk</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-white focus:outline-none">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu"
+            class="fixed inset-0 bg-darker/95 backdrop-blur-xl z-40 transform translate-x-full transition-transform duration-300 flex flex-col items-center justify-center space-y-8 md:hidden">
+            <button id="close-menu-btn" class="absolute top-6 right-6 text-white/50 hover:text-white">
+                <i class="fas fa-times text-2xl"></i>
+            </button>
+            <a href="#about" class="mobile-link text-2xl font-heading font-semibold text-white">About</a>
+            <a href="#experience" class="mobile-link text-2xl font-heading font-semibold text-white">Experience</a>
+            <a href="#projects" class="mobile-link text-2xl font-heading font-semibold text-white">Projects</a>
+            <a href="#skills" class="mobile-link text-2xl font-heading font-semibold text-white">Skills</a>
+            <a href="#contact" class="mobile-link text-2xl font-heading font-semibold text-primary">Let's Talk</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="min-h-screen flex items-center justify-center pt-20 relative px-6">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+            <!-- Text Content -->
+            <div class="order-2 lg:order-1 space-y-8 reveal-left">
+                <div class="space-y-4">
+                    <p class="text-primary font-medium tracking-wide uppercase text-sm">Hello, I'm</p>
+                    <h1 class="text-5xl md:text-7xl font-bold font-heading text-white leading-tight">
+                        Justine Jude <br>
+                        <span
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Almaden</span>
+                    </h1>
+                    <p class="text-lg text-slate-400 max-w-lg leading-relaxed">
+                        A Final-year Information Technology student and Web Developer. I build efficient, reliable
+                        systems and solve technical problems with code.
+                    </p>
+                </div>
+
+                <div class="flex flex-wrap gap-4">
+                    <a href="#projects"
+                        class="px-8 py-3.5 rounded-full bg-primary text-white font-medium hover:bg-blue-600 transition-all shadow-lg shadow-blue-500/25">View
+                        Work</a>
+                    <a href="#contact"
+                        class="px-8 py-3.5 rounded-full bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 transition-all backdrop-blur-sm">Contact
+                        Me</a>
+                </div>
+
+                <div class="flex items-center gap-6 text-slate-400 pt-4">
+                    <a href="https://github.com/JudeAlmaden" target="_blank"
+                        class="hover:text-white transition-colors text-2xl"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/justine-jude-almaden-09b0a438b/" target="_blank"
+                        class="hover:text-white transition-colors text-2xl"><i class="fab fa-linkedin"></i></a>
+                    <a href="mailto:Judealmaden2045@gmail.com" class="hover:text-white transition-colors text-2xl"><i
+                            class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+
+            <!-- Visual/Image -->
+            <div class="order-1 lg:order-2 flex justify-center reveal-right">
+                <div class="relative w-64 h-64 md:w-96 md:h-96">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-tr from-primary to-secondary rounded-full opacity-20 blur-3xl animate-pulse-slow">
+                    </div>
+                    <!-- Placeholder for profile image, using a gradient orb/ abstract tech shape for now -->
+                    <div
+                        class="relative w-full h-full rounded-2xl bg-gradient-to-br from-surface to-dark border border-white/10 flex items-center justify-center overflow-hidden shadow-2xl glass-card animate-float">
+                        <i class="fas fa-code text-6xl md:text-8xl text-primary/50"></i>
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/80 to-transparent"></div>
+                        <div class="absolute bottom-6 left-6 right-6">
+                            <div class="h-1.5 w-12 bg-primary mb-2 rounded-full"></div>
+                            <p class="font-mono text-xs text-primary/80">System.out.println("Hello World");</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Down Indicator -->
+        <a href="#about"
+            class="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-slate-500 hover:text-white transition-colors animate-bounce">
+            <i class="fas fa-chevron-down"></i>
+        </a>
+    </section>
+
+    <!-- About / Education Section -->
+    <section id="about" class="py-24 relative px-6">
+        <div class="max-w-4xl mx-auto space-y-16">
+
+            <div class="text-center space-y-4 reveal-up">
+                <h2 class="text-3xl md:text-4xl font-bold font-heading text-white">About Me</h2>
+                <div class="h-1 w-20 bg-primary mx-auto rounded-full"></div>
+                <p class="text-slate-400 max-w-2xl mx-auto">
+                    I am focused on web development with practical experience in IT systems, troubleshooting, and
+                    networking. I seek to apply my skills to support IT infrastructure and create meaningful digital
+                    solutions.
+                </p>
+            </div>
+
+            <!-- Education Timeline -->
+            <div class="relative reveal-up">
+                <div
+                    class="absolute left-0 md:left-1/2 h-full w-px bg-white/10 transform -translate-x-1/2 md:block hidden">
+                </div>
+
+                <div class="space-y-12">
+                    <!-- Item 1 -->
+                    <div class="relative md:flex items-center justify-between group">
+                        <div
+                            class="md:w-[45%] mb-8 md:mb-0 md:text-right p-6 rounded-2xl bg-surface/50 border border-white/5 hover:border-primary/30 transition-all hover:shadow-[0_0_30px_-10px_rgba(59,130,246,0.2)]">
+                            <span class="text-primary text-sm font-semibold tracking-wider">2022 – Present</span>
+                            <h3 class="text-xl font-bold text-white mt-1">Bachelor of Science in IT</h3>
+                            <p class="text-slate-400 text-sm mt-2">St. Anne College Lucena</p>
+                            <p class="text-slate-500 text-xs mt-2">Dean’s Lister (Multiple Semesters) | Current Avg: 94%
+                            </p>
+                        </div>
+                        <div
+                            class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-dark border-2 border-primary z-10">
+                        </div>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="relative md:flex items-center justify-between group">
+                        <!-- Spacer for left side -->
+                        <div class="md:w-[45%] hidden md:block"></div>
+
+                        <div
+                            class="md:w-[45%] p-6 rounded-2xl bg-surface/50 border border-white/5 hover:border-secondary/30 transition-all hover:shadow-[0_0_30px_-10px_rgba(139,92,246,0.2)]">
+                            <span class="text-secondary text-sm font-semibold tracking-wider">Graduated 2022</span>
+                            <h3 class="text-xl font-bold text-white mt-1">Senior High School</h3>
+                            <p class="text-slate-400 text-sm mt-2">Tayabas Western Academy</p>
+                            <p class="text-slate-500 text-xs mt-2">Percentage: 93%</p>
+                        </div>
+                        <div
+                            class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-dark border-2 border-secondary z-10">
+                        </div>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="relative md:flex items-center justify-between group">
+                        <!-- Spacer for left side -->
+                        <div
+                            class="md:w-[45%] p-6 rounded-2xl bg-surface/50 border border-white/5 hover:border-secondary/30 transition-all hover:shadow-[0_0_30px_-10px_rgba(139,92,246,0.2)]">
+                            <span class="text-emerald-500 text-sm font-semibold tracking-wider">Graduated 2020</span>
+                            <h3 class="text-xl font-bold text-white mt-1">Junior High School</h3>
+                            <p class="text-slate-400 text-sm mt-2">Tayabas Western Academy</p>
+                            <p class="text-slate-500 text-xs mt-2">Percentage: 90+%</p>
+                        </div>
+                        <div
+                            class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-dark border-2 border-emerald-500 z-10">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Experience / Projects Section -->
+    <section id="projects" class="py-24 bg-surface/30 px-6">
+        <div class="max-w-7xl mx-auto space-y-16">
+
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 reveal-up">
+                <div class="space-y-4">
+                    <h2 class="text-3xl md:text-4xl font-bold font-heading text-white">Featured Projects</h2>
+                    <div class="h-1 w-20 bg-primary rounded-full"></div>
+                    <p class="text-slate-400">Selected school and personal projects.</p>
+                </div>
+                <a href="https://github.com/JudeAlmaden" target="_blank"
+                    class="text-primary hover:text-white transition-colors flex items-center gap-2 group">
+                    View GitHub <i
+                        class="fas fa-arrow-right transform group-hover:translate-x-1 transition-transform"></i>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <!-- Project 1 -->
+                <article
+                    class="group relative rounded-2xl bg-dark border border-white/10 overflow-hidden hover:border-primary/50 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 reveal-up">
+                    <div class="h-48 bg-gray-900 relative overflow-hidden">
+                        <img src="images/easy_assess/Landing Page.png" alt="EasyAssess"
+                            class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/90 to-transparent"></div>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-xl font-bold text-white group-hover:text-primary transition-colors">
+                                EasyAssess</h3>
+                            <a href="https://github.com/JudeAlmaden/EasyAssess" target="_blank"
+                                class="text-slate-500 hover:text-white"><i class="fab fa-github"></i></a>
+                        </div>
+                        <p class="text-slate-400 text-sm line-clamp-3"
+                            title="EasyAssess is a comprehensive web-based platform designed to streamline the creation, management, and grading of assessments.">
+                            EasyAssess is a comprehensive web-based platform designed to streamline the creation,
+                            management, and grading of assessments.
+                        </p>
+                        <div class="flex flex-wrap gap-2 pt-2">
+                            <span
+                                class="px-3 py-1 text-xs rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">PHP</span>
+                            <span
+                                class="px-3 py-1 text-xs rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">Blade</span>
+                            <span
+                                class="px-3 py-1 text-xs rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">TailwindCSS</span>
+                            <span
+                                class="px-3 py-1 text-xs rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">Vue.js</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 2 -->
+                <article
+                    class="group relative rounded-2xl bg-dark border border-white/10 overflow-hidden hover:border-secondary/50 transition-all duration-300 hover:shadow-2xl hover:shadow-secondary/10 reveal-up"
+                    style="transition-delay: 100ms;">
+                    <div class="h-48 bg-gray-900 relative overflow-hidden">
+                        <img src="images/quizzly/game1.png" alt="Quizzly"
+                            class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/90 to-transparent"></div>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-xl font-bold text-white group-hover:text-secondary transition-colors">
+                                Quizzly</h3>
+                            <a href="https://github.com/JudeAlmaden/Quizzly_SPA" target="_blank"
+                                class="text-slate-500 hover:text-white"><i class="fab fa-github"></i></a>
+                        </div>
+                        <p class="text-slate-400 text-sm line-clamp-3">
+                            Synchronous quiz bee application developed for our school department, game show like
+                            interface and real time scoring.
+                        </p>
+                        <div class="flex flex-wrap gap-2 pt-2">
+                            <span
+                                class="px-3 py-1 text-xs rounded-full bg-violet-500/10 text-violet-400 border border-violet-500/20">Laravel</span>
+                            <span
+                                class="px-3 py-1 text-xs rounded-full bg-violet-500/10 text-violet-400 border border-violet-500/20">PHP</span>
+                            <span
+                                class="px-3 py-1 text-xs rounded-full bg-violet-500/10 text-violet-400 border border-violet-500/20">Vue.js</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 3 -->
+                <article
+                    class="group relative rounded-2xl bg-dark border border-white/10 overflow-hidden hover:border-emerald-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-emerald-500/10 reveal-up"
+                    style="transition-delay: 200ms;">
+                    <div class="h-48 bg-gray-900 relative overflow-hidden">
+                        <img src="images/sacli_queue/image1.png" alt="SACLI-Q"
+                            class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/90 to-transparent"></div>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-xl font-bold text-white group-hover:text-emerald-400 transition-colors">
+                                SACLI-Q</h3>
+                            <a href="https://github.com/JudeAlmaden/SACLI-Q" target="_blank"
+                                class="text-slate-500 hover:text-white"><i class="fab fa-github"></i></a>
+                        </div>
+                        <p class="text-slate-400 text-sm line-clamp-3">
+                            Queuing application developed for our school. Real-time queue tracking with role-based
+                            access.
+                        </p>
+                        <div class="flex flex-wrap gap-2 pt-2">
+                            <span
+                                class="px-3 py-1 text-xs rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Laravel</span>
+                            <span
+                                class="px-3 py-1 text-xs rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Blade</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 4 -->
+                <article
+                    class="group relative rounded-2xl bg-dark border border-white/10 overflow-hidden hover:border-orange-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-orange-500/10 reveal-up"
+                    style="transition-delay: 300ms;">
+                    <div class="h-48 bg-gray-900 relative overflow-hidden">
+                        <img src="images/sisigan/homepage.png" alt="Sisigan"
+                            class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/90 to-transparent"></div>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-xl font-bold text-white group-hover:text-orange-400 transition-colors">
+                                Sisigan</h3>
+                            <a href="https://github.com/JudeAlmaden/E-menu-and-Online-Polling" target="_blank"
+                                class="text-slate-500 hover:text-white"><i class="fab fa-github"></i></a>
+                        </div>
+                        <p class="text-slate-400 text-sm line-clamp-3">
+                            Project made to learn about online deployment, e-menu and polling for future dishes and
+                            promos.
+                        </p>
+                        <div class="flex flex-wrap gap-2 pt-2">
+                            <span
+                                class="px-3 py-1 text-xs rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/20">Web
+                                Development</span>
+                            <span
+                                class="px-3 py-1 text-xs rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/20">React.js</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 5 -->
+                <article
+                    class="group relative rounded-2xl bg-dark border border-white/10 overflow-hidden hover:border-red-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-red-500/10 reveal-up"
+                    style="transition-delay: 400ms;">
+                    <div class="h-48 bg-gray-900 relative overflow-hidden">
+                        <img src="images/booking_sys/526727913-6f0b9ad4-eed6-4c1c-adab-43b0f35b068c.png"
+                            alt="Booking Sys"
+                            class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/90 to-transparent"></div>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-xl font-bold text-white group-hover:text-red-400 transition-colors">Booking
+                                Sys</h3>
+                            <a href="https://github.com/JudeAlmaden/BookingSysCodeIgniter" target="_blank"
+                                class="text-slate-500 hover:text-white"><i class="fab fa-github"></i></a>
+                        </div>
+                        <p class="text-slate-400 text-sm line-clamp-3">
+                            CodeIgniter project Admin Dashboard for managing user bookings, payment requests, and trip
+                            schedules.
+                        </p>
+                        <div class="flex flex-wrap gap-2 pt-2">
+                            <span
+                                class="px-3 py-1 text-xs rounded-full bg-red-500/10 text-red-400 border border-red-500/20">CodeIgniter</span>
+                            <span
+                                class="px-3 py-1 text-xs rounded-full bg-red-500/10 text-red-400 border border-red-500/20">PHP</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-24 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center space-y-4 mb-16 reveal-up">
+                <h2 class="text-3xl md:text-4xl font-bold font-heading text-white">Technical Skills</h2>
+                <div class="h-1 w-20 bg-primary mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <!-- Tech Stack -->
+                <div class="space-y-8 reveal-up">
+                    <h3 class="text-xl font-bold text-white mb-6 border-l-4 border-primary pl-4">Backend & Frameworks
+                    </h3>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="skill-tag">PHP</span>
+                        <span class="skill-tag">Laravel</span>
+                        <span class="skill-tag">CodeIgniter</span>
+                        <span class="skill-tag">MySQL</span>
+                        <span class="skill-tag">Supabase</span>
+                        <span class="skill-tag">Node.js (Basic)</span>
+                        <span class="skill-tag">RESTful APIs</span>
+                        <span class="skill-tag">MVC</span>
+                    </div>
+
+                    <h3 class="text-xl font-bold text-white mb-6 border-l-4 border-secondary pl-4 mt-8">Frontend &
+                        Languages</h3>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">HTML5/CSS3</span>
+                        <span class="skill-tag">Tailwind CSS</span>
+                        <span class="skill-tag">Vue.js</span>
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag">C++</span>
+                        <span class="skill-tag">C#</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Java</span>
+                    </div>
+                </div>
+
+                <!-- Certifications/Workshops -->
+                <div class="p-8 rounded-2xl bg-surface/30 border border-white/5 reveal-right">
+                    <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-3">
+                        <i class="fas fa-certificate text-primary"></i> Certifications & Workshops
+                    </h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3 text-slate-400 hover:text-white transition-colors">
+                            <i class="fas fa-check-circle text-primary mt-1 text-sm"></i>
+                            <span>Scratch in Action: Speaker (2025)</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-slate-400 hover:text-white transition-colors">
+                            <i class="fas fa-check-circle text-primary mt-1 text-sm"></i>
+                            <span>Internet of Things Conference (2025)</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-slate-400 hover:text-white transition-colors">
+                            <i class="fas fa-check-circle text-primary mt-1 text-sm"></i>
+                            <span>Hack4Gov CTF (2025)</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-slate-400 hover:text-white transition-colors">
+                            <i class="fas fa-check-circle text-primary mt-1 text-sm"></i>
+                            <span>Sensor Guided Robotics Workshop (2023)</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-slate-400 hover:text-white transition-colors">
+                            <i class="fas fa-check-circle text-primary mt-1 text-sm"></i>
+                            <span>NCIII – Visual Graphics and Design Passer</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 relative px-6 overflow-hidden">
+        <!-- Background decorative elements -->
+        <div
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-3xl -z-10">
+        </div>
+
+        <div class="max-w-4xl mx-auto text-center space-y-12">
+            <div class="space-y-4 reveal-up">
+                <h2 class="text-3xl md:text-5xl font-bold font-heading text-white">Let's Work Together</h2>
+                <p class="text-slate-400 text-lg">
+                    I'm open to internships, entry-level roles, and freelance projects. <br>
+                    Based in Candelaria, Quezon Province.
+                </p>
+            </div>
+
+            <div class="flex flex-col md:flex-row items-center justify-center gap-6 reveal-up">
+                <a href="mailto:Judealmaden2045@gmail.com"
+                    class="group flex items-center gap-4 px-8 py-5 rounded-2xl bg-surface border border-white/10 hover:border-primary/50 hover:bg-surface/80 transition-all w-full md:w-auto">
+                    <div
+                        class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <i class="fas fa-envelope text-primary text-xl"></i>
+                    </div>
+                    <div class="text-left">
+                        <p class="text-xs text-slate-400 uppercase tracking-widest">Email Me</p>
+                        <p class="text-white font-medium">Judealmaden2045@gmail.com</p>
+                    </div>
+                </a>
+
+                <a href="tel:+639671559154"
+                    class="group flex items-center gap-4 px-8 py-5 rounded-2xl bg-surface border border-white/10 hover:border-secondary/50 hover:bg-surface/80 transition-all w-full md:w-auto">
+                    <div
+                        class="w-12 h-12 rounded-full bg-secondary/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <i class="fas fa-phone text-secondary text-xl"></i>
+                    </div>
+                    <div class="text-left">
+                        <p class="text-xs text-slate-400 uppercase tracking-widest">Call Me</p>
+                        <p class="text-white font-medium">+63 09671559154</p>
+                    </div>
+                </a>
+            </div>
+
+            <div
+                class="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500">
+                <p>&copy; 2026 Justine Jude D. Almaden. All rights reserved.</p>
+                <div class="flex gap-6">
+                    <a href="https://github.com/JudeAlmaden" class="hover:text-white transition-colors">GitHub</a>
+                    <a href="https://www.linkedin.com/in/justine-jude-almaden-09b0a438b/"
+                        class="hover:text-white transition-colors">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
