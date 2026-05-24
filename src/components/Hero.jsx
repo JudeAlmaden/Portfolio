@@ -1,4 +1,5 @@
 export default function Hero() {
+  const base = import.meta.env.BASE_URL;
   return (
     <section
       id="hero"
@@ -7,7 +8,7 @@ export default function Hero() {
       {/* Blurred background image for entire section */}
       <div className="absolute inset-0 z-0">
         <img
-          src="/images/me/Hackathon.webp"
+          src={`${base}images/me/Hackathon.webp`}
           alt=""
           className="w-full h-full object-cover blur-2xl scale-110 opacity-50"
         />
@@ -87,7 +88,7 @@ export default function Hero() {
             {/* Main sharp image */}
             <div className="relative rounded-2xl overflow-hidden border-4 border-white shadow-2xl shadow-violet-500/20 animate-float">
               <img
-                src="/images/me/Hackathon.webp"
+                src={`${base}images/me/Hackathon.webp`}
                 alt="Justine Jude Almaden"
                 className="w-full h-full object-cover"
               />

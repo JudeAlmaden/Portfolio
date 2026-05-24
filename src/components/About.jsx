@@ -79,6 +79,7 @@ const certifications = [
 ];
 
 export default function About() {
+  const base = import.meta.env.BASE_URL;
   const sectionRef = useRef(null);
   const hasAnimated = useRef(false);
   const introRef = useRef(null);
@@ -306,7 +307,7 @@ export default function About() {
             {/* Main Featured Hero Card */}
             <div className="media-card-wrap md:col-span-7 group relative rounded-[24px] overflow-hidden aspect-[16/10] md:aspect-auto md:h-full min-h-[300px] shadow-lg border border-slate-100" style={{ opacity: 0 }}>
               <img
-                src="/images/me/Hackathon.webp"
+                src={`${base}images/me/Hackathon.webp`}
                 alt="Hackathon event representation"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
@@ -328,7 +329,7 @@ export default function About() {
               {/* Speaker card */}
               <div className="media-card-wrap group relative rounded-[24px] overflow-hidden aspect-[16/10] md:aspect-auto md:h-1/2 min-h-[140px] shadow-md border border-slate-100" style={{ opacity: 0 }}>
                 <img
-                  src="/images/me/Resource_Speaker2.webp"
+                  src={`${base}images/me/Resource_Speaker2.webp`}
                   alt="Resource Speaker Event"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
@@ -341,7 +342,7 @@ export default function About() {
               {/* Research card */}
               <div className="media-card-wrap group relative rounded-[24px] overflow-hidden aspect-[16/10] md:aspect-auto md:h-1/2 min-h-[140px] shadow-md border border-slate-100" style={{ opacity: 0 }}>
                 <img
-                  src="/images/me/Student Research.jpg"
+                  src={`${base}images/me/Student Research.jpg`}
                   alt="Student Research Presentation"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
