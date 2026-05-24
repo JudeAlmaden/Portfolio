@@ -5,6 +5,7 @@ import About from './components/About';
 import Projects from './components/Projects';
 import Skills from './components/Skills';
 import Contact from './components/Contact';
+import Footer from './components/Footer';
 import Toast from './components/Toast';
 
 function App() {
@@ -70,6 +71,7 @@ function App() {
       <Skills />
       <Projects />
       <Contact onCopyEmail={triggerToast} />
+      <Footer />
       <Toast message={toastMessage} visible={toastVisible} />
     </div>
   );

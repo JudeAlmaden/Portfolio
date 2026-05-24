@@ -1,0 +1,26 @@
+.scroll-float-container {
+  display: inline;
+  line-height: inherit;
+}
+
+.scroll-float-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.scroll-float-char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(40px) rotate(4deg);
+  transition-property: opacity, transform;
+  will-change: opacity, transform;
+}
+
+.scroll-float-char.visible {
+  opacity: 1;
+  transform: translateY(0) rotate(0deg);
+}
+
+.scroll-float-space {
+  display: inline-block;
+}
