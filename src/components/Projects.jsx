@@ -314,7 +314,7 @@ function BentoCard({ project, onClick, isFeatured, isDimmed, isExpanded, onClose
           <img
             src={project.images[currentImg]}
             alt={project.title}
-            className="w-full h-full object-cover object-top transition-all duration-500"
+            className="w-full h-full object-cover object-center transition-all duration-500"
           />
 
           {/* Progress Bullet Indicators */}

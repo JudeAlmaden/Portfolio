@@ -7,4 +7,7 @@ export default defineConfig({
   // Base path for GitHub Pages — matches the repo name.
   // Change to '/' if you set a custom domain on the Pages settings.
   base: '/Portfolio/',
+  server: {
+    port: 3001,
+  },
 })

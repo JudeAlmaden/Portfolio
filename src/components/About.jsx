@@ -231,7 +231,7 @@ export default function About() {
                 A Little About Me
               </h3>
               <p className="intro-line text-slate-700 text-lg md:text-xl font-medium leading-relaxed font-heading" style={{ opacity: 0 }}>
-                IT student and web developer focused on <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-indigo-600 font-bold">Laravel</span>, <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-indigo-600 font-bold">Vue</span>, and real-world systems.
+                IT student and web developer focused on <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-indigo-600 font-bold">Laravel</span>, <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-indigo-600 font-bold">Vue</span>, <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-indigo-600 font-bold">React.js</span>, and real-world systems.
               </p>
               <p className="intro-line text-slate-500 text-sm md:text-base leading-relaxed" style={{ opacity: 0 }}>
                 Experienced in internships, hackathons, and building scalable academic projects. I seek opportunities where I can apply my skills in web development, IT systems, and problem-solving to create meaningful impact.
