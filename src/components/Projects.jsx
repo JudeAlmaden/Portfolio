@@ -5,6 +5,29 @@ const base = import.meta.env.BASE_URL;
 
 const projectsList = [
   {
+    id: 11,
+    title: "KaiwaAI",
+    github: "https://github.com/JudeAlmaden/KaiwaAI",
+    live: "https://kaiwa-ai.vercel.app",
+    category: "Fullstack",
+    tagline: "AI-powered Japanese language learning platform with conversational practice and a persistent AI companion.",
+    role: "Sole Developer",
+    year: "2026",
+    metrics: ["✓ Google Gemini AI integration", "✓ Spaced repetition (SM-2)", "✓ PWA support", "✓ Persistent AI memory"],
+    images: [
+      `${base}images/Kaiwa - AI/hero.jpg`,
+      `${base}images/Kaiwa - AI/24b69292-8f26-44fc-adc9-9db68e4ea1be.jpg`,
+      `${base}images/Kaiwa - AI/27a5e575-2ea8-456f-9fa5-b5e70818be76.jpg`,
+      `${base}images/Kaiwa - AI/bf892866-59c6-4f3d-86c2-50bec578d131.jpg`,
+      `${base}images/Kaiwa - AI/ef22c9bd-9788-4dd3-a33c-d6c1249e41fb.jpg`,
+    ],
+    tags: ["Next.js", "TypeScript", "PostgreSQL", "Gemini AI", "Prisma"],
+    theme: "from-blue-500/10 via-indigo-500/5 to-transparent",
+    glowColor: "rgba(59, 130, 246, 0.25)",
+    gridClass: "lg:col-span-2 md:col-span-6",
+    hasLiveDemo: true,
+  },
+  {
     id: 1,
     title: "EasyAssess",
     github: "https://github.com/JudeAlmaden/EasyAssess",
@@ -24,7 +47,7 @@ const projectsList = [
     tags: ["PHP", "React.js", "TailwindCSS"],
     theme: "from-emerald-500/10 via-teal-500/5 to-transparent",
     glowColor: "rgba(16, 185, 129, 0.25)",
-    gridClass: "lg:col-span-3 md:col-span-6",
+    gridClass: "lg:col-span-4 md:col-span-6",
     hasLiveDemo: true,
   },
   {
@@ -47,7 +70,7 @@ const projectsList = [
     tags: ["Next.js", "React", "TypeScript"],
     theme: "from-indigo-500/10 via-purple-500/5 to-transparent",
     glowColor: "rgba(99, 102, 241, 0.25)",
-    gridClass: "lg:col-span-3 md:col-span-6",
+    gridClass: "lg:col-span-4 md:col-span-6",
     hasLiveDemo: true,
   },
   {

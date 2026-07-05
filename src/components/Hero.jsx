@@ -57,7 +57,7 @@ export default function Hero() {
             </div>
 
             <p className="text-xl text-slate-600 max-w-xl leading-relaxed animate-[fadeIn_1s_ease-out]">
-              A Fresh Graduate of <span className="font-semibold text-slate-800">Information Technology</span> student and{' '}
+              <span className="font-semibold text-slate-800">Information Technology graduate (Magna Cum Laude)</span> and{' '}
               <span className="font-semibold text-slate-800">Full-stack Developer</span>. 
               I craft efficient, reliable systems and turn complex problems into elegant code.
             </p>
