@@ -3,14 +3,14 @@ import { animate, stagger } from 'animejs';
 import ScrollFloat from './ScrollFloat';
 
 const skillsList = [
-  { name: "Laravel",    icon: "devicon-laravel-original colored" },
-  { name: "Vue.js",     icon: "devicon-vuejs-plain colored" },
-  { name: "PHP",        icon: "devicon-php-plain colored" },
-  { name: "React",      icon: "devicon-react-original colored" },
+  { name: "Laravel", icon: "devicon-laravel-original colored" },
+  { name: "Vue.js", icon: "devicon-vuejs-plain colored" },
+  { name: "PHP", icon: "devicon-php-plain colored" },
+  { name: "React", icon: "devicon-react-original colored" },
   { name: "JavaScript", icon: "devicon-javascript-plain colored" },
-  { name: "TailwindCSS",icon: "devicon-tailwindcss-original colored" },
-  { name: "MySQL",      icon: "devicon-mysql-original colored" },
-  { name: "Node.js",    icon: "devicon-nodejs-plain colored" },
+  { name: "TailwindCSS", icon: "devicon-tailwindcss-original colored" },
+  { name: "MySQL", icon: "devicon-mysql-original colored" },
+  { name: "Node.js", icon: "devicon-nodejs-plain colored" },
 ];
 
 const compactExperience = [
@@ -25,8 +25,8 @@ const compactExperience = [
   {
     org: "St. Anne College Lucena",
     role: "Bachelor of Science in IT",
-    period: "2022 – Present",
-    badge: "Dean's Lister",
+    period: "2022 – 2026",
+    badge: "Magna Cum Laude",
     color: "violet",
     desc: "Maintained a high GPA of 94% with multi-semester academic achievements."
   },

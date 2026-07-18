@@ -112,7 +112,7 @@ const projectsList = [
     tags: ["Laravel", "Vue.js"],
     theme: "from-orange-500/10 via-amber-500/5 to-transparent",
     glowColor: "rgba(245, 158, 11, 0.25)",
-    gridClass: "lg:col-span-4 md:col-span-3",
+    gridClass: "lg:col-span-2 md:col-span-6",
     hasLiveDemo: false,
   },
   {
@@ -132,7 +132,7 @@ const projectsList = [
     tags: ["QA Automation", "Laravel", "PostgreSQL"],
     theme: "from-purple-500/10 via-violet-500/5 to-transparent",
     glowColor: "rgba(139, 92, 246, 0.25)",
-    gridClass: "lg:col-span-3 md:col-span-6",
+    gridClass: "lg:col-span-4 md:col-span-6",
     hasLiveDemo: false,
   },
   {
@@ -153,7 +153,7 @@ const projectsList = [
     tags: ["Laravel", "Blade", "MySQL"],
     theme: "from-cyan-500/10 via-blue-500/5 to-transparent",
     glowColor: "rgba(6, 182, 212, 0.25)",
-    gridClass: "lg:col-span-3 md:col-span-6",
+    gridClass: "lg:col-span-4 md:col-span-3",
     hasLiveDemo: false,
   },
   {
@@ -197,30 +197,11 @@ const projectsList = [
     tags: ["React.js", "TypeScript"],
     theme: "from-rose-500/10 via-pink-500/5 to-transparent",
     glowColor: "rgba(244, 63, 94, 0.25)",
-    gridClass: "lg:col-span-4 md:col-span-3",
+    gridClass: "lg:col-span-3 md:col-span-3",
     hasLiveDemo: false,
   },
   {
-    id: 5,
-    title: "Booking System",
-    github: "https://github.com/JudeAlmaden/BookingSysCodeIgniter",
-    category: "Fullstack",
-    tagline: "Comprehensive reservation workflows featuring calendar schedulers and record histories.",
-    role: "Backend Architect",
-    year: "2023",
-    metrics: ["✓Multiple stopovers", "✓ Flexible schedulers", "✓ Reservation management"],
-    images: [
-      `${base}images/booking_sys/booking-hero.png`,
-    ],
-    tags: ["CodeIgniter", "PHP", "CSS"],
-    theme: "from-sky-500/10 via-indigo-500/5 to-transparent",
-    glowColor: "rgba(14, 165, 233, 0.25)",
-    gridClass: "lg:col-span-4 md:col-span-6",
-    hasLiveDemo: false,
-    reverseLayout: true,
-  },
-  {
-    id: 7,
+    id: 6,
     title: "WriteSphere",
     github: "https://github.com/JudeAlmaden/WriteSphere",
     category: "Fullstack",
@@ -237,7 +218,7 @@ const projectsList = [
     tags: ["PHP", "Vanilla JS"],
     theme: "from-blue-500/10 via-cyan-500/5 to-transparent",
     glowColor: "rgba(59, 130, 246, 0.25)",
-    gridClass: "lg:col-span-2 md:col-span-6",
+    gridClass: "lg:col-span-3 md:col-span-6",
     hasLiveDemo: false,
   },
 ];
@@ -430,11 +411,11 @@ function ProjectModal({ project, onClose }) {
   }, []);
 
   return (
-    <div 
+    <div
       className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-[fadeIn_0.2s_ease-out]"
       onClick={onClose}
     >
-      <div 
+      <div
         className="relative w-full max-w-5xl bg-white rounded-3xl shadow-2xl overflow-hidden animate-[scaleIn_0.3s_ease-out]"
         onClick={(e) => e.stopPropagation()}
       >
@@ -466,7 +447,7 @@ function ProjectModal({ project, onClose }) {
               alt={project.title}
               className="w-full h-full object-cover object-center min-h-[400px]"
             />
-            
+
             {/* Image indicators */}
             {project.images.length > 1 && (
               <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 z-30 bg-black/50 backdrop-blur-md px-4 py-2 rounded-full">
@@ -631,9 +612,9 @@ export default function Projects() {
 
       {/* ── Project Modal ── */}
       {selectedProject && (
-        <ProjectModal 
-          project={selectedProject} 
-          onClose={() => setSelectedProject(null)} 
+        <ProjectModal
+          project={selectedProject}
+          onClose={() => setSelectedProject(null)}
         />
       )}
     </section>
