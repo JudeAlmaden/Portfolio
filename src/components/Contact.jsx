@@ -1,114 +1,117 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useState } from 'react';
+import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from 'framer-motion';
 import DotGrid from './DotGrid';
 
 /**
- * SectionMagnet — tracks the mouse across the entire section and pulls
- * each wrapped button toward the cursor with a spring-like force.
- * The pull strength scales with proximity (strongest at center, tapers off).
+ * MagneticCard
+ * Uses Framer Motion spring physics to pull the card toward the user's mouse cursor
+ * with dynamic 3D tilt and smooth spring damping.
  */
-function SectionMagnet({ sectionRef, children, strength = 0.22 }) {
-  const innerRef = useRef(null);
-  const [offset, setOffset] = useState({ x: 0, y: 0 });
-  const rafRef = useRef(null);
-  const targetRef = useRef({ x: 0, y: 0 });
-  const currentRef = useRef({ x: 0, y: 0 });
-  const activeRef = useRef(false);
+function MagneticCard({ children, onClick, href, className, strength = 0.35 }) {
+  const ref = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
 
-  useEffect(() => {
-    const section = sectionRef.current;
-    const inner = innerRef.current;
-    if (!section || !inner) return;
+  // Raw motion values for relative mouse offset
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
 
-    const lerp = (a, b, t) => a + (b - a) * t;
+  // Smooth spring physics for fluid movement
+  const springConfig = { stiffness: 150, damping: 15, mass: 0.2 };
+  const springX = useSpring(x, springConfig);
+  const springY = useSpring(y, springConfig);
 
-    const animate = () => {
-      currentRef.current.x = lerp(currentRef.current.x, targetRef.current.x, 0.1);
-      currentRef.current.y = lerp(currentRef.current.y, targetRef.current.y, 0.1);
-      setOffset({ x: currentRef.current.x, y: currentRef.current.y });
-      rafRef.current = requestAnimationFrame(animate);
-    };
-    rafRef.current = requestAnimationFrame(animate);
+  // 3D Tilt transformation based on displacement
+  const rotateX = useTransform(springY, [-50, 50], [12, -12]);
+  const rotateY = useTransform(springX, [-50, 50], [-12, 12]);
 
-    const onMouseMove = (e) => {
-      const sectionRect = section.getBoundingClientRect();
-      const btnRect = inner.getBoundingClientRect();
+  const handleMouseMove = (e) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
 
-      // Mouse relative to section
-      const mx = e.clientX - sectionRect.left;
-      const my = e.clientY - sectionRect.top;
+    const distanceX = e.clientX - centerX;
+    const distanceY = e.clientY - centerY;
 
-      // Button center relative to section
-      const bx = btnRect.left + btnRect.width / 2 - sectionRect.left;
-      const by = btnRect.top + btnRect.height / 2 - sectionRect.top;
+    // Apply magnetic pull force
+    x.set(distanceX * strength);
+    y.set(distanceY * strength);
+  };
 
-      // Vector from button center → mouse
-      const dx = mx - bx;
-      const dy = my - by;
+  const handleMouseEnter = () => setIsHovered(true);
 
-      // Distance from mouse to button center (max pull based on section diagonal)
-      const sectionDiag = Math.sqrt(sectionRect.width ** 2 + sectionRect.height ** 2);
-      const dist = Math.sqrt(dx * dx + dy * dy);
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    x.set(0);
+    y.set(0);
+  };
 
-      // Pull falls off with distance: strong when close, gentle from far
-      const falloff = Math.max(0, 1 - dist / (sectionDiag * 0.7));
-      const pull = falloff * falloff; // quadratic falloff for natural feel
-
-      targetRef.current = {
-        x: dx * strength * pull,
-        y: dy * strength * pull,
-      };
-    };
-
-    const onMouseLeave = () => {
-      targetRef.current = { x: 0, y: 0 };
-    };
-
-    section.addEventListener('mousemove', onMouseMove);
-    section.addEventListener('mouseleave', onMouseLeave);
-
-    return () => {
-      section.removeEventListener('mousemove', onMouseMove);
-      section.removeEventListener('mouseleave', onMouseLeave);
-      cancelAnimationFrame(rafRef.current);
-    };
-  }, [sectionRef, strength]);
+  const Tag = href ? 'a' : 'button';
 
   return (
-    <div style={{ display: 'inline-block', position: 'relative' }}>
-      <div
-        ref={innerRef}
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        perspective: 1000,
+      }}
+      className="inline-block"
+    >
+      <Tag
+        href={href}
+        onClick={onClick}
+        target={href?.startsWith('http') || href?.startsWith('mailto') ? '_blank' : undefined}
+        rel={href?.startsWith('http') || href?.startsWith('mailto') ? 'noopener noreferrer' : undefined}
         style={{
-          transform: `translate3d(${offset.x}px, ${offset.y}px, 0)`,
-          willChange: 'transform',
+          x: springX,
+          y: springY,
+          rotateX: isHovered ? rotateX : 0,
+          rotateY: isHovered ? rotateY : 0,
         }}
+        className={`relative block group cursor-pointer ${className}`}
       >
+        {/* Animated aura glow backdrop */}
+        <motion.div
+          animate={{
+            opacity: isHovered ? 0.6 : 0.15,
+            scale: isHovered ? 1.08 : 1,
+          }}
+          transition={{ duration: 0.3 }}
+          className="absolute -inset-[3px] bg-gradient-to-r from-primary via-primary-hover to-primary blur-xl -z-10 rounded-2xl"
+        />
+
         {children}
-      </div>
-    </div>
+      </Tag>
+    </motion.div>
   );
 }
 
-export default function Contact({ onCopyEmail }) {
-  const sectionRef = useRef(null);
+export function ContactContent({ onCopyEmail }) {
+  const [copied, setCopied] = useState(false);
 
-  const handleEmailClick = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-
+  const handleEmailClick = (e) => {
+    e.preventDefault();
     const email = 'Judealmaden2045@gmail.com';
+
     navigator.clipboard.writeText(email)
       .then(() => {
-        onCopyEmail('Email copied to clipboard!');
+        setCopied(true);
+        if (onCopyEmail) onCopyEmail('Email copied to clipboard!');
+        setTimeout(() => setCopied(false), 2500);
       })
       .catch((err) => {
-        console.error('Failed to copy: ', err);
+        console.error('Failed to copy email: ', err);
         const textarea = document.createElement('textarea');
         textarea.value = email;
         document.body.appendChild(textarea);
         textarea.select();
         try {
           document.execCommand('copy');
-          onCopyEmail('Email copied to clipboard!');
+          setCopied(true);
+          if (onCopyEmail) onCopyEmail('Email copied to clipboard!');
+          setTimeout(() => setCopied(false), 2500);
         } catch (e) {
           console.error('Fallback failed: ', e);
         }
@@ -117,67 +120,99 @@ export default function Contact({ onCopyEmail }) {
   };
 
   return (
+    <div className="max-w-4xl mx-auto text-center space-y-12 relative z-10">
+      {/* Section Header */}
+      <div className="space-y-4">
+        <p className="text-[11px] uppercase tracking-[0.3em] text-primary font-semibold">
+          Get In Touch
+        </p>
+        <h2 className="text-4xl md:text-6xl font-black font-heading tracking-tight text-on-surface">
+          Let's Work Together
+        </h2>
+        <p className="text-on-surface-variant text-base md:text-lg max-w-xl mx-auto leading-relaxed">
+          I'm open to junior level roles, freelancing, and web projects.{' '}
+          <br className="hidden md:inline" />
+          Based in Candelaria, Quezon Province.
+        </p>
+      </div>
+
+      {/* Magnetic Mouse-Chasing Buttons */}
+      <div className="flex flex-col md:flex-row items-center justify-center gap-6">
+        {/* Email Button Card */}
+        <MagneticCard
+          onClick={handleEmailClick}
+          strength={0.4}
+          className="w-full md:w-auto"
+        >
+          <div className="flex items-center gap-5 px-8 py-5 rounded-2xl glass-card border-2 border-primary/30 group-hover:border-primary transition-colors duration-300">
+            <div className="w-12 h-12 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:scale-110 group-hover:bg-primary group-hover:text-on-primary transition-all duration-300 text-primary">
+              <i className={`fas ${copied ? 'fa-check text-green-400' : 'fa-envelope'} text-lg`} />
+            </div>
+            <div className="text-left">
+              <div className="flex items-center gap-2">
+                <p className="text-[10px] text-outline uppercase tracking-widest font-semibold">
+                  Email Me
+                </p>
+                <AnimatePresence>
+                  {copied && (
+                    <motion.span
+                      initial={{ opacity: 0, x: -5 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 5 }}
+                      className="text-[10px] font-bold text-green-400 uppercase tracking-wider"
+                    >
+                      Copied!
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </div>
+              <p className="text-on-surface font-medium text-sm md:text-base">
+                Judealmaden2045@gmail.com
+              </p>
+            </div>
+          </div>
+        </MagneticCard>
+
+        {/* Call Button Card */}
+        <MagneticCard
+          href="tel:+639671559154"
+          strength={0.4}
+          className="w-full md:w-auto"
+        >
+          <div className="flex items-center gap-5 px-8 py-5 rounded-2xl glass-card border-2 border-primary/30 group-hover:border-primary transition-colors duration-300">
+            <div className="w-12 h-12 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:scale-110 group-hover:bg-primary group-hover:text-on-primary transition-all duration-300 text-primary">
+              <i className="fas fa-phone text-lg" />
+            </div>
+            <div className="text-left">
+              <p className="text-[10px] text-outline uppercase tracking-widest font-semibold">
+                Call Me
+              </p>
+              <p className="text-on-surface font-medium text-sm md:text-base">
+                +63 09671559154
+              </p>
+            </div>
+          </div>
+        </MagneticCard>
+      </div>
+    </div>
+  );
+}
+
+export default function Contact({ onCopyEmail }) {
+  return (
     <section
       id="contact"
-      ref={sectionRef}
-      className="min-h-screen relative px-6 overflow-hidden bg-gradient-to-b from-white to-violet-50 flex flex-col items-center justify-center py-24"
+      className="min-h-screen relative px-6 overflow-hidden bg-surface flex flex-col items-center justify-center py-28"
     >
-      {/* Background decorative elements */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-violet-200/30 rounded-full blur-3xl -z-10" />
-
-      {/* Interactive DotGrid background */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-primary/10 rounded-full blur-[140px] pointer-events-none -z-10" />
       <DotGrid
-        dotColor="rgba(139, 92, 246, 0.25)"
-        glowColor="rgba(139, 92, 246, 0.1)"
+        dotColor="rgba(208, 188, 255, 0.25)"
+        glowColor="rgba(208, 188, 255, 0.12)"
         dotSize={1.5}
         gap={24}
-        cursorRadius={140}
+        cursorRadius={160}
       />
-
-      <div className="max-w-4xl mx-auto text-center space-y-12 relative z-10">
-        <div className="space-y-4 reveal-up">
-          <h2 className="text-3xl md:text-5xl font-bold font-heading text-slate-900">
-            Let's Work Together
-          </h2>
-          <p className="text-slate-600 text-lg">
-            I'm open to entry-level roles and freelance projects. <br />
-            Based in Candelaria, Quezon Province.
-          </p>
-        </div>
-
-        <div className="flex flex-col md:flex-row items-center justify-center gap-6 reveal-up">
-          <SectionMagnet sectionRef={sectionRef} strength={0.28}>
-            <a
-              href="mailto:Judealmaden2045@gmail.com"
-              onClick={handleEmailClick}
-              className="group flex items-center gap-4 px-8 py-5 rounded-2xl bg-white border-2 border-violet-100 hover:border-primary hover:shadow-xl hover:shadow-primary/10 transition-colors w-full md:w-auto"
-            >
-              <div className="w-12 h-12 rounded-full bg-violet-100 flex items-center justify-center group-hover:scale-110 group-hover:bg-primary/10 transition-all">
-                <i className="fas fa-envelope text-primary text-xl" />
-              </div>
-              <div className="text-left">
-                <p className="text-xs text-slate-500 uppercase tracking-widest font-semibold">Email Me</p>
-                <p className="text-slate-800 font-medium">Judealmaden2045@gmail.com</p>
-              </div>
-            </a>
-          </SectionMagnet>
-
-          <SectionMagnet sectionRef={sectionRef} strength={0.28}>
-            <a
-              href="tel:+639671559154"
-              className="group flex items-center gap-4 px-8 py-5 rounded-2xl bg-white border-2 border-violet-100 hover:border-secondary hover:shadow-xl hover:shadow-secondary/10 transition-colors w-full md:w-auto"
-            >
-              <div className="w-12 h-12 rounded-full bg-violet-100 flex items-center justify-center group-hover:scale-110 group-hover:bg-secondary/10 transition-all">
-                <i className="fas fa-phone text-secondary text-xl" />
-              </div>
-              <div className="text-left">
-                <p className="text-xs text-slate-500 uppercase tracking-widest font-semibold">Call Me</p>
-                <p className="text-slate-800 font-medium">+63 09671559154</p>
-              </div>
-            </a>
-          </SectionMagnet>
-        </div>
-      </div>
+      <ContactContent onCopyEmail={onCopyEmail} />
     </section>
   );
 }

@@ -1,622 +1,414 @@
-import { useState, useEffect, useRef } from 'react';
-import { animate, stagger } from 'animejs';
+import { useRef, useState, useEffect } from 'react';
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useTransform,
+  useMotionValueEvent,
+} from 'framer-motion';
+import { FEATURED, ARCHIVE } from '../data/projectsData';
+import LightboxModal from './LightboxModal';
+import { ContactContent } from './Contact';
+import DotGrid from './DotGrid';
+import ArchiveCard from './projects/ArchiveCard';
 
-const base = import.meta.env.BASE_URL;
+const N = FEATURED.length;
+const pad = (n) => String(n).padStart(2, '0');
+const STEP = 1 / N;
+const H = 0.035;
 
-const projectsList = [
-  {
-    id: 11,
-    title: "KaiwaAI",
-    github: "https://github.com/JudeAlmaden/KaiwaAI",
-    live: "https://kaiwa-ai.vercel.app",
-    category: "Fullstack",
-    tagline: "AI-powered Japanese language learning platform with conversational practice and a persistent AI companion.",
-    role: "Sole Developer",
-    year: "2026",
-    metrics: ["✓ Google Gemini AI integration", "✓ Spaced repetition (SM-2)", "✓ PWA support", "✓ Persistent AI memory"],
-    images: [
-      `${base}images/Kaiwa - AI/hero.jpg`,
-      `${base}images/Kaiwa - AI/24b69292-8f26-44fc-adc9-9db68e4ea1be.jpg`,
-      `${base}images/Kaiwa - AI/27a5e575-2ea8-456f-9fa5-b5e70818be76.jpg`,
-      `${base}images/Kaiwa - AI/bf892866-59c6-4f3d-86c2-50bec578d131.jpg`,
-      `${base}images/Kaiwa - AI/ef22c9bd-9788-4dd3-a33c-d6c1249e41fb.jpg`,
-    ],
-    tags: ["Next.js", "TypeScript", "PostgreSQL", "Gemini AI", "Prisma"],
-    theme: "from-blue-500/10 via-indigo-500/5 to-transparent",
-    glowColor: "rgba(59, 130, 246, 0.25)",
-    gridClass: "lg:col-span-2 md:col-span-6",
-    hasLiveDemo: true,
-  },
-  {
-    id: 1,
-    title: "EasyAssess",
-    github: "https://github.com/JudeAlmaden/EasyAssess",
-    live: "https://easyassessomr.site",
-    category: "Fullstack",
-    tagline: "Transforms any smartphone into a precision OMR scanner. Print, scan, and get results instantly — completely hardware-free.",
-    role: "Solo Creator",
-    year: "2025",
-    metrics: ["✓ Offline PWA support", "✓ Mobile-first OMR dashboard", "✓ Instant grading analytics"],
-    images: [
-      `${base}images/easy_assess/easy-assess-hero.png`,
-      `${base}images/easy_assess/easy-assess-2.png`,
-      `${base}images/easy_assess/easy-assess-3.png`,
-      `${base}images/easy_assess/easy-assess-4.png`,
-      `${base}images/easy_assess/easy-assess-5.png`,
-    ],
-    tags: ["PHP", "React.js", "TailwindCSS"],
-    theme: "from-emerald-500/10 via-teal-500/5 to-transparent",
-    glowColor: "rgba(16, 185, 129, 0.25)",
-    gridClass: "lg:col-span-4 md:col-span-6",
-    hasLiveDemo: true,
-  },
-  {
-    id: 10,
-    title: "Hi-Queue",
-    github: "https://github.com/JudeAlmaden",
-    live: "https://hi-queue.vercel.app/",
-    category: "Fullstack",
-    tagline: "Comprehensive queuing application that empowers users to create custom organizations and fully customizable portal experiences.",
-    role: "Sole Developer",
-    year: "2025",
-    metrics: ["✓ Multi-organization support", "✓ Customizable portal interfaces", "✓ Real-time queue management"],
-    images: [
-      `${base}images/hi-queue/781_1x_shots_so.png`,
-      `${base}images/hi-queue/596_1x_shots_so.png`,
-      `${base}images/hi-queue/73_1x_shots_so.png`,
-      `${base}images/hi-queue/947_1x_shots_so.png`,
-      `${base}images/hi-queue/960_1x_shots_so.png`,
-    ],
-    tags: ["Next.js", "React", "TypeScript"],
-    theme: "from-indigo-500/10 via-purple-500/5 to-transparent",
-    glowColor: "rgba(99, 102, 241, 0.25)",
-    gridClass: "lg:col-span-4 md:col-span-6",
-    hasLiveDemo: true,
-  },
-  {
-    id: 8,
-    title: "Sacli Bingo",
-    github: "https://github.com/JudeAlmaden/SacliBingo",
-    live: "https://judealmaden.github.io/SacliBingo/",
-    category: "Frontend",
-    tagline: "Bingo game with auto CI/CD deployments and clean digital card generators.",
-    role: "Frontend Dev",
-    year: "2024",
-    metrics: ["✓ Github pages deployment", "✓ PWA support", "✓ Clean UI, easy to use"],
-    images: [
-      `${base}images/bingo/bingo-hero.png`,
-      `${base}images/bingo/bingo-2.png`,
-      `${base}images/bingo/bingo-3.png`,
-    ],
-    tags: ["React", "TailwindCSS"],
-    theme: "from-lime-500/10 via-emerald-500/5 to-transparent",
-    glowColor: "rgba(132, 204, 22, 0.25)",
-    gridClass: "lg:col-span-2 md:col-span-3",
-    hasLiveDemo: true,
-  },
-  {
-    id: 2,
-    title: "Quizzly",
-    github: "https://github.com/JudeAlmaden/Quizzly_SPA",
-    category: "Fullstack",
-    tagline: "Real-time interactive quiz bee platform deployed for foundation day competitive events.",
-    role: "Solo Developer",
-    year: "2024",
-    metrics: ["✓ Realtime scoreboard ", "✓ Gameshow style interface", "✓ Used in foundation day competitive events"],
-    images: [
-      `${base}images/quizzly/quizzly-hero.png`,
-      `${base}images/quizzly/quizzly-2.png`,
-      `${base}images/quizzly/quizzly-3.png`,
-      `${base}images/quizzly/quizzly-4.png`,
-    ],
-    tags: ["Laravel", "Vue.js"],
-    theme: "from-orange-500/10 via-amber-500/5 to-transparent",
-    glowColor: "rgba(245, 158, 11, 0.25)",
-    gridClass: "lg:col-span-2 md:col-span-6",
-    hasLiveDemo: false,
-  },
-  {
-    id: 9,
-    title: "Scout Test Case Management",
-    category: "Other",
-    tagline: "Proprietary QA governance test case management dashboard designed for Open iT internship projects.",
-    role: "QA Engineer & Developer",
-    year: "2026",
-    metrics: ["✓ Direct test repository pipelines", "✓ Source of truth for test cases", "✓ QA reporting and automation"],
-    images: [
-      `${base}images/scout/scout-hero.png`,
-      `${base}images/scout/scout-2.png`,
-      `${base}images/scout/scout-3.png`,
-      `${base}images/scout/scout-4.png`,
-    ],
-    tags: ["QA Automation", "Laravel", "PostgreSQL"],
-    theme: "from-purple-500/10 via-violet-500/5 to-transparent",
-    glowColor: "rgba(139, 92, 246, 0.25)",
-    gridClass: "lg:col-span-4 md:col-span-6",
-    hasLiveDemo: false,
-  },
-  {
-    id: 3,
-    title: "SACLI-Q",
-    github: "https://github.com/JudeAlmaden/SACLI-Q",
-    category: "Fullstack",
-    tagline: "Smart student services queue system with a 'Where's My Ticket?' portal for remote queue status tracking.",
-    role: "Fullstack Architect",
-    year: "2024",
-    metrics: ["✓ Real-time ticket indicators", "✓ Operational throughput metrics", "✓ Supports multiple windows"],
-    images: [
-      `${base}images/sacli_queue/sacli-queue-hero.png`,
-      `${base}images/sacli_queue/sacli-queue-2.png`,
-      `${base}images/sacli_queue/sacli-queue-3.png`,
-      `${base}images/sacli_queue/sacli-queue-4.png`,
-    ],
-    tags: ["Laravel", "Blade", "MySQL"],
-    theme: "from-cyan-500/10 via-blue-500/5 to-transparent",
-    glowColor: "rgba(6, 182, 212, 0.25)",
-    gridClass: "lg:col-span-4 md:col-span-3",
-    hasLiveDemo: false,
-  },
-  {
-    id: 6,
-    title: "Swift Accounting",
-    github: "https://github.com/JudeAlmaden/SwiftAccountingSystem",
-    category: "Fullstack",
-    tagline: "Accounting registry system developed to simplify student disbursements and secure audit histories.",
-    role: "Team Lead",
-    year: "2024",
-    metrics: ["✓Simplified approval flows for transactions", "✓ Accounts payable and receivable", "✓ Audit trail for all transactions"],
-    images: [
-      `${base}images/swift/swift-hero.png`,
-      `${base}images/swift/swift-2.png`,
-      `${base}images/swift/swift-3.png`,
-      `${base}images/swift/swift-4.png`,
-    ],
-    tags: ["TypeScript", "Express"],
-    theme: "from-violet-500/10 via-fuchsia-500/5 to-transparent",
-    glowColor: "rgba(168, 85, 247, 0.25)",
-    gridClass: "lg:col-span-2 md:col-span-3",
-    hasLiveDemo: false,
-  },
-  {
-    id: 4,
-    title: "Restaurant E-Menu",
-    github: "https://github.com/JudeAlmaden/E-menu-and-Online-Polling",
-    category: "Frontend",
-    tagline: "Digital menu and polling platform for a local restaurant, featuring interactive ordering and customer engagement.",
-    role: "Developer",
-    year: "2023",
-    metrics: ["✓ Deployed on Vercel", "✓ Interactive live polls", "✓ Digital menu system"],
-    images: [
-      `${base}images/ecommerce/ecommerce-hero.png`,
-      `${base}images/ecommerce/ecommerce-2.png`,
-      `${base}images/ecommerce/ecommerce-3.png`,
-      `${base}images/ecommerce/ecommerce-4.png`,
-      `${base}images/ecommerce/ecommerce-5.png`,
-      `${base}images/ecommerce/ecommerce-6.png`,
-    ],
-    tags: ["React.js", "TypeScript"],
-    theme: "from-rose-500/10 via-pink-500/5 to-transparent",
-    glowColor: "rgba(244, 63, 94, 0.25)",
-    gridClass: "lg:col-span-3 md:col-span-3",
-    hasLiveDemo: false,
-  },
-  {
-    id: 6,
-    title: "WriteSphere",
-    github: "https://github.com/JudeAlmaden/WriteSphere",
-    category: "Fullstack",
-    tagline: "Practice markdown blogging platform featuring standard MVC structures built entirely from scratch.",
-    role: "Solo Creator",
-    year: "2023",
-    metrics: ["✓ Vanilla PHP MVC routing framework", "✓ Migrations and seeder", "✓ Elegant reading canvas layouts"],
-    images: [
-      `${base}images/writesphere/writesphere-hero.png`,
-      `${base}images/writesphere/writesphere-2.png`,
-      `${base}images/writesphere/writesphere-3.png`,
-      `${base}images/writesphere/writesphere-4.png`,
-    ],
-    tags: ["PHP", "Vanilla JS"],
-    theme: "from-blue-500/10 via-cyan-500/5 to-transparent",
-    glowColor: "rgba(59, 130, 246, 0.25)",
-    gridClass: "lg:col-span-3 md:col-span-6",
-    hasLiveDemo: false,
-  },
-];
+/* ─── Archive Section ──────────────────────────────────────────── */
+function ArchiveSection({ projects, onOpenGallery, onCopyEmail }) {
+  const archiveRef = useRef(null);
 
-const categories = ["All", "Fullstack", "Frontend", "Other"];
+  const { scrollYProgress } = useScroll({
+    target: archiveRef,
+    offset: ['start start', 'end end'],
+  });
 
-/* ─── Premium interactive card with dynamic tilt, spotlight, and auto sliding screenshot showcases ─── */
-function BentoCard({ project, onClick, isDimmed }) {
-  const [currentImg, setCurrentImg] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-  const cardRef = useRef(null);
-  const timerRef = useRef(null);
+  const headerY              = useTransform(scrollYProgress, [0.22, 0.52], [0, -60]);
+  const headerOpacity        = useTransform(scrollYProgress, [0.22, 0.52], [1, 0]);
+  const gridContainerOpacity = useTransform(scrollYProgress, [0.22, 0.52], [1, 0]);
+  const gridDisplay          = useTransform(scrollYProgress, (v) => (v >= 0.52 ? 'none' : 'flex'));
 
-  // Spotlight and 3D Tilt calculation
-  const handleMouseMove = (e) => {
-    const card = cardRef.current;
-    if (!card) return;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    card.style.setProperty('--mouse-x', `${x}px`);
-    card.style.setProperty('--mouse-y', `${y}px`);
-
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateX = ((centerY - y) / centerY) * 5; // up to 5 deg tilt
-    const rotateY = ((x - centerX) / centerX) * 5;
-    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-    const card = cardRef.current;
-    if (card) {
-      card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)`;
-    }
-    setCurrentImg(0);
-    if (timerRef.current) clearInterval(timerRef.current);
-  };
-
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-    if (project.images.length > 1) {
-      timerRef.current = setInterval(() => {
-        setCurrentImg((prev) => (prev + 1) % project.images.length);
-      }, 1500);
-    }
-  };
-
-  const isFeatured = project.gridClass.includes("lg:col-span-4");
+  const contactOpacity = useTransform(scrollYProgress, [0.50, 0.78, 1.0], [0, 1, 1]);
+  const contactScale   = useTransform(scrollYProgress, [0.50, 0.78, 1.0], [0.88, 1, 1]);
+  const contactY       = useTransform(scrollYProgress, [0.50, 0.78, 1.0], [40, 0, 0]);
+  const contactDisplay = useTransform(scrollYProgress, (v) => (v < 0.42 ? 'none' : 'flex'));
 
   return (
-    <div
-      ref={cardRef}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onClick={onClick}
-      className={`bento-item relative rounded-[28px] overflow-hidden transition-all duration-700 ${project.gridClass} bg-white/70 border border-slate-100 hover:border-violet-200/80 cursor-pointer shadow-sm hover:shadow-xl ${isDimmed ? 'opacity-25 scale-[0.97] blur-[1.5px] pointer-events-none' : ''}`}
-      style={{
-        transition: 'transform 0.18s ease-out, opacity 0.6s ease, filter 0.6s ease, border-color 0.4s ease, box-shadow 0.4s ease',
-      }}
-    >
-      {/* Vercel spotlight cursor overlay */}
-      <div
-        className="absolute inset-0 pointer-events-none transition-opacity duration-300 opacity-0 hover:opacity-100 z-10"
-        style={{
-          background: `radial-gradient(350px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), ${project.glowColor}, transparent 80%)`
-        }}
-      />
+    <section ref={archiveRef} className="relative h-[280vh] bg-[#101415]">
+      <div className="sticky top-0 h-screen w-full flex flex-col justify-center px-6 md:px-14 lg:px-20 overflow-hidden">
 
-      <div className={`flex flex-col ${isFeatured ? 'lg:flex-row' : ''} ${project.reverseLayout && isFeatured ? 'lg:flex-row-reverse' : ''} h-full relative z-20 gap-0`}>
+        {/* Background ambient glow & DotGrid */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-primary/10 rounded-full blur-[140px] pointer-events-none -z-10" />
+        <DotGrid
+          dotColor="rgba(208, 188, 255, 0.25)"
+          glowColor="rgba(208, 188, 255, 0.12)"
+          dotSize={1.5}
+          gap={24}
+          cursorRadius={160}
+        />
 
-        {/* Image Panel — clean, full-bleed, no device chrome */}
-        <div className={`relative flex-shrink-0 overflow-hidden transition-all duration-500 ${isFeatured ? 'lg:w-[53%] lg:h-auto min-h-[260px]' : 'w-full aspect-[16/10]'}`}>
-          {/* Subtle theme gradient tint */}
-          <div className={`absolute inset-0 bg-gradient-to-br ${project.theme} z-10 pointer-events-none mix-blend-multiply`} />
-
-          <img
-            src={project.images[currentImg]}
-            alt={project.title}
-            className="w-full h-full object-cover object-center transition-all duration-500"
-          />
-
-          {/* Progress Bullet Indicators */}
-          {project.images.length > 1 && isHovered && (
-            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-30 bg-black/40 backdrop-blur-md px-3 py-1 rounded-full border border-white/10">
-              {project.images.map((_, i) => (
-                <span
-                  key={i}
-                  className={`h-1.5 rounded-full transition-all duration-500 ${i === currentImg ? 'w-5 bg-white' : 'w-1.5 bg-white/40'}`}
-                />
-              ))}
+        {/* Phase 1: Archive Grid */}
+        <motion.div
+          style={{ opacity: gridContainerOpacity, display: gridDisplay }}
+          className="absolute inset-0 flex flex-col justify-center px-6 md:px-14 lg:px-20 pointer-events-auto"
+        >
+          <motion.div style={{ y: headerY, opacity: headerOpacity }} className="flex items-end justify-between mb-8 max-w-7xl mx-auto w-full">
+            <div>
+              <p className="text-[10px] uppercase tracking-[0.25em] text-primary font-semibold mb-1">
+                Also Built
+              </p>
+              <h2 className="text-2xl md:text-4xl font-heading font-bold text-white">
+                Other Projects &amp; Systems
+              </h2>
             </div>
-          )}
-        </div>
+            <span className="text-[11px] font-mono text-white/30 tracking-wider hidden md:block">
+              {pad(projects.length)} projects
+            </span>
+          </motion.div>
 
-        {/* Detailed Description Panel */}
-        <div className={`flex flex-col justify-between flex-1 space-y-4 px-5 pb-5 pt-3`}>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between gap-4">
-              <span className="text-[9px] font-bold uppercase tracking-wider text-primary bg-violet-50 border border-violet-100 px-2.5 py-0.5 rounded-full">
-                {project.role}
-              </span>
-              <span className="text-[10px] font-bold text-slate-400 tabular-nums">{project.year}</span>
-            </div>
-
-            <h4 className="text-2xl font-black text-slate-900 font-heading leading-tight transition-colors duration-300">
-              {project.title}
-            </h4>
-
-            <p className="text-slate-500 text-xs leading-relaxed">
-              {project.tagline}
-            </p>
+          <div className="grid grid-cols-6 gap-4 md:gap-6 max-w-7xl mx-auto w-full">
+            {projects.map((project, i) => (
+              <ArchiveCard
+                key={project.id}
+                project={project}
+                index={i}
+                onOpenGallery={onOpenGallery}
+                scrollYProgress={scrollYProgress}
+                className={i < 3 ? 'col-span-6 md:col-span-2' : 'col-span-6 md:col-span-3'}
+              />
+            ))}
           </div>
+        </motion.div>
 
-          <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-slate-100/80">
-            {/* Tech tag badges */}
-            <div className="flex flex-wrap gap-1">
-              {project.tags.slice(0, 2).map((tag, i) => (
-                <span
-                  key={i}
-                  className="text-[9px] font-bold text-slate-400 bg-slate-50 border border-slate-100 px-2 py-0.5 rounded-md hover:border-violet-300 hover:text-primary transition-all duration-300"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-
-            {/* Action buttons */}
-            <div className="flex items-center gap-2">
-              {project.hasLiveDemo && project.live && (
-                <a
-                  href={project.live}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                  className="px-3 py-1.5 rounded-lg bg-violet-600 hover:bg-violet-700 text-white text-[9px] font-bold transition-all flex items-center gap-1 shadow-sm"
-                >
-                  <i className="fas fa-external-link-alt text-[7px]" />
-                  <span>Live</span>
-                </a>
-              )}
-              <button className="px-3.5 py-2 rounded-xl bg-slate-900 text-white text-[10px] font-bold hover:bg-slate-800 transition-all flex items-center gap-1.5 shadow-sm">
-                <span>View Details</span>
-                <i className="fas fa-arrow-right text-[8px]" />
-              </button>
-            </div>
-          </div>
-        </div>
-
+        {/* Phase 2: Contact */}
+        <motion.div
+          id="contact"
+          style={{ opacity: contactOpacity, scale: contactScale, y: contactY, display: contactDisplay }}
+          className="absolute inset-0 flex flex-col items-center justify-center pointer-events-auto z-20"
+        >
+          <ContactContent onCopyEmail={onCopyEmail} />
+        </motion.div>
       </div>
-    </div>
+    </section>
   );
 }
 
-/* ─── Project Modal Component ─── */
-function ProjectModal({ project, onClose }) {
-  const [currentImg, setCurrentImg] = useState(0);
-  const timerRef = useRef(null);
+/* ─── Main Projects Component ──────────────────────────────────── */
+export default function Projects({ onCopyEmail }) {
+  const sectionRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [galleryProject, setGalleryProject] = useState(null);
+  const [galleryIndex, setGalleryIndex] = useState(0);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end end'],
+  });
+
+  /* Opacity tracks for 6 featured projects */
+  const opacity0 = useTransform(scrollYProgress, [0, STEP - H, STEP + H], [1, 1, 0]);
+  const opacity1 = useTransform(scrollYProgress, [STEP - H, STEP + H, 2 * STEP - H, 2 * STEP + H], [0, 1, 1, 0]);
+  const opacity2 = useTransform(scrollYProgress, [2 * STEP - H, 2 * STEP + H, 3 * STEP - H, 3 * STEP + H], [0, 1, 1, 0]);
+  const opacity3 = useTransform(scrollYProgress, [3 * STEP - H, 3 * STEP + H, 4 * STEP - H, 4 * STEP + H], [0, 1, 1, 0]);
+  const opacity4 = useTransform(scrollYProgress, [4 * STEP - H, 4 * STEP + H, 5 * STEP - H, 5 * STEP + H], [0, 1, 1, 0]);
+  const opacity5 = useTransform(scrollYProgress, [5 * STEP - H, 5 * STEP + H, 1], [0, 1, 1]);
+
+  const opacities = [opacity0, opacity1, opacity2, opacity3, opacity4, opacity5];
+  const scrollCueOpacity = useTransform(scrollYProgress, [0, 0.75, 1], [0.6, 0.6, 0]);
+
+  const activeIndexRef = useRef(0);
+  useMotionValueEvent(scrollYProgress, 'change', (v) => {
+    const idx = Math.max(0, Math.min(N - 1, Math.floor(v * N)));
+    setActiveIndex(idx);
+    activeIndexRef.current = idx;
+  });
+
+  const getSnapTarget = (i) => {
+    if (!sectionRef.current) return 0;
+    const el = sectionRef.current;
+    const stickyHeight = (N * 75 + 20) * window.innerHeight / 100;
+    const scrollable = stickyHeight - window.innerHeight;
+    const progress = N <= 1 ? 0 : i / (N - 1);
+    return el.offsetTop + scrollable * progress;
+  };
 
   useEffect(() => {
-    // Autoplay images in modal
-    if (project.images.length > 1) {
-      timerRef.current = setInterval(() => {
-        setCurrentImg((prev) => (prev + 1) % project.images.length);
-      }, 2000);
-    }
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [project.images.length]);
+    let isCoolingDown = false;
 
-  // Close modal on Escape key
-  useEffect(() => {
-    const handleEscape = (e) => {
-      if (e.key === 'Escape') onClose();
-    };
-    window.addEventListener('keydown', handleEscape);
-    return () => window.removeEventListener('keydown', handleEscape);
-  }, [onClose]);
+    const onWheel = (e) => {
+      if (!sectionRef.current) return;
+      const el = sectionRef.current;
+      const scrollY = window.scrollY;
+      const sectionTop = el.offsetTop;
+      const stickyHeight = (N * 75 + 20) * window.innerHeight / 100;
+      const sectionEnd = sectionTop + stickyHeight - window.innerHeight;
 
-  // Prevent body scroll when modal is open
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = 'unset';
+      if (scrollY < sectionTop || scrollY > sectionEnd) return;
+
+      const direction = e.deltaY > 0 ? 1 : -1;
+      const current = activeIndexRef.current;
+
+      if (direction < 0 && current === 0) return;
+      if (direction > 0 && current === N - 1) return;
+
+      e.preventDefault();
+      if (isCoolingDown) return;
+
+      const next = Math.max(0, Math.min(N - 1, current + direction));
+      isCoolingDown = true;
+      window.scrollTo({ top: getSnapTarget(next), behavior: 'smooth' });
+      setTimeout(() => { isCoolingDown = false; }, 420);
     };
+
+    window.addEventListener('wheel', onWheel, { passive: false });
+    return () => window.removeEventListener('wheel', onWheel);
   }, []);
 
+  useEffect(() => {
+    if (!galleryProject) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') setGalleryProject(null);
+      if (e.key === 'ArrowRight')
+        setGalleryIndex((prev) => (prev + 1) % galleryProject.gallery.length);
+      if (e.key === 'ArrowLeft')
+        setGalleryIndex((prev) => (prev - 1 + galleryProject.gallery.length) % galleryProject.gallery.length);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [galleryProject]);
+
+  const jumpTo = (i) => window.scrollTo({ top: getSnapTarget(i), behavior: 'smooth' });
+  const active = FEATURED[activeIndex];
+
   return (
-    <div
-      className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-[fadeIn_0.2s_ease-out]"
-      onClick={onClose}
-    >
-      <div
-        className="relative w-full max-w-5xl bg-white rounded-3xl shadow-2xl overflow-hidden animate-[scaleIn_0.3s_ease-out]"
-        onClick={(e) => e.stopPropagation()}
+    <>
+      {/* Section Intro Header */}
+      <div id="projects" className="px-6 md:px-14 lg:px-20 pt-24 pb-10">
+        <p className="text-[10px] uppercase tracking-[0.25em] text-primary font-semibold mb-3">
+          My Work
+        </p>
+        <div className="flex items-end justify-between gap-6 flex-wrap">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-on-surface leading-tight">
+            Featured{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-hover">
+              Works
+            </span>
+          </h2>
+        </div>
+        <div className="mt-6 h-px bg-gradient-to-r from-primary/40 via-white/10 to-transparent" />
+      </div>
+
+      {/* PART 1 — Featured Flagship Sticky Scroll */}
+      <section
+        ref={sectionRef}
+        className="relative"
+        style={{ height: `${N * 75 + 20}vh` }}
       >
-        {/* Close button */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 z-50 w-10 h-10 flex items-center justify-center rounded-full bg-white/90 hover:bg-white border border-slate-200 shadow-lg transition-all duration-200 hover:scale-110"
-        >
-          <i className="fas fa-times text-slate-700" />
-        </button>
+        <div className="sticky top-0 h-screen w-full overflow-hidden">
+          {/* Background image stack */}
+          {FEATURED.map((p, i) => (
+            <motion.div key={p.id} style={{ opacity: opacities[i] }} className="absolute inset-0">
+              <img
+                src={p.thumbnail}
+                alt={p.title}
+                className="w-full h-full object-cover"
+                loading={i === 0 ? 'eager' : 'lazy'}
+              />
+            </motion.div>
+          ))}
 
-        {/* Blurred background */}
-        <div
-          className="absolute inset-0 -z-10 opacity-20 scale-110"
-          style={{
-            backgroundImage: `url(${project.images[0]})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            filter: 'blur(80px)',
-          }}
-        />
+          {/* Gradient overlays */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#101415]/88 via-[#101415]/40 to-transparent pointer-events-none z-10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#101415]/95 via-transparent to-[#101415]/40 pointer-events-none z-10" />
 
-        <div className="flex flex-col lg:flex-row max-h-[85vh] overflow-y-auto">
-          {/* Image Section */}
-          <div className="lg:w-[55%] relative bg-slate-50">
-            <div className={`absolute inset-0 bg-gradient-to-br ${project.theme} z-10 pointer-events-none mix-blend-multiply`} />
-            <img
-              src={project.images[currentImg]}
-              alt={project.title}
-              className="w-full h-full object-cover object-center min-h-[400px]"
-            />
-
-            {/* Image indicators */}
-            {project.images.length > 1 && (
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 z-30 bg-black/50 backdrop-blur-md px-4 py-2 rounded-full">
-                {project.images.map((_, i) => (
-                  <button
+          {/* Top bar */}
+          <div className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-6 md:px-14 lg:px-20 pt-6 md:pt-8">
+            <span className="text-[10px] md:text-[11px] uppercase tracking-[0.25em] text-white/40 font-semibold">
+              Featured Work
+            </span>
+            <div className="flex items-center gap-3">
+              <div className="flex gap-1.5 items-center">
+                {FEATURED.map((_, i) => (
+                  <motion.button
                     key={i}
-                    onClick={() => setCurrentImg(i)}
-                    className={`h-2 rounded-full transition-all duration-300 ${i === currentImg ? 'w-6 bg-white' : 'w-2 bg-white/50 hover:bg-white/75'}`}
+                    onClick={() => jumpTo(i)}
+                    animate={{ width: i === activeIndex ? 20 : 5 }}
+                    transition={{ duration: 0.35, ease: 'easeOut' }}
+                    className={`h-[3px] rounded-full cursor-pointer transition-colors duration-300 ${i === activeIndex ? 'bg-primary' : i < activeIndex ? 'bg-primary/40' : 'bg-white/20'}`}
+                    title={FEATURED[i].title}
                   />
                 ))}
               </div>
-            )}
+              <span className="text-[11px] text-white/35 font-mono tracking-wider">
+                {pad(activeIndex + 1)}&nbsp;/&nbsp;{pad(N)}
+              </span>
+            </div>
           </div>
 
-          {/* Content Section */}
-          <div className="lg:w-[45%] p-8 lg:p-10 space-y-6">
-            <div className="space-y-4">
-              <div className="flex items-center justify-between gap-4">
-                <span className="text-xs font-bold uppercase tracking-wider text-primary bg-violet-50 border border-violet-100 px-3 py-1 rounded-full">
-                  {project.role}
-                </span>
-                <span className="text-sm font-bold text-slate-400 tabular-nums">{project.year}</span>
-              </div>
+          {/* Project info (bottom-left) */}
+          <div className="absolute bottom-20 md:bottom-24 left-6 md:left-14 lg:left-20 z-20 max-w-xs md:max-w-sm lg:max-w-md">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={active.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -14 }}
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              >
+                {/* Tags */}
+                <div className="flex flex-wrap items-center gap-2 mb-3">
+                  {active.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="text-[9px] uppercase tracking-[0.08em] px-2 py-0.5 rounded border border-white/15 text-white/50 bg-white/5 backdrop-blur-sm"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
 
-              <h2 className="text-4xl font-black text-slate-900 font-heading leading-tight">
-                {project.title}
-              </h2>
+                {/* Title */}
+                <h3 className="text-[36px] md:text-[50px] lg:text-[62px] font-heading font-bold leading-[0.95] text-white mb-4">
+                  {active.title}
+                </h3>
 
-              <p className="text-slate-600 text-sm leading-relaxed">
-                {project.tagline}
-              </p>
-            </div>
+                {/* Description */}
+                <p className="text-[13px] md:text-[14px] leading-relaxed text-white/55 mb-5 max-w-[30ch] md:max-w-[38ch]">
+                  {active.description}
+                </p>
 
-            {/* Metrics */}
-            <div className="space-y-3 pt-4">
-              <h3 className="text-xs font-bold tracking-widest uppercase text-slate-400 font-heading">
-                Key Features
-              </h3>
-              <div className="space-y-2">
-                {project.metrics.map((metric, i) => (
-                  <div key={i} className="text-sm font-semibold text-slate-700 flex items-start gap-3">
-                    <i className="fas fa-check-circle text-violet-500 text-sm mt-0.5" />
-                    <span>{metric}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+                {/* Buttons */}
+                <div className="flex items-center gap-2.5">
+                  {active.live ? (
+                    <a
+                      href={active.live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded border border-primary/60 text-primary text-[11px] uppercase tracking-[0.08em] font-semibold bg-primary/10 hover:bg-primary/20 backdrop-blur-sm transition-all duration-300 cursor-pointer"
+                    >
+                      VISIT
+                      <i className="fas fa-arrow-up-right-from-square text-[9px]" />
+                    </a>
+                  ) : active.github ? (
+                    <a
+                      href={active.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded border border-white/25 text-white/75 text-[11px] uppercase tracking-[0.08em] font-semibold bg-white/5 hover:bg-white/10 backdrop-blur-sm transition-all duration-300 cursor-pointer"
+                    >
+                      <i className="fab fa-github text-sm" />
+                      GitHub
+                    </a>
+                  ) : (
+                    <span className="text-[11px] text-white/25 uppercase tracking-[0.1em]">
+                      Private Project
+                    </span>
+                  )}
 
-            {/* Tech Stack */}
-            <div className="space-y-3 pt-4">
-              <h3 className="text-xs font-bold tracking-widest uppercase text-slate-400 font-heading">
-                Technology Stack
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {project.tags.map((tag, i) => (
-                  <span
-                    key={i}
-                    className="text-xs font-bold text-slate-600 bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-lg"
+                  {active.gallery && active.gallery.length > 1 && (
+                    <button
+                      onClick={() => { setGalleryProject(active); setGalleryIndex(0); }}
+                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded border border-white/20 text-white/70 text-[11px] uppercase tracking-[0.08em] font-semibold bg-white/5 hover:bg-white/15 hover:text-white transition-all duration-300 backdrop-blur-sm cursor-pointer"
+                    >
+                      <i className="fas fa-images text-xs" />
+                      Images ({active.gallery.length})
+                    </button>
+                  )}
+
+                  {active.live && active.github && (
+                    <a
+                      href={active.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center w-9 h-9 rounded border border-white/15 text-white/40 bg-white/5 hover:bg-white/10 hover:text-white/70 backdrop-blur-sm transition-all duration-300 cursor-pointer"
+                    >
+                      <i className="fab fa-github text-sm" />
+                    </a>
+                  )}
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Thumbnail strip (bottom-right) */}
+          <div className="absolute bottom-6 md:bottom-8 right-6 md:right-14 lg:right-20 z-20">
+            <AnimatePresence mode="wait">
+              <motion.p
+                key={activeIndex}
+                className="text-[10px] font-semibold text-primary uppercase tracking-[0.15em] text-right mb-2"
+                initial={{ opacity: 0, y: 5 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -5 }}
+                transition={{ duration: 0.25 }}
+              >
+                {active.title}
+                <i className="fas fa-arrow-up-right-from-square text-[8px] ml-1.5 opacity-50" />
+              </motion.p>
+            </AnimatePresence>
+            <div className="flex items-end gap-1.5 md:gap-2 p-1">
+              {FEATURED.map((p, i) => {
+                const isActive = i === activeIndex;
+                return (
+                  <motion.button
+                    key={p.id}
+                    onClick={() => jumpTo(i)}
+                    className="relative flex-shrink-0 overflow-hidden rounded cursor-pointer"
+                    animate={{ width: isActive ? 64 : 36, height: isActive ? 42 : 24, opacity: isActive ? 1 : 0.45 }}
+                    whileHover={{ opacity: 0.9 }}
+                    whileTap={{ scale: 0.93 }}
+                    transition={{ duration: 0.3, ease: 'easeOut' }}
+                    style={{
+                      outline: isActive ? '2px solid rgba(208,188,255,0.85)' : '1px solid rgba(255,255,255,0.1)',
+                      outlineOffset: isActive ? '2px' : '0px',
+                    }}
+                    title={p.title}
                   >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex items-center gap-3 pt-6">
-              {project.github && (
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 px-4 py-3 rounded-xl border-2 border-slate-900 text-sm font-bold text-slate-900 hover:bg-slate-900 hover:text-white transition-all flex items-center justify-center gap-2"
-                >
-                  <i className="fab fa-github" />
-                  <span>View Code</span>
-                </a>
-              )}
-              {project.hasLiveDemo && project.live && (
-                <a
-                  href={project.live}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 px-4 py-3 rounded-xl bg-violet-600 hover:bg-violet-700 text-white text-sm font-bold transition-all flex items-center justify-center gap-2 shadow-lg shadow-violet-600/30"
-                >
-                  <span>Live Demo</span>
-                  <i className="fas fa-external-link-alt text-xs" />
-                </a>
-              )}
+                    <img src={p.thumbnail} alt={p.title} className="w-full h-full object-cover" loading="lazy" />
+                  </motion.button>
+                );
+              })}
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
-export default function Projects() {
-  const [selectedProject, setSelectedProject] = useState(null);
-  const gridRef = useRef(null);
-
-  // Stagger loading grid items on mount
-  useEffect(() => {
-    if (gridRef.current) {
-      animate(gridRef.current.querySelectorAll('.bento-item'), {
-        opacity: [0, 1],
-        scale: [0.95, 1],
-        translateY: [25, 0],
-        delay: stagger(45),
-        duration: 550,
-        ease: 'outExpo',
-      });
-    }
-  }, []);
-
-  return (
-    <section
-      id="projects"
-      className="py-24 px-4 bg-slate-50/20 overflow-hidden dot-grid"
-    >
-      {/* Ambient background lighting trails */}
-      <div className="absolute top-[12%] left-[15%] w-[420px] h-[420px] bg-violet-100/25 rounded-full blur-[110px] pointer-events-none -z-10" />
-      <div className="absolute bottom-[15%] right-[8%] w-[480px] h-[480px] bg-indigo-100/20 rounded-full blur-[130px] pointer-events-none -z-10" />
-
-      <div className="max-w-[1100px] mx-auto space-y-12 relative z-10">
-
-        {/* ── Section Title ── */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-slate-200/50 pb-6">
-          <div className="space-y-3">
-            <p className="text-xs font-bold tracking-[0.3em] uppercase text-primary">Interactive Showcase</p>
-            <h2 className="text-3xl md:text-5xl font-black font-heading text-slate-900 leading-none">
-              My Projects
-            </h2>
-          </div>
-          <a
-            href="https://github.com/JudeAlmaden"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs text-primary hover:text-indigo-600 transition-colors flex items-center gap-2 group font-bold shrink-0"
+          {/* Scroll cue */}
+          <motion.div
+            className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1.5 pointer-events-none"
+            style={{ opacity: scrollCueOpacity }}
           >
-            <span>GitHub Repositories</span>
-            <i className="fas fa-arrow-right transform group-hover:translate-x-1 transition-transform" />
-          </a>
+            <motion.div
+              animate={{ y: [0, 6, 0] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+              className="w-5 h-8 border border-white/25 rounded-full flex items-start justify-center pt-1"
+            >
+              <motion.div
+                animate={{ opacity: [1, 0.15, 1] }}
+                transition={{ duration: 1.8, repeat: Infinity }}
+                className="w-px h-1.5 bg-primary rounded-full"
+              />
+            </motion.div>
+          </motion.div>
         </div>
+      </section>
 
-        {/* ── Bento Grid Layout ── */}
-        <div
-          ref={gridRef}
-          className="grid grid-cols-1 md:grid-cols-6 gap-6 items-stretch"
-        >
-          {projectsList.map((project) => (
-            <BentoCard
-              key={project.id}
-              project={project}
-              isDimmed={false}
-              onClick={() => setSelectedProject(project)}
-            />
-          ))}
-        </div>
+      {/* PART 2 — Archive Grid */}
+      <ArchiveSection
+        projects={ARCHIVE}
+        onOpenGallery={(p) => { setGalleryProject(p); setGalleryIndex(0); }}
+        onCopyEmail={onCopyEmail}
+      />
 
-      </div>
-
-      {/* ── Project Modal ── */}
-      {selectedProject && (
-        <ProjectModal
-          project={selectedProject}
-          onClose={() => setSelectedProject(null)}
-        />
-      )}
-    </section>
+      {/* Shared Lightbox Modal */}
+      <LightboxModal
+        project={galleryProject}
+        currentIndex={galleryIndex}
+        onClose={() => setGalleryProject(null)}
+        onSelectIndex={(idx) => setGalleryIndex(idx)}
+        onNext={() => setGalleryIndex((prev) => (prev + 1) % galleryProject.gallery.length)}
+        onPrev={() => setGalleryIndex((prev) => (prev - 1 + galleryProject.gallery.length) % galleryProject.gallery.length)}
+      />
+    </>
   );
 }

@@ -34,6 +34,7 @@ function useAnimeOnEnter(ref, animateFn, threshold = 0.15) {
     );
     obs.observe(el);
     return () => obs.disconnect();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // run once on mount only
 }
 
@@ -67,23 +68,23 @@ export default function Skills() {
   return (
     <section
       id="skills"
-      className="py-24 px-6 bg-slate-50/50 relative overflow-hidden flex flex-col justify-center"
+      className="py-24 px-6 bg-surface relative overflow-hidden flex flex-col justify-center"
     >
       {/* Decorative Orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
-        <div className="absolute top-[20%] right-[-5%] w-[400px] h-[400px] rounded-full blur-[120px] bg-violet-200/40" />
-        <div className="absolute bottom-[10%] left-[-5%] w-[500px] h-[500px] rounded-full blur-[150px] bg-indigo-200/30" />
+        <div className="absolute top-[20%] right-[-5%] w-[400px] h-[400px] rounded-full blur-[120px] bg-primary/10" />
+        <div className="absolute bottom-[10%] left-[-5%] w-[500px] h-[500px] rounded-full blur-[150px] bg-primary-hover/10" />
       </div>
 
       <div className="max-w-6xl mx-auto w-full space-y-16">
 
         {/* ── Section Header ── */}
         <div ref={headerRef} className="skills-header text-center space-y-4">
-          <h2 className="text-3xl md:text-5xl font-extrabold font-heading text-transparent bg-clip-text bg-gradient-to-r from-violet-600 via-primary to-indigo-600">
+          <h2 className="text-3xl md:text-5xl font-extrabold font-heading text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary-hover to-primary">
             Tech Stack &amp; Expertise
           </h2>
-          <div className="h-1.5 w-24 bg-gradient-to-r from-violet-500 to-indigo-500 mx-auto rounded-full" />
-          <p className="text-slate-500 max-w-xl mx-auto text-lg">
+          <div className="h-1.5 w-24 bg-gradient-to-r from-primary to-primary-hover mx-auto rounded-full" />
+          <p className="text-on-surface-variant max-w-xl mx-auto text-lg">
             Technologies and tools I work with along my software development journey.
           </p>
         </div>
@@ -98,13 +99,8 @@ export default function Skills() {
             return (
               <div
                 key={index}
-                className="skill-card relative flex flex-col items-center justify-center p-6 rounded-2xl bg-white border border-slate-100 transition-all duration-300 cursor-default animate-hidden"
+                className="skill-card relative flex flex-col items-center justify-center p-6 rounded-2xl glass-card transition-all duration-300 cursor-default animate-hidden violet-glow-hover"
                 style={{
-                  borderColor: isHovered ? skill.color : '#f1f5f9',
-                  backgroundColor: isHovered ? skill.bg : '#ffffff',
-                  boxShadow: isHovered
-                    ? `0 10px 25px -5px ${skill.shadow}, 0 8px 10px -6px ${skill.shadow}`
-                    : '0 1px 3px rgba(0,0,0,0.02)',
                   transform: isHovered ? 'translateY(-4px)' : 'translateY(0)',
                 }}
                 onMouseEnter={() => {
@@ -119,13 +115,9 @@ export default function Skills() {
               >
                 <i
                   className={`skill-icon-${index} ${skill.icon} text-4xl mb-4 transition-all duration-300`}
-                  style={{
-                    filter: isHovered ? `drop-shadow(0 4px 8px ${skill.shadow})` : 'none',
-                  }}
                 />
                 <span
-                  className="text-sm font-bold transition-colors duration-300"
-                  style={{ color: isHovered ? '#0f172a' : '#475569' }}
+                  className="text-sm font-bold text-on-surface-variant transition-colors duration-300"
                 >
                   {skill.name}
                 </span>

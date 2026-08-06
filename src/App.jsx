@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
 import Projects from './components/Projects';
-import Skills from './components/Skills';
-import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Toast from './components/Toast';
 
@@ -51,16 +49,16 @@ function App() {
   }, []);
 
   return (
-    <div className="bg-white text-slate-700 font-sans selection:bg-primary selection:text-white overflow-x-hidden min-h-screen relative">
-      {/* Gradient Background Orbs */}
-      <div className="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-violet-200/40 rounded-full blur-[120px] animate-pulse-slow"></div>
+    <div className="bg-[#101415] text-on-surface font-sans selection:bg-primary selection:text-on-primary min-h-screen relative" style={{ overflowX: 'clip' }}>
+      {/* Dark Void Background with Violet Glow Orbs */}
+      <div className="fixed top-0 left-0 w-full h-full bg-[#101415] overflow-hidden -z-10 pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] animate-pulse-slow"></div>
         <div 
-          className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-purple-200/40 rounded-full blur-[120px] animate-pulse-slow"
+          className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-primary-hover/10 rounded-full blur-[120px] animate-pulse-slow"
           style={{ animationDelay: '2s' }}
         ></div>
         <div 
-          className="absolute top-[40%] right-[20%] w-[300px] h-[300px] bg-indigo-200/30 rounded-full blur-[100px] animate-pulse-slow"
+          className="absolute top-[40%] right-[20%] w-[300px] h-[300px] bg-primary/8 rounded-full blur-[100px] animate-pulse-slow"
           style={{ animationDelay: '4s' }}
         ></div>
       </div>
@@ -68,9 +66,7 @@ function App() {
       <Navbar />
       <Hero />
       <About />
-      <Skills />
-      <Projects />
-      <Contact onCopyEmail={triggerToast} />
+      <Projects onCopyEmail={triggerToast} />
       <Footer />
       <Toast message={toastMessage} visible={toastVisible} />
     </div>
