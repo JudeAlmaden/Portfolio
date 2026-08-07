@@ -48,7 +48,7 @@ export const FEATURED = [
     title: 'Swift Accounting System',
     github: 'https://github.com/JudeAlmaden/SwiftAccountingSystem',
     description:
-      'Accounting registry system developed to simplify the disbursement flow of our school.',
+      'Accounting registry system developed to simplify the disbursement approval and tracking process of our school. Multi role and access types, and provides comprehensive stats and analytics of the school\`s financial process.  ',
     tags: ['Laravel', 'React', 'MySQL'],
     thumbnail: `${base}images/swift/showcase.png`,
     gallery: [
@@ -58,6 +58,7 @@ export const FEATURED = [
       `${base}images/swift/image-3.png`,
       `${base}images/swift/image-4.png`,
       `${base}images/swift/image-5.png`,
+      `${base}images/swift/image-6.png`,
     ],
   },
   {
