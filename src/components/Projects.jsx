@@ -14,27 +14,97 @@ import ArchiveCard from './projects/ArchiveCard';
 
 const N = FEATURED.length;
 const pad = (n) => String(n).padStart(2, '0');
-const STEP = 1 / N;
-const H = 0.035;
+
+function useIsMobile(breakpoint = 768) {
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < breakpoint;
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < breakpoint);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [breakpoint]);
+
+  return isMobile;
+}
 
 /* ─── Archive Section ──────────────────────────────────────────── */
 function ArchiveSection({ projects, onOpenGallery, onCopyEmail }) {
   const archiveRef = useRef(null);
+  const isMobile = useIsMobile();
 
   const { scrollYProgress } = useScroll({
     target: archiveRef,
     offset: ['start start', 'end end'],
   });
 
-  const headerY              = useTransform(scrollYProgress, [0.22, 0.52], [0, -60]);
-  const headerOpacity        = useTransform(scrollYProgress, [0.22, 0.52], [1, 0]);
+  const headerY = useTransform(scrollYProgress, [0.22, 0.52], [0, -60]);
+  const headerOpacity = useTransform(scrollYProgress, [0.22, 0.52], [1, 0]);
   const gridContainerOpacity = useTransform(scrollYProgress, [0.22, 0.52], [1, 0]);
-  const gridDisplay          = useTransform(scrollYProgress, (v) => (v >= 0.52 ? 'none' : 'flex'));
+  const gridDisplay = useTransform(scrollYProgress, (v) => (v >= 0.52 ? 'none' : 'flex'));
 
   const contactOpacity = useTransform(scrollYProgress, [0.50, 0.78, 1.0], [0, 1, 1]);
-  const contactScale   = useTransform(scrollYProgress, [0.50, 0.78, 1.0], [0.88, 1, 1]);
-  const contactY       = useTransform(scrollYProgress, [0.50, 0.78, 1.0], [40, 0, 0]);
+  const contactScale = useTransform(scrollYProgress, [0.50, 0.78, 1.0], [0.88, 1, 1]);
+  const contactY = useTransform(scrollYProgress, [0.50, 0.78, 1.0], [40, 0, 0]);
   const contactDisplay = useTransform(scrollYProgress, (v) => (v < 0.42 ? 'none' : 'flex'));
+
+  if (isMobile) {
+    return (
+      <>
+        {/* Mobile Archive Section — No scroll scattering animation */}
+        <section className="relative py-16 px-6 bg-[#101415] overflow-hidden">
+          {/* Background ambient glow */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-primary/10 rounded-full blur-[120px] pointer-events-none -z-10" />
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-30px' }}
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+            className="flex items-end justify-between mb-8 max-w-7xl mx-auto w-full"
+          >
+            <div>
+              <p className="text-[10px] uppercase tracking-[0.25em] text-primary font-semibold mb-1">
+                Also Built
+              </p>
+              <h2 className="text-2xl font-heading font-bold text-white">
+                Other Projects &amp; Systems
+              </h2>
+            </div>
+            <span className="text-[11px] font-mono text-white/30 tracking-wider">
+              {pad(projects.length)} projects
+            </span>
+          </motion.div>
+
+          <div className="grid grid-cols-1 gap-6 max-w-7xl mx-auto w-full">
+            {projects.map((project, i) => (
+              <ArchiveCard
+                key={project.id}
+                project={project}
+                index={i}
+                onOpenGallery={onOpenGallery}
+                scrollYProgress={scrollYProgress}
+                isMobile={true}
+                className="col-span-1"
+              />
+            ))}
+          </div>
+        </section>
+
+        {/* Mobile Contact Section */}
+        <section id="contact" className="relative py-20 px-6 bg-[#101415] flex flex-col items-center justify-center">
+          <ContactContent onCopyEmail={onCopyEmail} />
+        </section>
+      </>
+    );
+  }
 
   return (
     <section ref={archiveRef} className="relative h-[280vh] bg-[#101415]">
@@ -77,6 +147,7 @@ function ArchiveSection({ projects, onOpenGallery, onCopyEmail }) {
                 index={i}
                 onOpenGallery={onOpenGallery}
                 scrollYProgress={scrollYProgress}
+                isMobile={false}
                 className={i < 3 ? 'col-span-6 md:col-span-2' : 'col-span-6 md:col-span-3'}
               />
             ))}
@@ -96,34 +167,30 @@ function ArchiveSection({ projects, onOpenGallery, onCopyEmail }) {
   );
 }
 
-/* ─── Main Projects Component ──────────────────────────────────── */
+/* ─── Main Projects Export ─────────────────────────────────────────── */
 export default function Projects({ onCopyEmail }) {
   const sectionRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [galleryProject, setGalleryProject] = useState(null);
   const [galleryIndex, setGalleryIndex] = useState(0);
+  const [galleryTab, setGalleryTab] = useState('details');
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start start', 'end end'],
   });
 
-  /* Opacity tracks for 6 featured projects */
-  const opacity0 = useTransform(scrollYProgress, [0, STEP - H, STEP + H], [1, 1, 0]);
-  const opacity1 = useTransform(scrollYProgress, [STEP - H, STEP + H, 2 * STEP - H, 2 * STEP + H], [0, 1, 1, 0]);
-  const opacity2 = useTransform(scrollYProgress, [2 * STEP - H, 2 * STEP + H, 3 * STEP - H, 3 * STEP + H], [0, 1, 1, 0]);
-  const opacity3 = useTransform(scrollYProgress, [3 * STEP - H, 3 * STEP + H, 4 * STEP - H, 4 * STEP + H], [0, 1, 1, 0]);
-  const opacity4 = useTransform(scrollYProgress, [4 * STEP - H, 4 * STEP + H, 5 * STEP - H, 5 * STEP + H], [0, 1, 1, 0]);
-  const opacity5 = useTransform(scrollYProgress, [5 * STEP - H, 5 * STEP + H, 1], [0, 1, 1]);
-
-  const opacities = [opacity0, opacity1, opacity2, opacity3, opacity4, opacity5];
   const scrollCueOpacity = useTransform(scrollYProgress, [0, 0.75, 1], [0.6, 0.6, 0]);
-
   const activeIndexRef = useRef(0);
-  useMotionValueEvent(scrollYProgress, 'change', (v) => {
-    const idx = Math.max(0, Math.min(N - 1, Math.floor(v * N)));
-    setActiveIndex(idx);
-    activeIndexRef.current = idx;
+
+  // Directly bind active project index to proportional scroll progress
+  useMotionValueEvent(scrollYProgress, 'change', (progress) => {
+    const clampedProgress = Math.max(0, Math.min(0.999, progress));
+    const nextIndex = Math.floor(clampedProgress * N);
+    if (nextIndex !== activeIndexRef.current) {
+      setActiveIndex(nextIndex);
+      activeIndexRef.current = nextIndex;
+    }
   });
 
   const getSnapTarget = (i) => {
@@ -131,46 +198,52 @@ export default function Projects({ onCopyEmail }) {
     const el = sectionRef.current;
     const stickyHeight = (N * 75 + 20) * window.innerHeight / 100;
     const scrollable = stickyHeight - window.innerHeight;
-    const progress = N <= 1 ? 0 : i / (N - 1);
+    if (scrollable <= 0) return el.offsetTop;
+    const progress = N <= 1 ? 0 : (i + 0.5) / N;
     return el.offsetTop + scrollable * progress;
   };
 
+  const jumpTo = (i) => {
+    const target = Math.max(0, Math.min(N - 1, i));
+    setActiveIndex(target);
+    activeIndexRef.current = target;
+    window.scrollTo({
+      top: getSnapTarget(target),
+      behavior: 'smooth',
+    });
+  };
+
+  const openGallery = (project, index = 0, tab = 'details') => {
+    setGalleryProject(project);
+    setGalleryIndex(index);
+    setGalleryTab(tab);
+    if (typeof window !== 'undefined') {
+      window.history.pushState({ modal: 'gallery', projectId: project.id, tab }, '');
+    }
+  };
+
+  const closeGallery = () => {
+    if (typeof window !== 'undefined' && window.history.state?.modal === 'gallery') {
+      window.history.back();
+    } else {
+      setGalleryProject(null);
+    }
+  };
+
   useEffect(() => {
-    let isCoolingDown = false;
-
-    const onWheel = (e) => {
-      if (!sectionRef.current) return;
-      const el = sectionRef.current;
-      const scrollY = window.scrollY;
-      const sectionTop = el.offsetTop;
-      const stickyHeight = (N * 75 + 20) * window.innerHeight / 100;
-      const sectionEnd = sectionTop + stickyHeight - window.innerHeight;
-
-      if (scrollY < sectionTop || scrollY > sectionEnd) return;
-
-      const direction = e.deltaY > 0 ? 1 : -1;
-      const current = activeIndexRef.current;
-
-      if (direction < 0 && current === 0) return;
-      if (direction > 0 && current === N - 1) return;
-
-      e.preventDefault();
-      if (isCoolingDown) return;
-
-      const next = Math.max(0, Math.min(N - 1, current + direction));
-      isCoolingDown = true;
-      window.scrollTo({ top: getSnapTarget(next), behavior: 'smooth' });
-      setTimeout(() => { isCoolingDown = false; }, 420);
+    const handlePopState = () => {
+      if (galleryProject) {
+        setGalleryProject(null);
+      }
     };
-
-    window.addEventListener('wheel', onWheel, { passive: false });
-    return () => window.removeEventListener('wheel', onWheel);
-  }, []);
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [galleryProject]);
 
   useEffect(() => {
     if (!galleryProject) return;
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape') setGalleryProject(null);
+      if (e.key === 'Escape') closeGallery();
       if (e.key === 'ArrowRight')
         setGalleryIndex((prev) => (prev + 1) % galleryProject.gallery.length);
       if (e.key === 'ArrowLeft')
@@ -180,7 +253,6 @@ export default function Projects({ onCopyEmail }) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [galleryProject]);
 
-  const jumpTo = (i) => window.scrollTo({ top: getSnapTarget(i), behavior: 'smooth' });
   const active = FEATURED[activeIndex];
 
   return (
@@ -208,17 +280,24 @@ export default function Projects({ onCopyEmail }) {
         style={{ height: `${N * 75 + 20}vh` }}
       >
         <div className="sticky top-0 h-screen w-full overflow-hidden">
-          {/* Background image stack */}
-          {FEATURED.map((p, i) => (
-            <motion.div key={p.id} style={{ opacity: opacities[i] }} className="absolute inset-0">
+          {/* Background active image with clean transition */}
+          <AnimatePresence mode="popLayout">
+            <motion.div
+              key={active.id}
+              initial={{ opacity: 0, scale: 1.03 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.75, ease: [0.25, 1, 0.5, 1] }}
+              className="absolute inset-0"
+            >
               <img
-                src={p.thumbnail}
-                alt={p.title}
+                src={active.thumbnail}
+                alt={active.title}
                 className="w-full h-full object-cover"
-                loading={i === 0 ? 'eager' : 'lazy'}
+                loading="eager"
               />
             </motion.div>
-          ))}
+          </AnimatePresence>
 
           {/* Gradient overlays */}
           <div className="absolute inset-0 bg-gradient-to-r from-[#101415]/88 via-[#101415]/40 to-transparent pointer-events-none z-10" />
@@ -236,7 +315,7 @@ export default function Projects({ onCopyEmail }) {
                     key={i}
                     onClick={() => jumpTo(i)}
                     animate={{ width: i === activeIndex ? 20 : 5 }}
-                    transition={{ duration: 0.35, ease: 'easeOut' }}
+                    transition={{ duration: 0.5, ease: 'easeOut' }}
                     className={`h-[3px] rounded-full cursor-pointer transition-colors duration-300 ${i === activeIndex ? 'bg-primary' : i < activeIndex ? 'bg-primary/40' : 'bg-white/20'}`}
                     title={FEATURED[i].title}
                   />
@@ -253,10 +332,10 @@ export default function Projects({ onCopyEmail }) {
             <AnimatePresence mode="wait">
               <motion.div
                 key={active.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 22 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -14 }}
-                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                exit={{ opacity: 0, y: -16 }}
+                transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
               >
                 {/* Tags */}
                 <div className="flex flex-wrap items-center gap-2 mb-3">
@@ -308,13 +387,13 @@ export default function Projects({ onCopyEmail }) {
                     </span>
                   )}
 
-                  {active.gallery && active.gallery.length > 1 && (
+                  {active.gallery && active.gallery.length > 0 && (
                     <button
-                      onClick={() => { setGalleryProject(active); setGalleryIndex(0); }}
+                      onClick={() => openGallery(active, 0, 'details')}
                       className="inline-flex items-center gap-2 px-4 py-2.5 rounded border border-white/20 text-white/70 text-[11px] uppercase tracking-[0.08em] font-semibold bg-white/5 hover:bg-white/15 hover:text-white transition-all duration-300 backdrop-blur-sm cursor-pointer"
                     >
-                      <i className="fas fa-images text-xs" />
-                      Images ({active.gallery.length})
+                      <i className="fas fa-layer-group text-xs" />
+                      See more
                     </button>
                   )}
 
@@ -324,6 +403,7 @@ export default function Projects({ onCopyEmail }) {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center justify-center w-9 h-9 rounded border border-white/15 text-white/40 bg-white/5 hover:bg-white/10 hover:text-white/70 backdrop-blur-sm transition-all duration-300 cursor-pointer"
+                      title="View GitHub Repository"
                     >
                       <i className="fab fa-github text-sm" />
                     </a>
@@ -335,19 +415,6 @@ export default function Projects({ onCopyEmail }) {
 
           {/* Thumbnail strip (bottom-right) */}
           <div className="absolute bottom-6 md:bottom-8 right-6 md:right-14 lg:right-20 z-20">
-            <AnimatePresence mode="wait">
-              <motion.p
-                key={activeIndex}
-                className="text-[10px] font-semibold text-primary uppercase tracking-[0.15em] text-right mb-2"
-                initial={{ opacity: 0, y: 5 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -5 }}
-                transition={{ duration: 0.25 }}
-              >
-                {active.title}
-                <i className="fas fa-arrow-up-right-from-square text-[8px] ml-1.5 opacity-50" />
-              </motion.p>
-            </AnimatePresence>
             <div className="flex items-end gap-1.5 md:gap-2 p-1">
               {FEATURED.map((p, i) => {
                 const isActive = i === activeIndex;
@@ -359,7 +426,7 @@ export default function Projects({ onCopyEmail }) {
                     animate={{ width: isActive ? 64 : 36, height: isActive ? 42 : 24, opacity: isActive ? 1 : 0.45 }}
                     whileHover={{ opacity: 0.9 }}
                     whileTap={{ scale: 0.93 }}
-                    transition={{ duration: 0.3, ease: 'easeOut' }}
+                    transition={{ duration: 0.45, ease: 'easeOut' }}
                     style={{
                       outline: isActive ? '2px solid rgba(208,188,255,0.85)' : '1px solid rgba(255,255,255,0.1)',
                       outlineOffset: isActive ? '2px' : '0px',
@@ -396,19 +463,23 @@ export default function Projects({ onCopyEmail }) {
       {/* PART 2 — Archive Grid */}
       <ArchiveSection
         projects={ARCHIVE}
-        onOpenGallery={(p) => { setGalleryProject(p); setGalleryIndex(0); }}
+        onOpenGallery={(p) => openGallery(p, 0, 'details')}
         onCopyEmail={onCopyEmail}
       />
 
       {/* Shared Lightbox Modal */}
-      <LightboxModal
-        project={galleryProject}
-        currentIndex={galleryIndex}
-        onClose={() => setGalleryProject(null)}
-        onSelectIndex={(idx) => setGalleryIndex(idx)}
-        onNext={() => setGalleryIndex((prev) => (prev + 1) % galleryProject.gallery.length)}
-        onPrev={() => setGalleryIndex((prev) => (prev - 1 + galleryProject.gallery.length) % galleryProject.gallery.length)}
-      />
+      {galleryProject && (
+        <LightboxModal
+          key={`${galleryProject.id}-${galleryTab}`}
+          project={galleryProject}
+          currentIndex={galleryIndex}
+          initialTab={galleryTab}
+          onClose={closeGallery}
+          onSelectIndex={(idx) => setGalleryIndex(idx)}
+          onNext={() => setGalleryIndex((prev) => (prev + 1) % galleryProject.gallery.length)}
+          onPrev={() => setGalleryIndex((prev) => (prev - 1 + galleryProject.gallery.length) % galleryProject.gallery.length)}
+        />
+      )}
     </>
   );
 }
