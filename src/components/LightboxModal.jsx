@@ -188,6 +188,7 @@ export default function LightboxModal({
                   <img
                     src={project.gallery[currentIndex]}
                     alt={`${project.title} slide ${currentIndex + 1}`}
+                    loading="lazy"
                     className="max-h-[62vh] md:max-h-[70vh] w-auto max-w-[85vw] object-contain rounded-lg shadow-2xl"
                   />
                 </motion.div>

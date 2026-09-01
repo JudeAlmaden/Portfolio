@@ -107,7 +107,7 @@ function ArchiveSection({ projects, onOpenGallery, onCopyEmail }) {
   }
 
   return (
-    <section ref={archiveRef} className="relative h-[280vh] bg-[#101415]">
+    <section ref={archiveRef} data-archive-section className="relative h-[280vh] bg-[#101415]">
       <div className="sticky top-0 h-screen w-full flex flex-col justify-center px-6 md:px-14 lg:px-20 overflow-hidden">
 
         {/* Background ambient glow & DotGrid */}

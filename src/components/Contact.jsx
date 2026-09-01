@@ -57,7 +57,7 @@ function MagneticCard({ children, onClick, href, className, strength = 0.35 }) {
       style={{
         perspective: 1000,
       }}
-      className="inline-block"
+      className={`block ${className ?? ''}`}
     >
       <Tag
         href={href}
@@ -70,7 +70,7 @@ function MagneticCard({ children, onClick, href, className, strength = 0.35 }) {
           rotateX: isHovered ? rotateX : 0,
           rotateY: isHovered ? rotateY : 0,
         }}
-        className={`relative block group cursor-pointer ${className}`}
+        className="relative block w-full group cursor-pointer"
       >
         {/* Animated aura glow backdrop */}
         <motion.div
@@ -144,13 +144,13 @@ export function ContactContent({ onCopyEmail }) {
           strength={0.4}
           className="w-full md:w-auto"
         >
-          <div className="flex items-center gap-5 px-8 py-5 rounded-2xl glass-card border-2 border-primary/30 group-hover:border-primary transition-colors duration-300">
-            <div className="w-12 h-12 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:scale-110 group-hover:bg-primary group-hover:text-on-primary transition-all duration-300 text-primary">
-              <i className={`fas ${copied ? 'fa-check text-green-400' : 'fa-envelope'} text-lg`} />
+          <div className="flex items-center gap-3 px-5 py-3.5 rounded-xl glass-card border border-primary/30 group-hover:border-primary transition-colors duration-300">
+            <div className="w-9 h-9 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-primary group-hover:text-on-primary transition-all duration-300 text-primary">
+              <i className={`fas ${copied ? 'fa-check text-green-400' : 'fa-envelope'} text-sm`} />
             </div>
             <div className="text-left">
               <div className="flex items-center gap-2">
-                <p className="text-[10px] text-outline uppercase tracking-widest font-semibold">
+                <p className="text-[9px] text-outline uppercase tracking-widest font-semibold">
                   Email Me
                 </p>
                 <AnimatePresence>
@@ -159,14 +159,14 @@ export function ContactContent({ onCopyEmail }) {
                       initial={{ opacity: 0, x: -5 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: 5 }}
-                      className="text-[10px] font-bold text-green-400 uppercase tracking-wider"
+                      className="text-[9px] font-bold text-green-400 uppercase tracking-wider"
                     >
                       Copied!
                     </motion.span>
                   )}
                 </AnimatePresence>
               </div>
-              <p className="text-on-surface font-medium text-sm md:text-base">
+              <p className="text-on-surface font-medium text-xs md:text-sm">
                 Judealmaden2045@gmail.com
               </p>
             </div>
@@ -179,15 +179,15 @@ export function ContactContent({ onCopyEmail }) {
           strength={0.4}
           className="w-full md:w-auto"
         >
-          <div className="flex items-center gap-5 px-8 py-5 rounded-2xl glass-card border-2 border-primary/30 group-hover:border-primary transition-colors duration-300">
-            <div className="w-12 h-12 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:scale-110 group-hover:bg-primary group-hover:text-on-primary transition-all duration-300 text-primary">
-              <i className="fas fa-phone text-lg" />
+          <div className="flex items-center gap-3 px-5 py-3.5 rounded-xl glass-card border border-primary/30 group-hover:border-primary transition-colors duration-300">
+            <div className="w-9 h-9 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-primary group-hover:text-on-primary transition-all duration-300 text-primary">
+              <i className="fas fa-phone text-sm" />
             </div>
             <div className="text-left">
-              <p className="text-[10px] text-outline uppercase tracking-widest font-semibold">
+              <p className="text-[9px] text-outline uppercase tracking-widest font-semibold">
                 Call Me
               </p>
-              <p className="text-on-surface font-medium text-sm md:text-base">
+              <p className="text-on-surface font-medium text-xs md:text-sm">
                 +63 09671559154
               </p>
             </div>

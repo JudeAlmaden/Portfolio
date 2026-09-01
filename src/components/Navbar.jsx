@@ -32,6 +32,36 @@ export default function Navbar() {
     if (isOpen) {
       toggleMenu();
     }
+    if (section === 'contact') {
+      scrollToContact();
+      return;
+    }
+  };
+
+  const scrollToContact = () => {
+    // On mobile, the #contact section is a normal element — just scroll to it
+    if (window.innerWidth < 768) {
+      const el = document.getElementById('contact');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+    // On desktop, #contact is inside a sticky scroll-driven container (ArchiveSection).
+    // We need to scroll the page so that scrollYProgress of that section reaches ~0.85
+    // to ensure the contact phase is fully visible.
+    const archiveSection = document.querySelector('[data-archive-section]');
+    if (!archiveSection) {
+      // Fallback: just try scrollIntoView
+      const el = document.getElementById('contact');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+    const sectionTop = archiveSection.offsetTop;
+    const sectionHeight = archiveSection.offsetHeight;
+    const viewportHeight = window.innerHeight;
+    const scrollable = sectionHeight - viewportHeight;
+    // Target ~85% through the archive section so the contact phase is fully shown
+    const targetScroll = sectionTop + scrollable * 0.85;
+    window.scrollTo({ top: targetScroll, behavior: 'smooth' });
   };
 
   return (
@@ -75,8 +105,8 @@ export default function Navbar() {
             <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary transition-opacity ${activeSection === 'projects' ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}></span>
           </a>
           <a
-            href="#contact"
-            onClick={() => handleLinkClick('contact')}
+            href="#"
+            onClick={(e) => { e.preventDefault(); handleLinkClick('contact'); }}
             className="px-5 py-2.5 rounded-lg bg-primary text-on-primary text-sm font-medium uppercase tracking-[0.05em] hover:bg-primary-hover transition-all duration-300 violet-glow-hover"
           >
             Contact
@@ -128,8 +158,8 @@ export default function Navbar() {
           Projects
         </a>
         <a
-          href="#contact"
-          onClick={() => handleLinkClick('contact')}
+          href="#"
+          onClick={(e) => { e.preventDefault(); handleLinkClick('contact'); }}
           className="text-2xl font-heading font-semibold text-primary hover:text-primary-hover transition-colors"
         >
           Contact
