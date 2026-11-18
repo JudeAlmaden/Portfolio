@@ -41,6 +41,15 @@ export const TECH_CATEGORIES = [
 export const TIMELINE = [
   {
     type: 'work',
+    org: 'Fusionnode',
+    role: 'Cybersecurity Program Trainee',
+    period: 'September 2026',
+    tag: 'Trainee',
+    desc: 'Cybersecurity training program.',
+    icon: 'fas fa-shield-alt',
+  },
+  {
+    type: 'work',
     org: 'Open iT',
     role: 'Software Development Intern',
     period: '2026',
@@ -69,9 +78,9 @@ export const TIMELINE = [
 ];
 
 export const CERTS = [
-  { title: 'Scratch in Action: Speaker', year: '2025', icon: 'fas fa-microphone', provider: 'Scratch Foundation', desc: 'Presented at an international educator seminar sharing creative programming practices.' },
-  { title: 'IoT Conference', year: '2025', icon: 'fas fa-wifi', provider: "St. Anne's College", desc: 'Hands-on workshops covering IoT protocols, sensory integration, and edge computing.' },
-  { title: 'Hack4Gov CTF', year: '2025', icon: 'fas fa-shield-alt', provider: 'DICT', desc: 'National cybersecurity challenge — penetration testing and vulnerability assessment.' },
-  { title: 'Sensor Guided Robotics', year: '2023', icon: 'fas fa-robot', provider: 'Robotics Academy', desc: 'Intensive training in sensor instrumentation and autonomous device programming.' },
+  { title: 'Scratch in Action: Facilitator', year: '2025', icon: 'fas fa-microphone', provider: 'Scratch Foundation', desc: 'Hosted and ran a Scratch Foundation session for senior high students.' },
+  { title: 'IoT Conference', year: '2025', icon: 'fas fa-wifi', provider: '', desc: 'Attended with the school delegation — sessions on IoT basics, sensors, and edge computing.' },
+  { title: 'HackForGov CTF', year: '2025', icon: 'fas fa-shield-alt', provider: 'DICT', desc: "Competed in the CALABARZON regional leg with the school's team." },
+  { title: 'Sensor Guided Robotics', year: '2023', icon: 'fas fa-robot', provider: 'St. Anne College', desc: 'A one-day seminar at school on sensors and basic autonomous robots.' },
   { title: 'NCIII Visual Graphics Design', year: '2023', icon: 'fas fa-palette', provider: 'TESDA', desc: 'Certified NC III in vector design, illustration, layout, and brand asset creation.' },
 ];

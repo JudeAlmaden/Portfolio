@@ -1,76 +1,64 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import Work from './components/Work';
 import About from './components/About';
-import Projects from './components/Projects';
-import Footer from './components/Footer';
+import Stack from './components/Stack';
+import Timeline from './components/Timeline';
+import StatementMoment from './components/StatementMoment';
+import Contact from './components/Contact';
+import SiteFooter from './components/SiteFooter';
 import Toast from './components/Toast';
+import { loadKit } from './kit';
 
-function App() {
+export default function App() {
   const [toastMessage, setToastMessage] = useState('');
   const [toastVisible, setToastVisible] = useState(false);
 
-  const triggerToast = (message) => {
+  const triggerToast = useCallback((message) => {
     setToastMessage(message);
     setToastVisible(true);
-  };
+  }, []);
 
   useEffect(() => {
-    if (toastVisible) {
-      const timer = setTimeout(() => {
-        setToastVisible(false);
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
+    if (!toastVisible) return;
+    const t = setTimeout(() => setToastVisible(false), 3000);
+    return () => clearTimeout(t);
   }, [toastVisible]);
 
+  // the kit's motion, layout and system layers bind to the rendered DOM: start them after the
+  // first commit so the hero's entrance and the nav's menu have something to attach to
   useEffect(() => {
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px',
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-          // Once revealed, we can stop observing it
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-
-    const revealElements = document.querySelectorAll('.reveal-up, .reveal-left, .reveal-right');
-    revealElements.forEach((el) => observer.observe(el));
-
-    return () => {
-      revealElements.forEach((el) => observer.unobserve(el));
-    };
+    loadKit();
   }, []);
 
   return (
-    <div className="bg-[#101415] text-on-surface font-sans selection:bg-primary selection:text-on-primary min-h-screen relative" style={{ overflowX: 'clip' }}>
-      {/* Dark Void Background with Violet Glow Orbs */}
-      <div className="fixed top-0 left-0 w-full h-full bg-[#101415] overflow-hidden -z-10 pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] animate-pulse-slow"></div>
-        <div 
-          className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-primary-hover/10 rounded-full blur-[120px] animate-pulse-slow"
-          style={{ animationDelay: '2s' }}
-        ></div>
-        <div 
-          className="absolute top-[40%] right-[20%] w-[300px] h-[300px] bg-primary/8 rounded-full blur-[100px] animate-pulse-slow"
-          style={{ animationDelay: '4s' }}
-        ></div>
-      </div>
+    <>
+      {/* skip link — first child of the page, before the header */}
+      <a className="skip-link" href="#top">Skip to content</a>
 
       <Navbar />
-      <Hero />
-      <About />
-      <Projects onCopyEmail={triggerToast} />
-      <Footer />
+
+      <main id="top">
+        <Hero />
+        <Work />
+        <StatementMoment
+          id="moment-1"
+          statement={[
+            { text: "Eleven projects", accent: true },
+            { text: "built." },
+            { text: "Schema to deploy," },
+            { text: "mostly solo." },
+          ]}
+        />
+        <About />
+        <Stack />
+        <Timeline />
+        <Contact onCopyEmail={triggerToast} />
+      </main>
+
+      <SiteFooter />
       <Toast message={toastMessage} visible={toastVisible} />
-    </div>
+    </>
   );
 }
-
-export default App;
