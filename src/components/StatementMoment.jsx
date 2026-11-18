@@ -10,11 +10,10 @@ export default function StatementMoment({ id, statement }) {
     <section
       className="section ground-inverse"
       id={id}
-      style={{ '--h': 1 }}
       data-moment="word-highlight"
       aria-labelledby={`${id}-h`}
     >
-      <div className="wrap" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100%', gap: 'var(--s-8)' }}>
+      <div className="wrap" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'safe center', minHeight: '100%', gap: 'var(--s-8)' }}>
         <div>
           <p className="t-label" style={{ color: 'var(--inv-muted, var(--muted))', marginBottom: 'var(--s-4)', letterSpacing: '0.08em' }}>
             HOW I BUILD
@@ -41,10 +40,10 @@ export default function StatementMoment({ id, statement }) {
           </div>
           <div className="span-4">
             <p style={{ fontWeight: 500, color: 'var(--inv-ink, var(--ink))', fontSize: 'var(--t-body)' }}>
-              Used by real offices
+              Agentic workflows
             </p>
             <p style={{ fontSize: 'var(--t-small)', color: 'var(--inv-muted, var(--muted))', marginTop: 'var(--s-2)', lineHeight: 1.6 }}>
-              The queue portal runs in college offices. The voucher system handles disbursements in an accounting department.
+              Directing AI agents across scaffolding, testing, and architecture to ship at team velocity.
             </p>
           </div>
           <div className="span-4">

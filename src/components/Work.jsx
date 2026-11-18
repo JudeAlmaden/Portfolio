@@ -167,10 +167,11 @@ function ProjectModal({ project, onClose }) {
 /* Work section — 2 screens, three-column project grid, no scroll-reveal */
 export default function Work() {
   const [open, setOpen] = useState(null);
+  const [expanded, setExpanded] = useState(false);
 
   return (
     <>
-      <section className="section" id="work" style={{ '--h': 2 }} aria-labelledby="work-h">
+      <section className={`section${expanded ? ' is-expanded' : ''}`} id="work" style={{ '--h': 2 }} aria-labelledby="work-h">
         <div className="wrap">
           <div className="section-head">
             <h2 id="work-h">Featured work</h2>
@@ -186,6 +187,16 @@ export default function Work() {
                 <ProjectCard project={project} onOpen={setOpen} />
               </div>
             ))}
+          </div>
+
+          <div className="work-more-row">
+            <button
+              type="button"
+              className="btn btn--secondary"
+              onClick={() => setExpanded((prev) => !prev)}
+            >
+              {expanded ? 'Show fewer projects' : `View all ${FEATURED.length} projects`}
+            </button>
           </div>
         </div>
       </section>

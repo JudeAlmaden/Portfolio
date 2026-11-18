@@ -7,7 +7,7 @@ import { TIMELINE, CERTS } from '../data/aboutData';
 
 export default function Timeline() {
   return (
-    <section className="section" id="experience" style={{ '--h': 1 }} aria-labelledby="experience-h">
+    <section className="section" id="experience" aria-labelledby="experience-h">
       <div className="wrap">
         <div className="section-head">
           <h2 id="experience-h">Experience & credentials</h2>

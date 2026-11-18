@@ -27,11 +27,9 @@ export default function Hero() {
       <div className="wrap">
         <div className="hero-text">
           <div className="hero__text">
-            <h1 id="hero-h">Junior fullstack developer for hire</h1>
+            <h1 id="hero-h">Junior fullstack developer</h1>
             <p className="hero__lead">
-              IT graduate, Magna Cum Laude. Eleven projects shipped end to end — a phone-camera OMR grader,
-              a live queue portal, a four-stage voucher approval system. Laravel, React, MySQL.
-              Looking for a junior developer role.
+              I build thoughtful web applications that turn ideas into practical tools — from assessment platforms and queueing systems to custom business workflows. I enjoy working across the entire process, from shaping an idea to bringing it to life.
             </p>
             <div className="btn-row">
               <a className="btn btn--primary" href="#work">

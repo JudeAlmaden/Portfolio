@@ -7,10 +7,10 @@ export default function About() {
   const base = import.meta.env.BASE_URL;
 
   return (
-    <section className="section" id="about" style={{ '--h': 1 }} aria-labelledby="about-h">
+    <section className="section" id="about" aria-labelledby="about-h">
       <div className="wrap grid grid--middle">
         {/* Left: bio text and credentials */}
-        <div className="span-6">
+        <div className="span-6 about-bio">
           <div className="section-head">
             <h2 id="about-h">IT graduate, Magna Cum Laude</h2>
           </div>
@@ -25,7 +25,7 @@ export default function About() {
           </p>
 
           {/* Three credential stats */}
-          <dl style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'var(--s-5)', marginTop: 'var(--s-7)' }}>
+          <dl className="about-stats" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'var(--s-5)', marginTop: 'var(--s-7)' }}>
             {[
               { label: 'GPA', value: '94%', sub: 'Magna Cum Laude' },
               { label: 'Applications', value: '11+', sub: 'built' },
@@ -52,8 +52,8 @@ export default function About() {
         </div>
 
         {/* Right: photograph ending on the right line (x 1360) */}
-        <div className="span-6 start-7">
-          <a className="m-zoom frame frame--photo frame--portrait" href="#contact" aria-label="Hire Jude Almaden" style={{ borderRadius: 'var(--r-lg)' }}>
+        <div className="span-6 start-7 about-visual">
+          <a className="m-zoom frame frame--photo frame--portrait about-photo" href="#contact" aria-label="Hire Jude Almaden" style={{ borderRadius: 'var(--r-lg)' }}>
             <img
               className="frame__img"
               src={`${base}images/me/hackathon.webp`}

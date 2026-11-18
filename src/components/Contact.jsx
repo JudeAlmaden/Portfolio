@@ -20,7 +20,7 @@ export default function Contact({ onCopyEmail }) {
   const base = import.meta.env.BASE_URL;
 
   return (
-    <section className="section ground-inverse" id="contact" style={{ '--h': 1 }} aria-labelledby="contact-h">
+    <section className="section ground-inverse" id="contact" aria-labelledby="contact-h">
       <div className="wrap grid grid--middle">
 
         {/* Left — text and actions */}

@@ -1,181 +1,36 @@
 /*
-  src/index.css — portfolio
-  tasteskill 2.5: all design tokens come from public/assets/system.css (loaded in index.html).
-  Only page-specific overrides live here (the layout spec allows page CSS inside a visual,
-  --p-h, .wall, .rail, .device). Tailwind directives removed; kit CSS replaces them.
+  src/index.css — portfolio, written mobile-first.
+
+  The phone is the base: every rule below it applies from 320px up. Wider screens only add
+  (min-width: 640px) and (min-width: 1024px). Design tokens and the section/grid/hero boxes come
+  from public/assets/system.css; the kit's own stylesheets are desktop-first in places, so these
+  page rules restate the phone layout where the kit needs to be narrowed for small screens.
+
+  Order: hero → featured work → stack → timeline → certificates → statement → contact → modal → toast.
 */
 
-/* Hero padding: the words sit under the fixed header, never behind it. The section keeps its
-   first-screen height when the words fit; when they don't, it grows by exactly the overflow instead
-   of centring up under the nav. */
-main > .hero { height: auto; min-height: 100svh; }
+/* ---------------------------------------------------------------- sections general */
+/* Non-hero sections grow with their content. The hero keeps the kit's own height rules.
+   The kit sets height: calc(var(--h,1) * 100vh) which clips content — auto lets them breathe. */
+main > :is(section, .section):not(.hero, .section--hero), footer.closing {
+  height: auto !important;
+  min-height: calc(var(--h, 1) * 100svh);
+}
+
+/* ---------------------------------------------------------------- hero */
+/* Kit handles hero height; just ensure it doesn't generate dead whitespace */
 main > .hero > .wrap {
   height: auto;
-  min-height: calc(100svh - var(--nav, 72px) - var(--hgap, 48px) - var(--hpadb, 64px));
 }
 
-/* Hero panel: the words' box fills the photograph's box — flush with its top, bottom and right
-   edge, no rounded corners and no gap around it. `.hero` is the photograph's frame (the image is
-   inset: 0 in it), so the panel is anchored to it rather than to the padded .wrap. */
-@media (min-width: 1024px) {
-  main > .hero--photo[data-calm="right"] > .wrap,
-  main > .hero--photo[data-calm="right"] > .wrap > .hero-text { position: static; }
-  main > .hero--photo[data-calm="right"] .hero__text {
-    position: absolute;
-    inset-block: 0;
-    /* the .wrap's own right margin: (100% - wrap width) / 2, so the panel keeps the page gutter */
-    right: calc((100% - min(100% - 2 * var(--gut), var(--container))) / 2);
-    margin: 0;
-    width: calc(min(100% - 2 * var(--gut), var(--container)) / 2 - var(--gutter) / 2);
-    display: flex;
-    flex-direction: column;
-    /* centred, but never under the fixed header: safe centring falls back to the top padding
-       when the words are taller than the panel */
-    justify-content: safe center;
-    padding-block: calc(var(--nav, 72px) + var(--s-6)) var(--s-7);
-    border-radius: 0;
-  }
-}
-
-/* ── Page-specific additions ── */
-
-/* Tablet tuning (640px to 1023px) */
-@media (min-width: 640px) and (max-width: 1023px) {
-  /* Stack skills: 4 per row (span 3) aligned to 12-col grid */
-  #stack .grid > .stack-item {
-    grid-column: auto / span 3;
-    padding: var(--s-4) var(--s-3);
-  }
-
-  /* Work cards: 2-up on tablet */
-  #work .grid > .span-4 {
-    grid-column: auto / span 6;
-  }
-  /* Show 4 featured projects on tablet so it fits within 2 screens */
-  #work .grid > .span-4:nth-child(n+5) {
-    display: none;
-  }
-  #work .card p {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  /* About split on tablet: 6+6 */
-  #about .span-5 {
-    grid-column: 1 / span 6;
-  }
-  #about .span-6 {
-    grid-column: 7 / span 6;
-  }
-
-  /* Contact split on tablet: 6+6 */
-  #contact .span-6:first-child {
-    grid-column: 1 / span 6;
-  }
-  #contact .span-6.start-7 {
-    grid-column: 7 / span 6;
-  }
-}
-
-/* 1024px to 1279px screen height safety */
-@media (min-width: 1024px) and (max-width: 1279px) {
-  #work .card p {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-}
-@media (max-width: 639px) {
-  #work { --hm: 2; }
-  #work .grid > .span-4:nth-child(n+3) { display: none; }
-  #work .card .frame { aspect-ratio: 16 / 9 !important; max-height: 170px; }
-  #work .card p {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-}
-
-/* Certifications section on phone: 2 screens */
-@media (max-width: 639px) {
-  #experience { --hm: 2; }
-}
-
-/* Stack section: skill categories */
-.stack-categories { display: flex; flex-direction: column; gap: var(--s-7); /* 32px */ }
-
-/* Stack icon card — works as .span-2 inside kit .grid */
-.stack-item {
-  display: flex; flex-direction: column; align-items: center; gap: var(--s-2); /* 8px */
-  padding: var(--s-4) var(--s-3);
-  border-radius: var(--r-md);
-  border: 1px solid var(--line);
-  background: var(--surface);
-  font-size: var(--t-small);
-  color: var(--muted);
-  font-weight: 500;
-  text-align: center;
-}
-.stack-item i { font-size: 24px; }
-
-/* Stack items on phone: 4 per row aligned to 12-col grid lines (span 3 each) */
-@media (max-width: 639px) {
-  #stack .grid {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    gap: var(--s-3);
-  }
-  #stack .grid > .stack-item {
-    grid-column: auto / span 3;
-    padding: var(--s-3) var(--s-2);
-    font-size: 11px;
-  }
-  #stack .stack-item i { font-size: 20px; }
-}
-
-/* Timeline: clean ruled list */
-.timeline { display: flex; flex-direction: column; gap: var(--s-7); }
-.timeline-item { display: grid; grid-template-columns: auto 1fr; gap: 0 var(--s-6); align-items: start; }
-.timeline-line { display: flex; flex-direction: column; align-items: center; gap: 0; }
-.timeline-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); flex: none; margin-top: 6px; }
-.timeline-rail { width: 1px; background: var(--line); flex: 1; min-height: 32px; margin-top: 4px; }
-.timeline-item:last-child .timeline-rail { display: none; }
-.timeline-tag { font-size: var(--t-label); color: var(--accent); font-weight: 500; margin-bottom: var(--s-1); }
-.timeline-role { font-size: var(--t-lead); font-weight: var(--display-weight); color: var(--ink); line-height: 1.3; }
-.timeline-org { font-size: var(--t-body); color: var(--muted); margin-top: 2px; }
-.timeline-period { font-size: var(--t-small); color: var(--muted); margin-top: var(--s-1); }
-.timeline-desc { font-size: var(--t-body); color: var(--muted); margin-top: var(--s-2); line-height: 1.6; max-width: 55ch; }
-
-/* Certifications: plain two-column grid */
-.certs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-6); }
-@media (max-width: 639px) { .certs-grid { grid-template-columns: 1fr; } }
-.cert-item { padding: var(--s-6); border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface); }
-.cert-year { font-size: var(--t-label); color: var(--muted); font-weight: 500; }
-.cert-title { font-size: var(--t-lead); font-weight: var(--display-weight); color: var(--ink); margin-top: var(--s-1); }
-.cert-provider { font-size: var(--t-small); color: var(--muted); margin-top: 2px; }
-.cert-desc { font-size: var(--t-body); color: var(--muted); margin-top: var(--s-3); line-height: 1.6; }
-
-/* word-highlight moment: statement text colouring word by word on scroll */
-[data-moment="word-highlight"] .moment-statement {
-  font-size: clamp(28px, 4vw, 48px);
-  font-weight: var(--display-weight);
-  letter-spacing: var(--display-tracking);
-  line-height: 1.25;
-  color: var(--muted);
-  max-width: 20ch;
-}
-/* the words themselves are coloured by the moment's own CSS (assets/moments/word-highlight),
-   which also takes its ink and accent from the ground it sits on. */
-
-/* Contact actions: the pair is one width (the primary's 640px cap), so the secondary does not
-   sit as a short stub under a long bar */
-#contact .btn-row > .btn { width: min(100%, 640px); }
-
-/* ── Featured work cards: one height across the row, text that reads ── */
+/* ---------------------------------------------------------------- featured work */
 #work .grid > .span-4 { display: flex; }
+/* phone: show only 2 cards; a "View all" button reveals the rest */
+#work .grid > .span-4:nth-child(n + 3) { display: none; }
+#work.is-expanded .grid > .span-4 { display: flex !important; }
+.work-more-row { display: flex; justify-content: center; margin-top: var(--s-7); }
+#work .card .frame { aspect-ratio: 16 / 9; max-height: 170px; }
+
 #work .card.project-card { width: 100%; height: 100%; padding: 0; }
 .project-card__media {
   aspect-ratio: 16 / 10; overflow: clip;
@@ -189,7 +44,7 @@ main > .hero > .wrap {
 .project-card__title a:hover { color: var(--accent); }
 .project-card__text {
   flex: 1; font-size: var(--t-body); line-height: 1.55; color: var(--c-text);
-  display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
 }
 .project-card__foot { display: flex; align-items: center; gap: var(--s-4); margin-top: var(--s-2); }
 .project-card__link, .project-card__details {
@@ -199,15 +54,69 @@ main > .hero > .wrap {
 .project-card__details { color: var(--muted); }
 .project-card__details:hover { color: var(--ink); }
 
-/* ── Project modal ── */
+/* ---------------------------------------------------------------- stack */
+/* four per row on a phone, on the 12-column lines */
+#stack .grid {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--s-3);
+}
+.stack-item {
+  display: flex; flex-direction: column; align-items: center; gap: var(--s-2);
+  grid-column: auto / span 3;
+  padding: var(--s-3) var(--s-2);
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 500;
+  text-align: center;
+}
+.stack-item i { font-size: 20px; }
+
+/* ---------------------------------------------------------------- timeline */
+.timeline { display: flex; flex-direction: column; gap: var(--s-7); }
+.timeline-item { display: grid; grid-template-columns: auto 1fr; gap: 0 var(--s-6); align-items: start; }
+.timeline-line { display: flex; flex-direction: column; align-items: center; gap: 0; }
+.timeline-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); flex: none; margin-top: 6px; }
+.timeline-rail { width: 1px; background: var(--line); flex: 1; min-height: 32px; margin-top: 4px; }
+.timeline-item:last-child .timeline-rail { display: none; }
+.timeline-tag { font-size: var(--t-label); color: var(--accent); font-weight: 500; margin-bottom: var(--s-1); }
+.timeline-role { font-size: var(--t-lead); font-weight: var(--display-weight); color: var(--ink); line-height: 1.3; }
+.timeline-org { font-size: var(--t-body); color: var(--muted); margin-top: 2px; }
+.timeline-period { font-size: var(--t-small); color: var(--muted); margin-top: var(--s-1); }
+.timeline-desc { font-size: var(--t-body); color: var(--muted); margin-top: var(--s-2); line-height: 1.6; max-width: 55ch; }
+
+/* ---------------------------------------------------------------- certificates */
+.certs-grid { display: grid; grid-template-columns: 1fr; gap: var(--s-6); }
+.cert-item { padding: var(--s-6); border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface); }
+.cert-year { font-size: var(--t-label); color: var(--muted); font-weight: 500; }
+.cert-title { font-size: var(--t-lead); font-weight: var(--display-weight); color: var(--ink); margin-top: var(--s-1); }
+.cert-provider { font-size: var(--t-small); color: var(--muted); margin-top: 2px; }
+.cert-desc { font-size: var(--t-body); color: var(--muted); margin-top: var(--s-3); line-height: 1.6; }
+
+/* ---------------------------------------------------------------- statement */
+[data-moment="word-highlight"] .moment-statement {
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: var(--display-weight);
+  letter-spacing: var(--display-tracking);
+  line-height: 1.25;
+  color: var(--muted);
+  max-width: 20ch;
+}
+
+/* ---------------------------------------------------------------- contact */
+#contact .btn-row > .btn { width: 100%; }
+
+/* ---------------------------------------------------------------- project modal */
 .project-modal {
   position: fixed; inset: 0; z-index: 100;
   display: flex; align-items: center; justify-content: center;
-  padding: var(--s-6); background: rgb(11 12 14 / 0.72);
+  padding: var(--s-3); background: rgb(11 12 14 / 0.72);
 }
 .project-modal__panel {
-  width: min(100%, 880px); max-height: 90vh; overflow-y: auto;
-  padding: var(--s-6) var(--s-7) var(--s-7);
+  width: min(100%, 880px); max-height: 94vh; overflow-y: auto;
+  padding: var(--s-4) var(--s-4) var(--s-6);
   background: var(--bg); color: var(--ink);
   border-radius: var(--r-lg); box-shadow: 0 24px 64px rgb(0 0 0 / 0.24);
 }
@@ -223,7 +132,7 @@ main > .hero > .wrap {
   background: var(--surface); color: var(--muted); cursor: pointer;
 }
 .project-modal__close:hover { color: var(--ink); }
-.project-modal__title { margin-top: var(--s-2); font-size: clamp(28px, 4vw, 40px); line-height: 1.1; }
+.project-modal__title { margin-top: var(--s-2); font-size: clamp(24px, 4vw, 40px); line-height: 1.1; }
 .project-modal__media {
   margin-top: var(--s-5); aspect-ratio: 16 / 10; overflow: clip;
   border-radius: var(--r-md); background: var(--surface);
@@ -231,26 +140,19 @@ main > .hero > .wrap {
 .project-modal__media img { width: 100%; height: 100%; object-fit: cover; }
 .project-modal__thumbs { display: flex; gap: var(--s-2); margin-top: var(--s-3); overflow-x: auto; padding-bottom: var(--s-1); }
 .project-modal__thumb {
-  flex: none; width: 92px; aspect-ratio: 16 / 10; padding: 0; overflow: clip;
+  flex: none; width: 72px; aspect-ratio: 16 / 10; padding: 0; overflow: clip;
   border: 2px solid transparent; border-radius: var(--r-md); background: none; cursor: pointer;
 }
 .project-modal__thumb.is-active { border-color: var(--accent); }
 .project-modal__thumb img { width: 100%; height: 100%; object-fit: cover; }
 .project-modal__section { margin-top: var(--s-6); }
 .project-modal__label { font-size: var(--t-label); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
-.project-modal__section p, .project-modal__list li {
-  font-size: var(--t-body); line-height: 1.65; color: var(--ink);
-}
+.project-modal__section p, .project-modal__list li { font-size: var(--t-body); line-height: 1.65; color: var(--ink); }
 .project-modal__section p { margin-top: var(--s-2); }
 .project-modal__list { margin-top: var(--s-3); display: grid; gap: var(--s-3); padding-left: var(--s-5); list-style: disc; }
 .project-modal__actions { display: flex; flex-wrap: wrap; gap: var(--s-4); margin-top: var(--s-7); }
-@media (max-width: 639px) {
-  .project-modal { padding: var(--s-3); }
-  .project-modal__panel { padding: var(--s-4) var(--s-4) var(--s-6); max-height: 94vh; }
-  .project-modal__thumb { width: 72px; }
-}
 
-/* Toast */
+/* ---------------------------------------------------------------- toast */
 .toast {
   position: fixed; bottom: var(--s-7); left: 50%; transform: translateX(-50%);
   background: var(--ink); color: var(--bg); padding: var(--s-3) var(--s-6);
@@ -259,3 +161,105 @@ main > .hero > .wrap {
   z-index: 200;
 }
 .toast.is-visible { opacity: 1; }
+
+/* ================================================================ 640px and up
+   Tablet: two work cards, side-by-side splits unlock for About, Experience, Contact. */
+@media (min-width: 640px) {
+  /* two projects a row, four visible */
+  #work .grid > .span-4 { grid-column: auto / span 6; }
+  #work .grid > .span-4:nth-child(-n + 4) { display: flex; }
+  #work .grid > .span-4:nth-child(n + 5) { display: none; }
+  #work .card .frame { aspect-ratio: 16 / 10; max-height: none; }
+  .project-card__text { -webkit-line-clamp: 4; }
+  /* hide the mobile "view all" button — all visible rows show at tablet */
+  .work-more-row { display: none; }
+
+  /* side-by-side splits: left col 1–6, right col 7–12 */
+  #about  .about-bio,
+  #about  .span-6:first-of-type   { grid-column: 1 / span 6; }
+  #about  .about-visual,
+  #about  .span-6.start-7         { grid-column: 7 / span 6; }
+
+  #experience .span-6:first-of-type { grid-column: 1 / span 6; }
+  #experience .span-6.start-7       { grid-column: 7 / span 6; }
+
+  #contact .span-6:first-of-type { grid-column: 1 / span 6; }
+  #contact .span-6.start-7       { grid-column: 7 / span 6; }
+
+  #stack .grid { gap: var(--gutter); }
+  .stack-item { padding: var(--s-4) var(--s-3); font-size: var(--t-small); }
+  .stack-item i { font-size: 24px; }
+
+  .certs-grid { grid-template-columns: repeat(2, 1fr); }
+
+  #contact .btn-row > .btn { width: min(100%, 640px); }
+
+  .project-modal { padding: var(--s-6); }
+  .project-modal__panel { padding: var(--s-6) var(--s-7) var(--s-7); max-height: 90vh; }
+  .project-modal__thumb { width: 92px; }
+  .project-modal__title { font-size: clamp(28px, 4vw, 40px); }
+}
+
+/* ================================================================ 1024px and up
+   Desktop: three work cards, six stack items, hero panel absolute-positioned. */
+@media (min-width: 1024px) {
+  #work .grid > .span-4 { grid-column: auto / span 4; }
+  #work .grid > .span-4:nth-child(n + 5) { display: flex; }
+  .project-card__text { -webkit-line-clamp: 5; }
+
+  .stack-item { grid-column: auto / span 2; }
+
+  /* Hero text panel sits flush inside the photograph on the calm (right) side */
+  main > .hero--photo[data-calm="right"] > .wrap,
+  main > .hero--photo[data-calm="right"] > .wrap > .hero-text { position: static; }
+  main > .hero--photo[data-calm="right"] .hero__text {
+    position: absolute;
+    inset-block: 0;
+    right: calc((100% - min(100% - 2 * var(--gut), var(--container))) / 2);
+    margin: 0;
+    width: calc(min(100% - 2 * var(--gut), var(--container)) / 2 - var(--gutter) / 2);
+    display: flex;
+    flex-direction: column;
+    justify-content: safe center;
+    padding-block: calc(var(--nav, 72px) + var(--s-6)) var(--s-7);
+    border-radius: 0;
+  }
+}
+
+/* ================================================================ Phone (< 640px)
+   Stack everything, loosen the spacing, keep photos usable. */
+@media (max-width: 639px) {
+  /* about photo below the bio text */
+  #about .about-visual { margin-top: var(--s-6); }
+
+  /* tighter statement moment */
+  [data-moment="word-highlight"] .moment-statement { font-size: clamp(24px, 7vw, 36px); }
+  #moment-1 .wrap { gap: var(--s-6); }
+  #moment-1 .grid { row-gap: var(--s-5); }
+  #moment-1 .span-4 { grid-column: 1 / -1; }
+
+  /* experience: certs stack below timeline */
+  #experience .span-6.start-7 { margin-top: var(--s-7); }
+
+  /* contact photo below CTA */
+  #contact .span-6.start-7 { margin-top: var(--s-6); }
+
+  /* modal sheet */
+  .project-modal { padding: var(--s-2); align-items: flex-end; }
+  .project-modal__panel {
+    padding: var(--s-4) var(--s-4) var(--s-5);
+    max-height: 92svh; border-radius: var(--r-lg) var(--r-lg) 0 0;
+  }
+  .project-modal__actions { flex-direction: column; }
+  .project-modal__actions .btn { width: 100%; }
+
+  /* stack: 3 per row on very small phones */
+  .stack-item { grid-column: auto / span 3; }
+}
+
+@media (max-width: 400px) {
+  /* 4 stack items per row on very narrow screens to avoid overflow */
+  #stack .grid { gap: var(--s-2); }
+  .stack-item { grid-column: auto / span 3; padding: var(--s-2) var(--s-1); font-size: 10px; }
+  .stack-item i { font-size: 18px; }
+}
