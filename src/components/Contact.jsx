@@ -5,7 +5,7 @@
   No invented review, quote or figure.
 */
 export default function Contact({ onCopyEmail }) {
-  const email = 'jude@judealmaden.example';
+  const email = 'Judealmaden2045@gmail.com';
 
   const handleCopy = async (e) => {
     e.preventDefault();
