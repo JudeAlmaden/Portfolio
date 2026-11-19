@@ -54,6 +54,28 @@ main > .hero > .wrap {
 .project-card__details { color: var(--muted); }
 .project-card__details:hover { color: var(--ink); }
 
+/* ---------------------------------------------------------------- archive */
+/* The earlier projects, listed under the featured grid so all eleven are reachable. */
+.archive { margin-top: var(--s-8); border-top: 1px solid var(--line); padding-top: var(--s-6); }
+.archive__head { display: flex; flex-direction: column; gap: var(--s-2); }
+.archive__head h3 { font-size: var(--t-h3); font-weight: var(--display-weight); letter-spacing: var(--display-tracking); color: var(--ink); }
+.archive__head p { font-size: var(--t-body); color: var(--muted); max-width: 60ch; line-height: 1.6; }
+.archive__list { margin-top: var(--s-5); display: grid; }
+.archive__row {
+  display: flex; flex-direction: column; gap: var(--s-3);
+  padding-block: var(--s-5); border-top: 1px solid var(--line);
+}
+.archive__row:first-child { border-top: 0; padding-top: 0; }
+.archive__title { font-size: var(--t-lead); font-weight: 500; color: var(--ink); }
+.archive__title:hover { color: var(--accent); }
+.archive__tags { color: var(--muted); margin-top: var(--s-1); }
+.archive__text { font-size: var(--t-body); color: var(--muted); line-height: 1.6; max-width: 62ch; margin-top: var(--s-1); }
+.archive__details {
+  align-self: flex-start; font-size: var(--t-small); font-weight: 500;
+  padding: 0; background: none; border: 0; color: var(--accent); cursor: pointer;
+}
+.archive__details:hover { color: var(--ink); }
+
 /* ---------------------------------------------------------------- stack */
 /* four per row on a phone, on the 12-column lines */
 #stack .grid {
@@ -198,6 +220,10 @@ main > .hero > .wrap {
   .project-modal__panel { padding: var(--s-6) var(--s-7) var(--s-7); max-height: 90vh; }
   .project-modal__thumb { width: 92px; }
   .project-modal__title { font-size: clamp(28px, 4vw, 40px); }
+
+  /* archive rows: title and text left, the details button on the right line */
+  .archive__row { flex-direction: row; align-items: start; justify-content: space-between; gap: var(--s-6); }
+  .archive__details { flex: none; }
 }
 
 /* ================================================================ 1024px and up

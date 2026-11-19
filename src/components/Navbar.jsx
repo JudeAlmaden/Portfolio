@@ -17,7 +17,6 @@ export default function Navbar() {
   return (
     <header className={`nav nav--split${open ? ' is-open' : ''}`}>
       <div className="wrap nav__bar">
-        <a className="skip-link" href="#top">Skip to content</a>
         <nav className="nav__links" aria-label="Main">
           <div className="nav__item"><a className="nav__link" href="#work" onClick={() => setOpen(false)}>Work</a></div>
           <div className="nav__item"><a className="nav__link" href="#about" onClick={() => setOpen(false)}>About</a></div>

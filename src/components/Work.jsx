@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { FEATURED } from '../data/projectsData';
+import { ARCHIVE, FEATURED } from '../data/projectsData';
 
 /* One project card — kit .card filled to the grid cell, so a row is one height.
    The screenshot zooms 1.03 inside its frame on hover via the motion layer. */
@@ -52,6 +52,31 @@ function ProjectCard({ project, onOpen }) {
         </div>
       </div>
     </article>
+  );
+}
+
+/* An archive row — the earlier projects, listed rather than carded. Opens the same dialog. */
+function ArchiveRow({ project, onOpen }) {
+  const href = project.github || project.live;
+
+  return (
+    <li className="archive__row">
+      <div className="archive__main">
+        <a className="archive__title" href={href} target="_blank" rel="noopener noreferrer">
+          {project.title}
+        </a>
+        <p className="t-label archive__tags">{project.tags.join(' · ')}</p>
+        <p className="archive__text">{project.description}</p>
+      </div>
+      <button
+        type="button"
+        className="archive__details"
+        onClick={() => onOpen(project)}
+        aria-haspopup="dialog"
+      >
+        Details →
+      </button>
+    </li>
   );
 }
 
@@ -197,6 +222,19 @@ export default function Work() {
             >
               {expanded ? 'Show fewer projects' : `View all ${FEATURED.length} projects`}
             </button>
+          </div>
+
+          {/* the remaining builds — listed as an archive so all eleven projects are reachable */}
+          <div className="archive">
+            <div className="archive__head">
+              <h3>Archive</h3>
+              <p>The five earlier builds — school tools, learning projects, and an internship dashboard.</p>
+            </div>
+            <ul className="archive__list">
+              {ARCHIVE.map((project) => (
+                <ArchiveRow key={project.id} project={project} onOpen={setOpen} />
+              ))}
+            </ul>
           </div>
         </div>
       </section>
