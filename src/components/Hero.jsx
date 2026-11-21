@@ -1,5 +1,7 @@
 import { useEffect, useRef } from 'react';
 
+const base = import.meta.env.BASE_URL;
+
 export default function Hero() {
   const nameRef = useRef(null);
 
@@ -22,12 +24,23 @@ export default function Hero() {
       id="hero"
       className="min-h-screen flex items-center justify-center pt-20 relative px-5 md:px-16 overflow-hidden bg-background"
     >
+      {/* Background Image with Overlay */}
+      <div className="absolute inset-0 z-0">
+        <img 
+          src={`${base}images/me/hero.jpg`}
+          alt="Hero Background"
+          className="w-full h-full object-cover"
+        />
+        {/* Dark overlay for text readability */}
+        <div className="absolute inset-0 bg-background/80"></div>
+      </div>
+
       {/* Subtle animated violet orbs - "void and glow" aesthetic */}
-      <div className="absolute top-20 left-10 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] animate-pulse"></div>
-      <div className="absolute bottom-20 right-10 w-[400px] h-[400px] bg-primary-hover/10 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '2s' }}></div>
+      <div className="absolute top-20 left-10 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] animate-pulse z-[1]"></div>
+      <div className="absolute bottom-20 right-10 w-[400px] h-[400px] bg-primary-hover/10 rounded-full blur-[100px] animate-pulse z-[1]" style={{ animationDelay: '2s' }}></div>
 
       {/* Dark dot grid pattern */}
-      <div className="absolute inset-0 dot-grid opacity-30"></div>
+      <div className="absolute inset-0 dot-grid opacity-30 z-[1]"></div>
 
       <div className="max-w-[1200px] mx-auto w-full relative z-10">
         {/* Single Column Centered Layout */}
@@ -36,7 +49,7 @@ export default function Hero() {
           {/* Heading */}
           <div className="space-y-6">
             <h1 className="text-[40px] md:text-[64px] font-heading font-bold leading-[1.2] md:leading-[1.1] tracking-tight animate-[fadeIn_0.8s_ease-out]">
-              <span className="text-on-surface">Fullstack </span>
+              <span className="text-on-surface">Fullstack</span>
               <br />
               <span
                 ref={nameRef}
