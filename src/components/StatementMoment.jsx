@@ -23,35 +23,42 @@ export default function StatementMoment({ id, statement }) {
             {statement.filter((s) => !s.accent).map((s) => ` ${s.text}`).join('')}
           </p>
           <p style={{ marginTop: 'var(--s-5)', fontSize: 'var(--t-body)', color: 'var(--inv-muted, var(--muted))', maxWidth: '54ch', lineHeight: 1.65 }}>
-            An OMR grader that grades exams from a phone camera, a queue portal running in college
-            offices, and a four-stage voucher approval system for an accounting department.
+            I'd rather ship software that runs a real office than a demo that impresses for a week.
           </p>
         </div>
 
-        {/* 3 Pillars */}
+        {/* 4 pillars: ownership, constraint, production, AI */}
         <div className="grid" style={{ paddingTop: 'var(--s-6)', borderTop: '1px solid var(--line)' }}>
-          <div className="span-4">
+          <div className="span-3">
             <p style={{ fontWeight: 500, color: 'var(--inv-ink, var(--ink))', fontSize: 'var(--t-body)' }}>
-              End to end
+              I own the whole build
             </p>
             <p style={{ fontSize: 'var(--t-small)', color: 'var(--inv-muted, var(--muted))', marginTop: 'var(--s-2)', lineHeight: 1.6 }}>
-              Database, backend, interface, deploy. More than Eleven projects, most built solo.
+              Schema, API, interface, deploy. I stay until the last piece is wired.
             </p>
           </div>
-          <div className="span-4">
+          <div className="span-3">
             <p style={{ fontWeight: 500, color: 'var(--inv-ink, var(--ink))', fontSize: 'var(--t-body)' }}>
-              Agentic workflows
+              I build for the constraint
             </p>
             <p style={{ fontSize: 'var(--t-small)', color: 'var(--inv-muted, var(--muted))', marginTop: 'var(--s-2)', lineHeight: 1.6 }}>
-              Directing AI agents across scaffolding, testing, and architecture to ship at team velocity.
+              Budget, stack and the people who have to run it set the design. I ship the version that fits, then improve it.
             </p>
           </div>
-          <div className="span-4">
+          <div className="span-3">
             <p style={{ fontWeight: 500, color: 'var(--inv-ink, var(--ink))', fontSize: 'var(--t-body)' }}>
-              No hardware, no budget
+              I build for production
             </p>
             <p style={{ fontSize: 'var(--t-small)', color: 'var(--inv-muted, var(--muted))', marginTop: 'var(--s-2)', lineHeight: 1.6 }}>
-              EasyAssess grades bubble sheets off a phone camera, because the alternative was buying scanners.
+              Roles, permissions and audit trails from the first schema — and it has to hold when the whole office logs in at once.
+            </p>
+          </div>
+          <div className="span-3">
+            <p style={{ fontWeight: 500, color: 'var(--inv-ink, var(--ink))', fontSize: 'var(--t-body)' }}>
+              AI is a tool, not the author
+            </p>
+            <p style={{ fontSize: 'var(--t-small)', color: 'var(--inv-muted, var(--muted))', marginTop: 'var(--s-2)', lineHeight: 1.6 }}>
+              Agents scaffold and test; the architecture, the review and the final call are mine.
             </p>
           </div>
         </div>

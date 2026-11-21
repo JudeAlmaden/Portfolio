@@ -45,10 +45,8 @@ export default function App() {
         <StatementMoment
           id="moment-1"
           statement={[
-            { text: "Eleven projects", accent: true },
-            { text: "built." },
-            { text: "Schema to deploy," },
-            { text: "mostly solo." },
+            { text: "I take the whole build,", accent: true },
+            { text: "and I finish it." },
           ]}
         />
         <About />
