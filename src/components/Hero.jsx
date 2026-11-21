@@ -1,8 +1,8 @@
 /*
-  tasteskill hero-photo — full-bleed photograph layer, words in a solid box on the calm side.
+  tasteskill hero-photo — photograph on the left, words in a solid box on the calm side.
   data-enter fires the motion layer's one-time entrance on load.
-  Photograph: public/images/me/resource_speaker.webp (real — facilitating a Scratch session).
-  Stand-in note: this is the client's own photograph; no replacement needed.
+  Photograph: public/images/me/hero.jpg (the client's own desk photo), drawn as the hero's left
+  column by index.css so the whole seated figure stays in frame beside the words.
 */
 export default function Hero() {
   const base = import.meta.env.BASE_URL;
@@ -14,16 +14,18 @@ export default function Hero() {
       data-calm="right"
       aria-labelledby="hero-h"
     >
-      {/* Full-bleed photograph — the client's own (Scratch Foundation speaker event) */}
+      {/* Photograph — the client's own, the whole figure at the desk */}
       <img
         className="hero__bg"
-        src={`${base}images/me/resource_speaker.webp`}
-        alt="Jude Almaden facilitating a Scratch Foundation session for senior high students"
-        style={{ '--ly-pos': '30% 50%', '--ly-pos-phone': '50% 20%' }}
+        src={`${base}images/me/hero.jpg`}
+        alt="Jude Almaden seated at his desk in front of two monitors"
+        style={{ '--ly-pos': '50% 50%', '--ly-pos-phone': '50% 25%' }}
         fetchPriority="high"
-        width="1440"
-        height="900"
+        width="1448"
+        height="1086"
       />
+      {/* dark overlay: dims the photograph so the picture sits back behind the words */}
+      <div className="hero__scrim" aria-hidden="true" />
       <div className="wrap">
         <div className="hero-text">
           <div className="hero__text">

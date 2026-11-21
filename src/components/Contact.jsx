@@ -1,16 +1,15 @@
 /*
   Contact section — 1 screen. Text left / Photo right split.
   Follows layout-v4: text left, visual right, top-aligned.
-  mailto on .example (stand-in; client to supply real address before launch).
+  "Email Jude" is a real mailto: it opens the mail client. Copying the address is its own button.
   No invented review, quote or figure.
 */
-export default function Contact({ onCopyEmail }) {
-  const email = 'Judealmaden2045@gmail.com';
+import { EMAIL, GITHUB_URL, LINKEDIN_URL, RESUME_URL, RESUME_NAME } from '../data/siteLinks';
 
-  const handleCopy = async (e) => {
-    e.preventDefault();
+export default function Contact({ onCopyEmail }) {
+  const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(email);
+      await navigator.clipboard.writeText(EMAIL);
       onCopyEmail?.('Email address copied');
     } catch {
       onCopyEmail?.('Copy the address manually');
@@ -35,8 +34,7 @@ export default function Contact({ onCopyEmail }) {
           <div className="btn-row" style={{ gap: 'var(--s-5)', marginTop: 'var(--s-8)' }}>
             <a
               className="btn btn--primary btn--xl"
-              href={`mailto:${email}`}
-              onClick={handleCopy}
+              href={`mailto:${EMAIL}`}
             >
               Email Jude
               <svg className="m-arrow" viewBox="0 0 12 12" aria-hidden="true">
@@ -45,15 +43,34 @@ export default function Contact({ onCopyEmail }) {
               </svg>
             </a>
 
+            {RESUME_URL && (
+              <a className="btn btn--secondary" href={RESUME_URL} download={RESUME_NAME}>
+                Résumé
+              </a>
+            )}
+
             <a
               className="btn btn--secondary"
-              href="https://github.com/JudeAlmaden"
+              href={LINKEDIN_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              LinkedIn
+            </a>
+
+            <a
+              className="btn btn--secondary"
+              href={GITHUB_URL}
               target="_blank"
               rel="noopener noreferrer"
             >
               GitHub
             </a>
           </div>
+
+          <button type="button" className="contact-copy" onClick={handleCopy}>
+            Copy email address
+          </button>
         </div>
 
         {/* Right — real photograph ending on the right line (x 1360) */}

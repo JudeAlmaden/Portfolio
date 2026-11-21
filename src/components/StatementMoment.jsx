@@ -35,7 +35,7 @@ export default function StatementMoment({ id, statement }) {
               End to end
             </p>
             <p style={{ fontSize: 'var(--t-small)', color: 'var(--inv-muted, var(--muted))', marginTop: 'var(--s-2)', lineHeight: 1.6 }}>
-              Database, backend, interface, deploy. Eleven projects, most built solo.
+              Database, backend, interface, deploy. More than Eleven projects, most built solo.
             </p>
           </div>
           <div className="span-4">

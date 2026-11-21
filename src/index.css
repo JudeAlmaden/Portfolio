@@ -23,6 +23,32 @@ main > .hero > .wrap {
   height: auto;
 }
 
+/* The photograph is scaled a little by the motion layer at desktop widths, which let it push the
+   page 30-odd pixels wider than the screen (a horizontal scrollbar). Clip it at the hero's edge. */
+.hero.hero--photo { overflow: clip; }
+
+/* dark overlay on the photograph: one tint from the words' side, so the picture reads as a backdrop
+   instead of competing with the panel. --overlay sets the strength in one place. */
+.hero--photo { --overlay: 0.5; }
+.hero--photo .hero__scrim {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    rgb(11 12 14 / var(--overlay)) 0%,
+    rgb(11 12 14 / 0.38) 45%,
+    rgb(11 12 14 / 0.2) 75%
+  );
+}
+
+/* on a tablet and a phone the photograph is a band under the header, so the overlay covers only it */
+@media (max-width: 1023px) {
+  .hero--photo .hero__scrim {
+    inset: var(--nav) 0 auto 0;
+    height: var(--photo);
+    background: linear-gradient(180deg, rgb(11 12 14 / 0.25) 0%, rgb(11 12 14 / 0.55) 100%);
+  }
+}
+
 /* ---------------------------------------------------------------- featured work */
 #work .grid > .span-4 { display: flex; }
 /* phone: show only 2 cards; a "View all" button reveals the rest */
@@ -130,6 +156,14 @@ main > .hero > .wrap {
 /* ---------------------------------------------------------------- contact */
 #contact .btn-row > .btn { width: 100%; }
 
+/* the copy-the-address action, kept visually quieter than the buttons beside it */
+.contact-copy {
+  margin-top: var(--s-5); padding: 0; background: none; border: 0; cursor: pointer;
+  font-size: var(--t-small); font-weight: 500; color: var(--inv-muted, var(--muted));
+  text-decoration: underline; text-underline-offset: 4px;
+}
+.contact-copy:hover { color: var(--ink); }
+
 /* ---------------------------------------------------------------- project modal */
 .project-modal {
   position: fixed; inset: 0; z-index: 100;
@@ -235,7 +269,27 @@ main > .hero > .wrap {
 
   .stack-item { grid-column: auto / span 2; }
 
-  /* Hero text panel sits flush inside the photograph on the calm (right) side */
+  /* The photograph is the hero's left column and ends on the words panel's left edge. Full-bleed,
+     a photo this wide cannot hold the whole seated figure; zoomed, it crowds the words. As a column
+     the body stays in frame and the words sit beside the picture, not on top of it. */
+  main > .hero--photo[data-calm="right"] { background: var(--bg); }
+  main > .hero--photo[data-calm="right"] > .hero__bg {
+    right: auto;
+    width: calc(50% + var(--gutter) / 2);
+  }
+  /* the scrim tints the photograph only: the page beside it stays the page's own ground */
+  main > .hero--photo[data-calm="right"] > .hero__scrim {
+    right: auto;
+    width: calc(50% + var(--gutter) / 2);
+    background: linear-gradient(
+      90deg,
+      rgb(11 12 14 / var(--overlay)) 0%,
+      rgb(11 12 14 / 0.26) 70%,
+      rgb(11 12 14 / 0.16) 100%
+    );
+  }
+
+  /* Hero text panel sits inside the photograph on the calm (right) side, on the content column */
   main > .hero--photo[data-calm="right"] > .wrap,
   main > .hero--photo[data-calm="right"] > .wrap > .hero-text { position: static; }
   main > .hero--photo[data-calm="right"] .hero__text {
@@ -244,6 +298,7 @@ main > .hero > .wrap {
     right: calc((100% - min(100% - 2 * var(--gut), var(--container))) / 2);
     margin: 0;
     width: calc(min(100% - 2 * var(--gut), var(--container)) / 2 - var(--gutter) / 2);
+    z-index: 2; /* above the overlay */
     display: flex;
     flex-direction: column;
     justify-content: safe center;

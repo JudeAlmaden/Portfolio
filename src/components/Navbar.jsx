@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { RESUME_URL, RESUME_NAME } from '../data/siteLinks';
 
 /*
   tasteskill nav-split: name centred, links left, main action right.
@@ -22,6 +23,13 @@ export default function Navbar() {
           <div className="nav__item"><a className="nav__link" href="#about" onClick={() => setOpen(false)}>About</a></div>
           <div className="nav__item"><a className="nav__link" href="#stack" onClick={() => setOpen(false)}>Stack</a></div>
           <div className="nav__item"><a className="nav__link" href="#contact" onClick={() => setOpen(false)}>Contact</a></div>
+          <div className="nav__item">
+            {RESUME_URL && (
+              <a className="nav__link" href={RESUME_URL} download={RESUME_NAME} onClick={() => setOpen(false)}>
+                Résumé
+              </a>
+            )}
+          </div>
         </nav>
         <a className="nav__logo" href="#top" onClick={() => setOpen(false)}>
           <span className="mark" data-mark="stack" aria-hidden="true"></span>

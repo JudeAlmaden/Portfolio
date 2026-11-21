@@ -2,6 +2,8 @@
   footer-columns — tasteskill close-type + footer-columns.
   One footer.closing section: row 1 the close, row 2 the links + legal.
 */
+import { GITHUB_URL, LINKEDIN_URL, RESUME_URL, RESUME_NAME } from '../data/siteLinks';
+
 export default function SiteFooter() {
   return (
     <footer className="closing" id="footer" aria-label="Site footer">
@@ -39,7 +41,8 @@ export default function SiteFooter() {
               <h4>Work</h4>
               <ul>
                 <li><a href="#work">Projects</a></li>
-                <li><a href="https://github.com/JudeAlmaden" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+                <li><a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">GitHub</a></li>
+                <li><a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
               </ul>
             </div>
             <div className="span-3 footer__col">
@@ -48,6 +51,9 @@ export default function SiteFooter() {
                 <li><a href="#about">Profile</a></li>
                 <li><a href="#stack">Stack</a></li>
                 <li><a href="#experience">Experience</a></li>
+                {RESUME_URL && (
+                  <li><a href={RESUME_URL} download={RESUME_NAME}>Résumé</a></li>
+                )}
               </ul>
             </div>
           </div>
