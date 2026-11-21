@@ -1,6 +1,5 @@
 /*
-  Contact section — 1 screen. Text left / Photo right split.
-  Follows layout-v4: text left, visual right, top-aligned.
+  Contact section — Centered close.
   "Email Jude" is a real mailto: it opens the mail client. Copying the address is its own button.
   No invented review, quote or figure.
 */
@@ -16,22 +15,36 @@ export default function Contact({ onCopyEmail }) {
     }
   };
 
-  const base = import.meta.env.BASE_URL;
-
   return (
-    <section className="section ground-inverse" id="contact" aria-labelledby="contact-h">
-      <div className="wrap grid grid--middle">
+    <section className="section ground-inverse contact-centered-section" id="contact" aria-labelledby="contact-h">
+      {/* Subtle architectural background pattern & ambient glow */}
+      <div className="contact-bg-pattern" aria-hidden="true" />
 
-        {/* Left — text and actions */}
-        <div className="span-6">
+      <div className="wrap">
+        <div className="contact-card">
           <div className="section-head">
             <h2 id="contact-h">Hire me</h2>
-            <p style={{ marginTop: 'var(--s-4)', fontSize: 'var(--t-body)', color: 'var(--inv-muted, var(--muted))', maxWidth: '44ch', lineHeight: 1.65 }}>
+            <p className="contact-lead">
               Available for contract and full-time roles. I reply within a day.
             </p>
           </div>
 
-          <div className="btn-row" style={{ gap: 'var(--s-5)', marginTop: 'var(--s-8)' }}>
+          <ul className="rows rows--spec contact-specs">
+            <li>
+              <span className="rows__name">Availability</span>
+              <span className="rows__value">Contract &amp; Full-time</span>
+            </li>
+            <li>
+              <span className="rows__name">Location</span>
+              <span className="rows__value">Quezon Province</span>
+            </li>
+            <li>
+              <span className="rows__name">Specialization</span>
+              <span className="rows__value">Web / Mobile Applications</span>
+            </li>
+          </ul>
+
+          <div className="btn-row contact-actions">
             <a
               className="btn btn--primary btn--xl"
               href={`mailto:${EMAIL}`}
@@ -42,51 +55,23 @@ export default function Contact({ onCopyEmail }) {
                 <path className="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5" />
               </svg>
             </a>
-
-            {RESUME_URL && (
-              <a className="btn btn--secondary" href={RESUME_URL} download={RESUME_NAME}>
-                Résumé
-              </a>
-            )}
-
-            <a
-              className="btn btn--secondary"
-              href={LINKEDIN_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              LinkedIn
-            </a>
-
-            <a
-              className="btn btn--secondary"
-              href={GITHUB_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              GitHub
-            </a>
           </div>
 
-          <button type="button" className="contact-copy" onClick={handleCopy}>
-            Copy email address
-          </button>
-        </div>
-
-        {/* Right — real photograph ending on the right line (x 1360) */}
-        <div className="span-6 start-7">
-          <div className="frame frame--photo frame--portrait" style={{ borderRadius: 'var(--r-lg)', overflow: 'clip' }}>
-            <img
-              className="frame__img"
-              src={`${base}images/me/student_research.jpg`}
-              alt="Jude presenting student research"
-              loading="lazy"
-              width="600"
-              height="750"
-            />
+          <div className="contact-footer">
+            <div className="contact-links p-0">
+              {RESUME_URL && (
+                <a href={RESUME_URL} download={RESUME_NAME}>
+                  Résumé
+                </a>
+              )}
+              <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+              <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">GitHub</a>
+              <button type="button" className="contact-copy self-start !mt-0" onClick={handleCopy}>
+                Copy email address
+              </button>
+            </div>
           </div>
         </div>
-
       </div>
     </section>
   );

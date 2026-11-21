@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" fill="none"><title>Jude Almaden logo</title>
+  
+  <!--
+    Prompt mark: >_
+    Chevron: apex at (157,128). Arms at exactly 30deg from horizontal.
+      half-height = 64px  run = 64/tan(30deg) = 64*sqrt(3) = 110.85 ~ 111
+      top-left:    (157-111, 128-64) = (46, 64)
+      bottom-left: (157-111, 128+64) = (46, 192)
+    Underscore: starts 16px after apex x, sits on y=200 (baseline +8 below chevron base).
+  -->
+  <path
+    d="M46 64 L157 128 L46 192"
+    stroke="#1a4be0"
+    stroke-width="28"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <!-- underscore sits 8px below chevron bottom, 16px gap after apex -->
+  <rect x="173" y="196" width="52" height="22" rx="11" fill="#1a4be0"/>
+</svg>

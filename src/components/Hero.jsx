@@ -4,6 +4,8 @@
   Photograph: public/images/me/hero.jpg (the client's own desk photo), drawn as the hero's left
   column by index.css so the whole seated figure stays in frame beside the words.
 */
+import { EMAIL } from '../data/siteLinks';
+
 export default function Hero() {
   const base = import.meta.env.BASE_URL;
 
@@ -41,7 +43,7 @@ export default function Hero() {
                   <path className="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5" />
                 </svg>
               </a>
-              <a className="btn btn--secondary" href="#contact">Hire me</a>
+              <a className="btn btn--secondary" href={`mailto:${EMAIL}`}>Email Jude</a>
             </div>
           </div>
         </div>

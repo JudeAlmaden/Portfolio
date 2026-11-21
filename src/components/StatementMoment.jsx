@@ -23,7 +23,7 @@ export default function StatementMoment({ id, statement }) {
             {statement.filter((s) => !s.accent).map((s) => ` ${s.text}`).join('')}
           </p>
           <p style={{ marginTop: 'var(--s-5)', fontSize: 'var(--t-body)', color: 'var(--inv-muted, var(--muted))', maxWidth: '54ch', lineHeight: 1.65 }}>
-            I'd rather ship software that runs a real office than a demo that impresses for a week.
+           I enjoy turning ideas, everyday frustrations, and oddly specific problems into working software. Sometimes it's a practical solution, sometimes it's just something interesting to build. Either way, I love making things that solve a problem.
           </p>
         </div>
 

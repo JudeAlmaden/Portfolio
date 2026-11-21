@@ -26,5 +26,6 @@ dist-ssr
 # Taste skill artifacts & agent workspace
 .taste-skill/
 .agents/
+logo-design-skill
 
 

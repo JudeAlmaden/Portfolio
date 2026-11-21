@@ -34,6 +34,8 @@ export const TECH_CATEGORIES = [
       { name: 'MySQL', icon: 'devicon-mysql-original colored' },
       { name: 'PostgreSQL', icon: 'devicon-postgresql-plain colored' },
       { name: 'Git', icon: 'devicon-git-plain colored' },
+      { name: 'Supabase', icon: 'devicon-supabase-plain colored' },
+      { name: 'Vercel', icon: 'devicon-vercel-plain' },
     ],
   },
 ];
