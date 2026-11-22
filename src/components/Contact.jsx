@@ -139,7 +139,7 @@ export function ContactContent({ onCopyEmail }) {
         </div>
         <div className="flex items-center justify-between py-3 border-b border-white/10">
           <span className="text-outline text-sm">Location</span>
-          <span className="text-on-surface text-sm font-medium">Quezon Province</span>
+          <span className="text-on-surface text-sm font-medium">Quezon Province (Open to remote/hybrid)</span>
         </div>
         <div className="flex items-center justify-between py-3 border-b border-white/10">
           <span className="text-outline text-sm">Specialization</span>
