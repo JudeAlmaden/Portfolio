@@ -1,120 +1,166 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import BrandLogo from './BrandLogo';
-import { EMAIL, RESUME_URL, RESUME_NAME } from '../data/siteLinks';
-
-/*
-  tasteskill nav-split: name centred, links left, main action right.
-  Fixed, opaque, 72px tall, 1px hairline below. No blur, no transparency, no shrink.
-  Scroll-spy: IntersectionObserver marks the visible section with aria-current="page".
-*/
-
-const NAV_LINKS = [
-  { href: '#work',    label: 'Work' },
-  { href: '#about',   label: 'About' },
-  { href: '#stack',   label: 'Stack' },
-  { href: '#contact', label: 'Contact' },
-];
 
 export default function Navbar() {
-  const [open, setOpen]   = useState(false);
-  const [active, setActive] = useState('');
-  const obsRef = useRef(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState('');
 
-  /* lock body scroll when mobile menu is open */
   useEffect(() => {
-    document.body.classList.toggle('nav-locked', open);
-    return () => { document.body.classList.remove('nav-locked'); };
-  }, [open]);
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
 
-  /* scroll-spy: mark the section whose midpoint is closest to the viewport centre */
-  useEffect(() => {
-    const sections = NAV_LINKS
-      .map(l => document.querySelector(l.href))
-      .filter(Boolean);
-
-    obsRef.current = new IntersectionObserver(
-      entries => {
-        entries.forEach(e => {
-          if (e.isIntersecting) setActive(`#${e.target.id}`);
-        });
-      },
-      /* the "active zone" is the middle 20 % of the viewport */
-      { rootMargin: '-40% 0px -40% 0px', threshold: 0 }
-    );
-
-    sections.forEach(s => obsRef.current.observe(s));
-    return () => obsRef.current?.disconnect();
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const close = () => setOpen(false);
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+    if (!isOpen) {
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+    }
+  };
+
+  const handleLinkClick = (section) => {
+    setActiveSection(section);
+    if (isOpen) {
+      toggleMenu();
+    }
+    if (section === 'contact') {
+      scrollToContact();
+      return;
+    }
+  };
+
+  const scrollToContact = () => {
+    // On mobile, the #contact section is a normal element — just scroll to it
+    if (window.innerWidth < 768) {
+      const el = document.getElementById('contact');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+    // On desktop, #contact is inside a sticky scroll-driven container (ArchiveSection).
+    // We need to scroll the page so that scrollYProgress of that section reaches ~0.85
+    // to ensure the contact phase is fully visible.
+    const archiveSection = document.querySelector('[data-archive-section]');
+    if (!archiveSection) {
+      // Fallback: just try scrollIntoView
+      const el = document.getElementById('contact');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+    const sectionTop = archiveSection.offsetTop;
+    const sectionHeight = archiveSection.offsetHeight;
+    const viewportHeight = window.innerHeight;
+    const scrollable = sectionHeight - viewportHeight;
+    // Target ~85% through the archive section so the contact phase is fully shown
+    const targetScroll = sectionTop + scrollable * 0.85;
+    window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+  };
 
   return (
-    <header className={`nav nav--split${open ? ' is-open' : ''}`}>
-      <div className="wrap nav__bar">
+    <nav
+      className={`fixed w-full z-50 transition-all duration-300 ${
+        isScrolled ? 'nav-scrolled' : 'bg-transparent'
+      }`}
+    >
+      <div className="max-w-[1200px] mx-auto px-5 md:px-16 h-20 flex items-center justify-between">
+        <BrandLogo />
 
-        {/* left — page links */}
-        <nav className="nav__links" aria-label="Main">
-          {NAV_LINKS.map(({ href, label }) => (
-            <div className="nav__item" key={href}>
-              <a
-                className="nav__link"
-                href={href}
-                aria-current={active === href ? 'page' : undefined}
-                onClick={close}
-              >
-                {label}
-              </a>
-            </div>
-          ))}
-
-          {/* résumé only when the PDF exists */}
-          {RESUME_URL && (
-            <div className="nav__item">
-              <a
-                className="nav__link"
-                href={RESUME_URL}
-                download={RESUME_NAME}
-                onClick={close}
-              >
-                Résumé
-              </a>
-            </div>
-          )}
-        </nav>
-
-        {/* centre — logo */}
-        <BrandLogo onClick={close} />
-
-        {/* right — CTA + hamburger */}
-        <div className="nav__actions">
+        {/* Desktop Menu - Glassmorphic with active indicators */}
+        <div className="hidden md:flex items-center space-x-8">
           <a
-            className="btn btn--primary"
-            href={`mailto:${EMAIL}`}
-            onClick={close}
+            href="#about"
+            onClick={() => handleLinkClick('about')}
+            className="relative text-sm font-medium text-on-surface hover:text-primary transition-colors group py-2"
           >
-            Get in touch
+            About
+            <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary transition-opacity ${activeSection === 'about' ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}></span>
           </a>
-
-          <button
-            className="nav__toggle"
-            type="button"
-            aria-expanded={open}
-            aria-label={open ? 'Close menu' : 'Open menu'}
-            onClick={() => setOpen(prev => !prev)}
+          <a
+            href="#skills"
+            onClick={() => handleLinkClick('skills')}
+            className="relative text-sm font-medium text-on-surface hover:text-primary transition-colors group py-2"
           >
-            {open ? (
-              <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
-                <path d="M4 4l10 10M14 4L4 14" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-              </svg>
-            ) : (
-              <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
-                <path d="M2 5h14M2 13h14" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-              </svg>
-            )}
-          </button>
+            Skills
+            <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary transition-opacity ${activeSection === 'skills' ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}></span>
+          </a>
+          <a
+            href="#projects"
+            onClick={() => handleLinkClick('projects')}
+            className="relative text-sm font-medium text-on-surface hover:text-primary transition-colors group py-2"
+          >
+            Projects
+            <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary transition-opacity ${activeSection === 'projects' ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}></span>
+          </a>
+          <a
+            href="#"
+            onClick={(e) => { e.preventDefault(); handleLinkClick('contact'); }}
+            className="px-5 py-2.5 rounded-lg bg-primary text-on-primary text-sm font-medium uppercase tracking-[0.05em] hover:bg-primary-hover transition-all duration-300 violet-glow-hover"
+          >
+            Contact
+          </a>
         </div>
 
+        {/* Mobile Menu Button */}
+        <button
+          onClick={toggleMenu}
+          className="md:hidden text-on-surface focus:outline-none"
+          aria-label="Toggle menu"
+        >
+          <i className="fas fa-bars text-xl"></i>
+        </button>
       </div>
-    </header>
+
+      {/* Mobile Menu - Dark Glassmorphic */}
+      <div
+        className={`fixed inset-0 bg-surface-container/95 backdrop-blur-xl z-40 transform transition-transform duration-300 flex flex-col items-center justify-center space-y-8 md:hidden ${
+          isOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}
+      >
+        <button
+          onClick={toggleMenu}
+          className="absolute top-6 right-6 text-outline hover:text-primary"
+          aria-label="Close menu"
+        >
+          <i className="fas fa-times text-2xl"></i>
+        </button>
+        <a
+          href="#about"
+          onClick={() => handleLinkClick('about')}
+          className="text-2xl font-heading font-semibold text-on-surface hover:text-primary transition-colors"
+        >
+          About
+        </a>
+        <a
+          href="#skills"
+          onClick={() => handleLinkClick('skills')}
+          className="text-2xl font-heading font-semibold text-on-surface hover:text-primary transition-colors"
+        >
+          Skills
+        </a>
+        <a
+          href="#projects"
+          onClick={() => handleLinkClick('projects')}
+          className="text-2xl font-heading font-semibold text-on-surface hover:text-primary transition-colors"
+        >
+          Projects
+        </a>
+        <a
+          href="#"
+          onClick={(e) => { e.preventDefault(); handleLinkClick('contact'); }}
+          className="text-2xl font-heading font-semibold text-primary hover:text-primary-hover transition-colors"
+        >
+          Contact
+        </a>
+      </div>
+    </nav>
   );
 }

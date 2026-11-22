@@ -9,8 +9,8 @@ export const TECH_CATEGORIES = [
     category: 'Frameworks & Web',
     skills: [
       { name: 'Laravel', icon: 'devicon-laravel-original colored' },
-      { name: 'Vue.js', icon: 'devicon-vuejs-plain colored' },
       { name: 'React', icon: 'devicon-react-original colored' },
+      { name: 'Vue.js', icon: 'devicon-vuejs-plain colored' },
       { name: 'Next.js', icon: 'devicon-nextjs-plain' },
       { name: 'Node.js', icon: 'devicon-nodejs-plain colored' },
       { name: 'Express', icon: 'devicon-express-original' },
@@ -24,18 +24,18 @@ export const TECH_CATEGORIES = [
       { name: 'TypeScript', icon: 'devicon-typescript-plain colored' },
       { name: 'Python', icon: 'devicon-python-plain colored' },
       { name: 'C++', icon: 'devicon-cplusplus-plain colored' },
-      { name: 'Java', icon: 'devicon-java-plain colored' },
+      { name: 'C#', icon: 'devicon-csharp-plain colored' },
     ],
   },
   {
     category: 'Databases & Tools',
     skills: [
-      { name: 'TailwindCSS', icon: 'devicon-tailwindcss-original colored' },
       { name: 'MySQL', icon: 'devicon-mysql-original colored' },
       { name: 'PostgreSQL', icon: 'devicon-postgresql-plain colored' },
-      { name: 'Git', icon: 'devicon-git-plain colored' },
       { name: 'Supabase', icon: 'devicon-supabase-plain colored' },
-      { name: 'Vercel', icon: 'devicon-vercel-plain' },
+      { name: 'Vercel', icon: 'devicon-vercel-original colored' },
+      { name: 'Railway', icon: 'devicon-railway-plain' },
+      { name: 'Git', icon: 'devicon-git-plain colored' },
     ],
   },
 ];
@@ -46,8 +46,8 @@ export const TIMELINE = [
     org: 'Fusionnode',
     role: 'Cybersecurity Program Trainee',
     period: 'September 2026',
-    tag: 'Trainee',
-    desc: 'Cybersecurity training program.',
+    tag: 'Training Program',
+    desc: 'Cybersecurity training program focused on security fundamentals and practical defense strategies.',
     icon: 'fas fa-shield-alt',
   },
   {
@@ -80,9 +80,9 @@ export const TIMELINE = [
 ];
 
 export const CERTS = [
-  { title: 'Scratch in Action: Facilitator', year: '2025', icon: 'fas fa-microphone', provider: 'Scratch Foundation', desc: 'Hosted and ran a Scratch Foundation session for senior high students.' },
-  { title: 'IoT Conference', year: '2025', icon: 'fas fa-wifi', provider: '', desc: 'Attended with the school delegation — sessions on IoT basics, sensors, and edge computing.' },
-  { title: 'HackForGov CTF', year: '2025', icon: 'fas fa-shield-alt', provider: 'DICT', desc: "Competed in the CALABARZON regional leg with the school's team." },
-  { title: 'Sensor Guided Robotics', year: '2023', icon: 'fas fa-robot', provider: 'St. Anne College', desc: 'A one-day seminar at school on sensors and basic autonomous robots.' },
+  { title: 'Scratch in Action: Speaker', year: '2025', icon: 'fas fa-microphone', provider: 'Scratch Foundation', desc: 'Presented at an international educator seminar sharing creative programming practices.' },
+  { title: 'IoT Conference', year: '2025', icon: 'fas fa-wifi', provider: "St. Anne's College", desc: 'Hands-on workshops covering IoT protocols, sensory integration, and edge computing.' },
+  { title: 'Hack4Gov CTF', year: '2025', icon: 'fas fa-shield-alt', provider: 'DICT', desc: 'National cybersecurity challenge — penetration testing and vulnerability assessment.' },
+  { title: 'Sensor Guided Robotics', year: '2023', icon: 'fas fa-robot', provider: 'Robotics Academy', desc: 'Intensive training in sensor instrumentation and autonomous device programming.' },
   { title: 'NCIII Visual Graphics Design', year: '2023', icon: 'fas fa-palette', provider: 'TESDA', desc: 'Certified NC III in vector design, illustration, layout, and brand asset creation.' },
 ];

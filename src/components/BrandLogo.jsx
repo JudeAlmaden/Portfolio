@@ -1,18 +1,18 @@
 /*
   BrandLogo — the nav logo component.
   Renders the ">_" prompt mark beside the full name.
-  Used by Navbar (centred, nav-split) and anywhere else the brand needs a lockup.
+  Violet-themed version for dark theme portfolio.
 */
-export default function BrandLogo({ href = '#top', onClick }) {
+export default function BrandLogo({ href = '#', onClick }) {
   return (
     <a
-      className="nav__logo brand-logo"
+      className="brand-logo"
       href={href}
       onClick={onClick}
       aria-label="Jude Almaden — back to top"
     >
       <PromptMark />
-      <span>Jude Almaden</span>
+      <span className="brand-logo__text">Jude Almaden</span>
     </a>
   );
 }
@@ -20,7 +20,7 @@ export default function BrandLogo({ href = '#top', onClick }) {
 /* ----------------------------------------------------------------
    PromptMark — ">_" terminal prompt symbol.
    Precision 30° chevron + underscore.
-   Drawn with var(--accent, #1a4be0) so it responds to page tokens.
+   Violet color (#a78bfa / #c4b5fd) for dark theme.
 */
 function PromptMark() {
   return (
@@ -34,7 +34,7 @@ function PromptMark() {
     >
       <path
         d="M46 64 L157 128 L46 192"
-        stroke="var(--accent, #1a4be0)"
+        stroke="#a78bfa"
         strokeWidth="28"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -45,9 +45,8 @@ function PromptMark() {
         width="52"
         height="22"
         rx="11"
-        fill="var(--accent, #1a4be0)"
+        fill="#a78bfa"
       />
     </svg>
   );
 }
-
