@@ -33,8 +33,7 @@ export default function Hero() {
           <div className="hero__text">
             <h1 id="hero-h">Junior fullstack developer</h1>
             <p className="hero__lead">
-              I build thoughtful web applications that turn ideas into practical tools — from assessment platforms and queueing systems to custom business workflows. I enjoy working across the entire process, from shaping an idea to bringing it to life.
-            </p>
+            I'm a technology generalist who enjoys building software, solving problems, and exploring different areas of IT. I use modern development tools and AI-assisted workflows to turn ideas into practical, secure applications.            </p>
             <div className="btn-row">
               <a className="btn btn--primary" href="#work">
                 See the work

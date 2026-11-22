@@ -38,7 +38,7 @@ function ProjectCard({ project, onOpen }) {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Live site ↗
+              Live site
             </a>
           )}
           <button
@@ -47,7 +47,7 @@ function ProjectCard({ project, onOpen }) {
             onClick={() => onOpen(project)}
             aria-haspopup="dialog"
           >
-            Details →
+            Details
           </button>
         </div>
       </div>
@@ -201,13 +201,18 @@ export default function Work() {
           <div className="section-head">
             <h2 id="work-h">Featured work</h2>
             <p>
-              Six projects from the last four years — OMR scanning, AI tutors, queue management,
-              enterprise accounting. Each one is in production or was deployed for a real institution.
+A collection of things I've built out of curiosity, for fun, or simply because I wanted to see an idea come to life. From useful little tools to bigger applications, each project is something I enjoyed making.
             </p>
           </div>
 
-          <div className="grid" style={{ marginTop: 'var(--s-8)', rowGap: 'var(--s-7)' }}>
-            {FEATURED.map((project) => (
+          {/* Hero featured project */}
+          <div className="project-hero">
+            <ProjectCard project={FEATURED[0]} onOpen={setOpen} />
+          </div>
+
+          {/* Regular grid for remaining projects */}
+          <div className="grid" style={{ marginTop: 'var(--s-7)', rowGap: 'var(--s-7)' }}>
+            {FEATURED.slice(1).map((project) => (
               <div key={project.id} className="span-4">
                 <ProjectCard project={project} onOpen={setOpen} />
               </div>

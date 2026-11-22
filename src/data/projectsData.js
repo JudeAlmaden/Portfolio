@@ -160,6 +160,25 @@ export const FEATURED = [
       'Implemented live participant score tracking and real-time leaderboard projection displays.',
     ],
   },
+  {
+    id: 13,
+    title: 'Hinto',
+    github: 'https://github.com/JudeAlmaden/Hinto',
+    description:
+      'GPS-based travel app that alerts you when approaching your destination. Set a destination and alert distance, track your progress, and rest without constantly checking your phone—even with the screen off.',
+    problem:
+      'Travelers constantly check their phones during trips to monitor distance to destination, causing anxiety, battery drain, and inability to rest during long journeys.',
+    tags: ['Expo', 'React Native', 'TypeScript'],
+    thumbnail: `${base}images/hinto/showcase.png`,
+    gallery: [
+      `${base}images/hinto/showcase.png`,
+    ],
+    highlights: [
+      'Built a cross-platform mobile application using Expo and React Native with background location tracking.',
+      'Implemented proximity-based notification system with customizable alert distances.',
+      'Designed battery-efficient GPS tracking that works even when the screen is off.',
+    ],
+  },
 ];
 
 /* ─── Archive Projects (Grid Below) ───────────────────────────────── */
