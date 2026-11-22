@@ -76,6 +76,8 @@ export default function About() {
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-hover font-bold">React</span>{' '}
               or{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-hover font-bold">Vue</span>{' '}
+              , plus{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-hover font-bold">MERN stack</span>{' '}
               — leveraging modern AI tooling to build fast, scalable, and intelligent applications.
             </p>
             <p className="text-[14px] md:text-[16px] text-on-surface-variant leading-relaxed max-w-2xl mt-4">
