@@ -9,12 +9,11 @@ export const TECH_CATEGORIES = [
     category: 'Frameworks & Web',
     skills: [
       { name: 'Laravel', icon: 'devicon-laravel-original colored' },
-      { name: 'Vue.js', icon: 'devicon-vuejs-plain colored' },
       { name: 'React', icon: 'devicon-react-original colored' },
+      { name: 'Vue.js', icon: 'devicon-vuejs-plain colored' },
       { name: 'Next.js', icon: 'devicon-nextjs-plain' },
       { name: 'Node.js', icon: 'devicon-nodejs-plain colored' },
       { name: 'Express', icon: 'devicon-express-original' },
-      { name: 'Expo', icon: 'devicon-react-original colored' },
     ],
   },
   {
@@ -26,13 +25,11 @@ export const TECH_CATEGORIES = [
       { name: 'Python', icon: 'devicon-python-plain colored' },
       { name: 'C++', icon: 'devicon-cplusplus-plain colored' },
       { name: 'C#', icon: 'devicon-csharp-plain colored' },
-      { name: 'Java', icon: 'devicon-java-plain colored' },
     ],
   },
   {
     category: 'Databases & Tools',
     skills: [
-      { name: 'TailwindCSS', icon: 'devicon-tailwindcss-original colored' },
       { name: 'MySQL', icon: 'devicon-mysql-original colored' },
       { name: 'PostgreSQL', icon: 'devicon-postgresql-plain colored' },
       { name: 'Supabase', icon: 'devicon-supabase-plain colored' },
@@ -44,6 +41,15 @@ export const TECH_CATEGORIES = [
 ];
 
 export const TIMELINE = [
+  {
+    type: 'work',
+    org: 'Fusionnode',
+    role: 'Cybersecurity Program Trainee',
+    period: 'September 2026',
+    tag: 'Training Program',
+    desc: 'Cybersecurity training program focused on security fundamentals and practical defense strategies.',
+    icon: 'fas fa-shield-alt',
+  },
   {
     type: 'work',
     org: 'Open iT',

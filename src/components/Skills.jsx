@@ -8,17 +8,16 @@ const skills = [
   { name: "React",       icon: "devicon-react-original colored",     color: "#61DAFB", bg: "rgba(97,218,251,0.08)",  shadow: "rgba(97,218,251,0.2)"  },
   { name: "Vue.js",      icon: "devicon-vuejs-plain colored",        color: "#4FC08D", bg: "rgba(79,192,141,0.08)",  shadow: "rgba(79,192,141,0.2)"  },
   { name: "Node.js",     icon: "devicon-nodejs-plain colored",       color: "#339933", bg: "rgba(51,153,51,0.08)",   shadow: "rgba(51,153,51,0.2)"   },
+  { name: "TypeScript",  icon: "devicon-typescript-plain colored",   color: "#3178C6", bg: "rgba(49,120,198,0.08)",  shadow: "rgba(49,120,198,0.2)"  },
   { name: "Python",      icon: "devicon-python-plain colored",       color: "#3776AB", bg: "rgba(55,118,171,0.08)",  shadow: "rgba(55,118,171,0.2)"  },
-  { name: "Java",        icon: "devicon-java-plain colored",         color: "#5382A1", bg: "rgba(83,130,161,0.08)",  shadow: "rgba(83,130,161,0.2)"  },
   { name: "C++",         icon: "devicon-cplusplus-plain colored",    color: "#00599C", bg: "rgba(0,89,156,0.08)",    shadow: "rgba(0,89,156,0.2)"    },
   { name: "C#",          icon: "devicon-csharp-plain colored",       color: "#239120", bg: "rgba(35,145,32,0.08)",   shadow: "rgba(35,145,32,0.2)"   },
-  { name: "TailwindCSS", icon: "devicon-tailwindcss-original colored",color: "#38BDF8", bg: "rgba(56,189,248,0.08)", shadow: "rgba(56,189,248,0.2)"  },
   { name: "MySQL",       icon: "devicon-mysql-original colored",     color: "#4479A1", bg: "rgba(68,121,161,0.08)",  shadow: "rgba(68,121,161,0.2)"  },
   { name: "Supabase",    icon: "devicon-supabase-plain colored",     color: "#3ECF8E", bg: "rgba(62,207,142,0.08)",  shadow: "rgba(62,207,142,0.2)"  },
   { name: "Git",         icon: "devicon-git-plain colored",          color: "#F05032", bg: "rgba(240,80,50,0.08)",   shadow: "rgba(240,80,50,0.2)"   },
   { name: "Vercel",      icon: "devicon-vercel-original colored",    color: "#000000", bg: "rgba(255,255,255,0.08)", shadow: "rgba(255,255,255,0.2)" },
   { name: "Railway",     icon: "devicon-railway-plain",              color: "#0B0D0E", bg: "rgba(11,13,14,0.08)",    shadow: "rgba(11,13,14,0.2)"    },
-  { name: "Expo",        icon: "devicon-react-original colored",     color: "#000020", bg: "rgba(0,0,32,0.08)",      shadow: "rgba(0,0,32,0.2)"      },
+  { name: "Docker",      icon: "devicon-docker-plain colored",       color: "#2496ED", bg: "rgba(36,150,237,0.08)",  shadow: "rgba(36,150,237,0.2)"  },
 ];
 
 /* ─── Reusable hook: run anime.js once when ref enters viewport ─── */
