@@ -220,3 +220,36 @@ section {
 }
 
 
+
+/* Brand Logo Styles */
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.brand-logo:hover {
+  opacity: 0.8;
+}
+
+.brand-logo__mark {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.brand-logo__text {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #e0e3e5;
+  letter-spacing: -0.02em;
+}
+
+@media (max-width: 768px) {
+  .brand-logo__text {
+    font-size: 1.125rem;
+  }
+}

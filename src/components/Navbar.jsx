@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import BrandLogo from './BrandLogo';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -71,12 +72,7 @@ export default function Navbar() {
       }`}
     >
       <div className="max-w-[1200px] mx-auto px-5 md:px-16 h-20 flex items-center justify-between">
-        <a
-          href="#"
-          className="font-heading font-bold text-2xl text-on-surface tracking-tight hover:text-primary transition-colors"
-        >
-          <span className="text-primary">PORTFOLIO</span>
-        </a>
+        <BrandLogo />
 
         {/* Desktop Menu - Glassmorphic with active indicators */}
         <div className="hidden md:flex items-center space-x-8">
