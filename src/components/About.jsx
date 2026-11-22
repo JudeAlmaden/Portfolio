@@ -70,18 +70,22 @@ export default function About() {
 
           <Reveal variants={fadeUp}>
             <p className="text-[20px] md:text-[26px] font-medium text-on-surface leading-[1.5] max-w-3xl">
-              IT graduate and web developer specializing in{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-hover font-bold">Laravel</span>{' '}
-              paired with{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-hover font-bold">React</span>{' '}
-              or{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-hover font-bold">Vue</span>{' '}
-              , plus{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-hover font-bold">MERN stack</span>{' '}
-              — leveraging modern AI tooling to build fast, scalable, and intelligent applications.
+              Junior full-stack developer working primarily with{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-hover font-bold">
+                Laravel
+              </span>{' '}
+              and{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-hover font-bold">
+                React
+              </span>
+              . I also work with other frameworks when a project calls for it, using modern development tools and AI agents to turn ideas into working software.
             </p>
+
             <p className="text-[14px] md:text-[16px] text-on-surface-variant leading-relaxed max-w-2xl mt-4">
-              From enterprise internships to national CTF hackathons, I combine AI-driven workflows with fullstack engineering to transform complex ideas into reliable digital solutions.
+              I enjoy working across the entire stack, experimenting with new approaches,
+              and using agentic workflows to make development more efficient — while
+              staying hands-on with the architecture, code, and decisions that shape
+              the final product.
             </p>
           </Reveal>
 
