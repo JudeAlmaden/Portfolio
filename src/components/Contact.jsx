@@ -120,79 +120,75 @@ export function ContactContent({ onCopyEmail }) {
   };
 
   return (
-    <div className="max-w-4xl mx-auto text-center space-y-12 relative z-10">
+    <div className="max-w-2xl mx-auto text-center space-y-10 relative z-10">
       {/* Section Header */}
       <div className="space-y-4">
-        <p className="text-[11px] uppercase tracking-[0.3em] text-primary font-semibold">
-          Get In Touch
-        </p>
-        <h2 className="text-4xl md:text-6xl font-black font-heading tracking-tight text-on-surface">
-          Let's Work Together
+        <h2 className="text-4xl md:text-5xl font-black font-heading tracking-tight text-on-surface">
+          Hire me
         </h2>
-        <p className="text-on-surface-variant text-base md:text-lg max-w-xl mx-auto leading-relaxed">
-          I'm open to junior level roles, freelancing, and web projects.{' '}
-          <br className="hidden md:inline" />
-          Based in Candelaria, Quezon Province.
+        <p className="text-on-surface-variant text-base max-w-xl mx-auto">
+          Available for contract and full-time roles. I reply within a day.
         </p>
       </div>
 
-      {/* Magnetic Mouse-Chasing Buttons */}
-      <div className="flex flex-col md:flex-row items-center justify-center gap-6">
-        {/* Email Button Card */}
-        <MagneticCard
-          onClick={handleEmailClick}
-          strength={0.4}
-          className="w-full md:w-auto"
-        >
-          <div className="flex items-center gap-3 px-5 py-3.5 rounded-xl glass-card border border-primary/30 group-hover:border-primary transition-colors duration-300">
-            <div className="w-9 h-9 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-primary group-hover:text-on-primary transition-all duration-300 text-primary">
-              <i className={`fas ${copied ? 'fa-check text-green-400' : 'fa-envelope'} text-sm`} />
-            </div>
-            <div className="text-left">
-              <div className="flex items-center gap-2">
-                <p className="text-[9px] text-outline uppercase tracking-widest font-semibold">
-                  Email Me
-                </p>
-                <AnimatePresence>
-                  {copied && (
-                    <motion.span
-                      initial={{ opacity: 0, x: -5 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: 5 }}
-                      className="text-[9px] font-bold text-green-400 uppercase tracking-wider"
-                    >
-                      Copied!
-                    </motion.span>
-                  )}
-                </AnimatePresence>
-              </div>
-              <p className="text-on-surface font-medium text-xs md:text-sm">
-                Judealmaden2045@gmail.com
-              </p>
-            </div>
-          </div>
-        </MagneticCard>
+      {/* Availability Details Grid */}
+      <div className="space-y-3 text-left max-w-md mx-auto">
+        <div className="flex items-center justify-between py-3 border-b border-white/10">
+          <span className="text-outline text-sm">Availability</span>
+          <span className="text-on-surface text-sm font-medium">Contract & Full-time</span>
+        </div>
+        <div className="flex items-center justify-between py-3 border-b border-white/10">
+          <span className="text-outline text-sm">Location</span>
+          <span className="text-on-surface text-sm font-medium">Quezon Province</span>
+        </div>
+        <div className="flex items-center justify-between py-3 border-b border-white/10">
+          <span className="text-outline text-sm">Specialization</span>
+          <span className="text-on-surface text-sm font-medium">Web / Mobile Applications</span>
+        </div>
+      </div>
 
-        {/* Call Button Card */}
+      {/* Email Button */}
+      <div className="pt-4">
         <MagneticCard
-          href="tel:+639671559154"
-          strength={0.4}
-          className="w-full md:w-auto"
+          href="mailto:Judealmaden2045@gmail.com"
+          strength={0.3}
+          className="w-full"
         >
-          <div className="flex items-center gap-3 px-5 py-3.5 rounded-xl glass-card border border-primary/30 group-hover:border-primary transition-colors duration-300">
-            <div className="w-9 h-9 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-primary group-hover:text-on-primary transition-all duration-300 text-primary">
-              <i className="fas fa-phone text-sm" />
-            </div>
-            <div className="text-left">
-              <p className="text-[9px] text-outline uppercase tracking-widest font-semibold">
-                Call Me
-              </p>
-              <p className="text-on-surface font-medium text-xs md:text-sm">
-                +63 09671559154
-              </p>
-            </div>
+          <div className="px-8 py-4 rounded-2xl bg-white/95 hover:bg-white transition-all duration-300 shadow-lg">
+            <span className="text-[#0f1419] font-semibold text-base flex items-center justify-center gap-2">
+              Email Jude
+              <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none">
+                <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </span>
           </div>
         </MagneticCard>
+      </div>
+
+      {/* Social Links */}
+      <div className="flex items-center justify-center gap-6 pt-2">
+        <a 
+          href="https://www.linkedin.com/in/justine-jude-almaden-b3a82b257/" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="text-outline hover:text-primary text-sm font-medium transition-colors underline underline-offset-4"
+        >
+          LinkedIn
+        </a>
+        <a 
+          href="https://github.com/JudeAlmaden" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="text-outline hover:text-primary text-sm font-medium transition-colors underline underline-offset-4"
+        >
+          GitHub
+        </a>
+        <button
+          onClick={handleEmailClick}
+          className="text-outline hover:text-primary text-sm font-medium transition-colors underline underline-offset-4"
+        >
+          {copied ? 'Copied!' : 'Copy email address'}
+        </button>
       </div>
     </div>
   );
